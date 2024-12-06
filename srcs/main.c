@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/09/01 12:49:56 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:49:10 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "cub3d.h"
 
 void	get_map_handle_error(char *crr_line, char *linked_lines)
 {
@@ -138,8 +138,8 @@ int	main(int argc, char **argv)
 // レビュー項目を実施
 // map directory? texture directory?
 
-// ./so_long ber でエラーにならな ok
-// ./so_long 1.bers でエラーにならない ok
+// ./cub3d ber でエラーにならな ok
+// ./cub3d 1.bers でエラーにならない ok
 // file が空だったときにSEGV ok
 // file が改行だけのときにSEGV ok
 // 2.ber のときは正常に機能(確認する)
@@ -152,7 +152,7 @@ int	main(int argc, char **argv)
 // norminette
 	// ft_splitのヘッダー // ok
 // strchr -> strnstr // ok
-	// check_args関数 (edge case example: "../so_long/test.ber")
+	// check_args関数 (edge case example: "../cub3d/test.ber")
 // leaks // ok
 // valgrind --leak-check=full --show-leak-kinds=all ./your_program_file [args]
 // 1 get_map func // ok

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/08/31 16:14:15 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:48:19 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef CUB3D_H
+# define CUB3D_H
 
 # define ESC 65307
 # define W 119
@@ -22,9 +22,9 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include "mlx.h"
-# include "./get_next_line/get_next_line.h"
-# include "./libft/libft.h"
-# include "./ft_printf/ft_printf.h"
+# include "get_next_line.h"
+# include "libft.h"
+# include "ft_printf.h"
 
 typedef struct s_vars
 {

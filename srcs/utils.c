@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/08/31 16:14:15 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:49:10 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "cub3d.h"
 
 void	get_pos_p(t_vars *vars)
 {

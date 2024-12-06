@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   key_event.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:04:04 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/08/29 20:21:43 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:49:10 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "cub3d.h"
 
 int	check_possible_to_move(t_vars *vars)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 18:01:13 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/08/15 17:00:18 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:05:57 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <limits.h>
-# include "./../libft/libft.h"
+# include "libft.h"
 
 int		nobu_putstr(char **crr, int *crr_len);
 ssize_t	nobu_format(char **crr, int *crr_len, va_list *ap);

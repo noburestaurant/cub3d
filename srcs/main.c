@@ -1,0 +1,174 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
+/*   Updated: 2024/09/01 12:49:56 by hnakayam         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../so_long.h"
+
+void	get_map_handle_error(char *crr_line, char *linked_lines)
+{
+	if (crr_line != NULL && crr_line[0] == '\n')
+	{
+		free(linked_lines);
+		free(crr_line);
+		error_message_and_free(NULL, "Invalid map\n", 1);
+	}
+	if (linked_lines[0] == '\0')
+	{
+		free(linked_lines);
+		free(crr_line);
+		error_message_and_free(NULL, "Invalid args or map\n", 1);
+	}
+}
+
+char	**get_map(char *file)
+{
+	int		fd;
+	char	*crr_line;
+	char	*linked_lines;
+	char	**map;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		error_message_and_free(NULL, "Invalid args\n", 1);
+	linked_lines = ft_strdup("");
+	while (1)
+	{
+		crr_line = get_next_line(fd);
+		if (crr_line == NULL || crr_line[0] == '\n')
+			break ;
+		linked_lines = ft_join_and_free(linked_lines, crr_line);
+		if (linked_lines == NULL)
+			error_message_and_free(NULL, "Unxpected error\n", 1);
+	}
+	get_map_handle_error(crr_line, linked_lines);
+	free(crr_line);
+	map = ft_split(linked_lines, '\n');
+	free(linked_lines);
+	return (map);
+}
+
+void	get_img(t_vars *vars)
+{
+	vars->img_renga = mlx_xpm_file_to_image(vars->mlx, "./img/renga.xpm",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_renga == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	vars->img_grass = mlx_xpm_file_to_image(vars->mlx, "./img/grass.xpm",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_grass == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	vars->img_goal = mlx_xpm_file_to_image(vars->mlx, "./img/goal.xpm",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_goal == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	vars->img_coin = mlx_xpm_file_to_image(vars->mlx, "./img/coin.xpm",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_coin == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	vars->img_player = mlx_xpm_file_to_image(vars->mlx, "./img/player.xpm",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_player == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+}
+
+void	init_vars(t_vars *vars)
+{
+	vars->mlx = NULL;
+	vars->win = NULL;
+	vars->img_renga = NULL;
+	vars->img_grass = NULL;
+	vars->img_goal = NULL;
+	vars->img_coin = NULL;
+	vars->img_player = NULL;
+	vars->map = NULL;
+}
+
+int	main(int argc, char **argv)
+{
+	t_vars	vars;
+
+	if (argc != 2)
+		error_message_and_free(NULL, "Invalid args\n", 1);
+	init_vars(&vars);
+	check_args(argv[1]);
+	vars.map = get_map(argv[1]);
+	if (vars.map == NULL)
+		error_message_and_free(&vars, "Unexpected Error\n", 1);
+	parse_map(&vars);
+	vars.move_count = 0;
+	vars.mlx = mlx_init();
+	if (vars.mlx == NULL)
+		error_message_and_free(&vars, "Unexpected Error: mlx\n", 1);
+	vars.win = mlx_new_window(vars.mlx, vars.width * 50,
+			vars.height * 50, "game");
+	if (vars.win == NULL)
+		error_message_and_free(&vars, "Unexpected Error: mlx\n", 1);
+	get_img(&vars);
+	render_map(&vars);
+	mlx_key_hook(vars.win, key_hook, &vars);
+	mlx_hook(vars.win, 17, 0, window_close, &vars);
+	mlx_loop(vars.mlx);
+	return (0);
+}
+
+// '0' '1' 'C' 'E' 'P' 以外のものがないか
+// '1' でかこわれているか
+// 'E', 'P', 'C' は一つずつあるか
+
+// flood_fillでマップが変わっていないか ok
+// 画像を作る ok
+// マップを出力する関数 ok
+// キーイベント（shige参考）ok
+// マップの更新 ok
+// Cをすべて通ってゴールできるか ok
+
+// support movecount ok
+// printf should be ft_printf
+// norm ok
+// make file (cflag) ok
+// ignoring return value of write
+// レビュー項目を実施
+// map directory? texture directory?
+
+// ./so_long ber でエラーにならな ok
+// ./so_long 1.bers でエラーにならない ok
+// file が空だったときにSEGV ok
+// file が改行だけのときにSEGV ok
+// 2.ber のときは正常に機能(確認する)
+// バツを押すとウィンドウが閉じられない ok
+// doesnt support as the player can finish ok
+// the game only after picking every collectible ok
+// has to support arrow key ok
+// free ok
+
+// norminette
+	// ft_splitのヘッダー // ok
+// strchr -> strnstr // ok
+	// check_args関数 (edge case example: "../so_long/test.ber")
+// leaks // ok
+// valgrind --leak-check=full --show-leak-kinds=all ./your_program_file [args]
+// 1 get_map func // ok
+// 	char **map = ft_split();
+// 	free(linked_lines);
+// 2 mlx (click the cross button, push ESC key, goal correctly) // ok
+	// free(mlx);
+	// mlx_destroy_display();
+	// mlx_destory_image();
+	// *refer to repo of rnakatan
+// 	mlx_xpm_file_to_image() == NULL // ok
+// if error is occured, just check a object has been already got // ok
+// if mlx occurs error, handle the error // ok
+// return status // ok
+
+// leaks in error_handling func // ok
+// check_args (test.ber.e) // ok
+// close(fd)
+// mlx_linux doesnt work

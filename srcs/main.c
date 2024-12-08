@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/06 16:49:10 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:00:28 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,23 @@ void	get_img(t_vars *vars)
 			&(vars->img_width), &(vars->img_height));
 	if (vars->img_grass == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_goal = mlx_xpm_file_to_image(vars->mlx, "./img/goal.xpm",
+	vars->img_player->n = mlx_xpm_file_to_image(vars->mlx, "./img/player_n.xpm",
 			&(vars->img_width), &(vars->img_height));
-	if (vars->img_goal == NULL)
+	if (vars->img_player->n == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_coin = mlx_xpm_file_to_image(vars->mlx, "./img/coin.xpm",
+	vars->img_player->s = mlx_xpm_file_to_image(vars->mlx, "./img/player_s.xpm",
 			&(vars->img_width), &(vars->img_height));
-	if (vars->img_coin == NULL)
+	if (vars->img_player->s == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_player = mlx_xpm_file_to_image(vars->mlx, "./img/player.xpm",
+	vars->img_player->e = mlx_xpm_file_to_image(vars->mlx, "./img/player_e.xpm",
 			&(vars->img_width), &(vars->img_height));
-	if (vars->img_player == NULL)
+	if (vars->img_player->e == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	vars->img_player->w = mlx_xpm_file_to_image(vars->mlx, "./img/player_w.xpm",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_player->w == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	vars->img_player->current = vars->img_player->n;
 }
 
 void	init_vars(t_vars *vars)
@@ -85,9 +90,10 @@ void	init_vars(t_vars *vars)
 	vars->win = NULL;
 	vars->img_renga = NULL;
 	vars->img_grass = NULL;
-	vars->img_goal = NULL;
-	vars->img_coin = NULL;
-	vars->img_player = NULL;
+	vars->img_player->n = NULL;
+	vars->img_player->s = NULL;
+	vars->img_player->e = NULL;
+	vars->img_player->w = NULL;
 	vars->map = NULL;
 }
 

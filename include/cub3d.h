@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 16:30:41 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 16:51:19 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,33 @@ typedef struct s_player
 	int		y;
 }	t_player;
 
+typedef struct s_img_player
+{
+	void	*s;
+	void	*n;
+	void	*w;
+	void	*e;
+	void	*current;
+}	t_img_player;
+
 typedef struct s_vars
 {
-	void		*mlx;
-	void		*win;
-	void		*img_renga;
-	void		*img_grass;
-	void		*img_goal;
-	void		*img_coin;
-	void		*img_player;
-	int			img_width;
-	int			img_height;
-	char		**map;
-	int			width;
-	int			height;
-	t_player	player;
-	int			move_count;
-	int			x;
-	int			y;
+	void			*mlx;
+	void			*win;
+	void			*img_renga;
+	void			*img_grass;
+	void			*img_goal;
+	void			*img_coin;
+	t_img_player	*img_player;
+	int				img_width;
+	int				img_height;
+	char			**map;
+	int				width;
+	int				height;
+	t_player		player;
+	int				move_count;
+	int				x;
+	int				y;
 }	t_vars;
 
 int		check_player(char c);

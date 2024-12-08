@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:38 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 16:31:57 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 16:58:58 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,9 @@ void	choose_image(t_vars *vars, int x, int y)
 	else if (vars->map[y][x] == '1')
 		mlx_put_image_to_window(vars->mlx, vars->win,
 			vars->img_renga, x * 50, y * 50);
-	else if (vars->map[y][x] == 'C')
-		mlx_put_image_to_window(vars->mlx, vars->win,
-			vars->img_coin, x * 50, y * 50);
 	else if (check_player(vars->map[y][x]))
 		mlx_put_image_to_window(vars->mlx, vars->win,
-			vars->img_player, x * 50, y * 50);
-	else if (vars->map[y][x] == 'E')
-		mlx_put_image_to_window(vars->mlx, vars->win,
-			vars->img_goal, x * 50, y * 50);
+			vars->img_player->current, x * 50, y * 50);
 }
 
 void	render_map(t_vars *vars)

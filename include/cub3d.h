@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/06 16:48:19 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 15:55:35 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ typedef struct s_vars
 	int		x;
 	int		y;
 }	t_vars;
+
+typedef struct s_player
+{
+	char	ort;
+	int		x;
+	int		y;
+}	t_player;
 
 char	*ft_join_and_free(char *s1, char *s2);
 char	**get_map(char *file);

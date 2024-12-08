@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 16:51:19 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:19:12 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # define S 115
 # define A 97
 # define D 100
+# define RIGHT 65363
+# define LEFT 65361
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>

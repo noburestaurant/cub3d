@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:04:04 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 16:24:08 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:36:10 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ int	check_possible_to_move(t_vars *vars)
 
 void	update_map(t_vars *vars, int x_before, int y_before)
 {
-	if (x_before == vars->player.x && y_before == vars->player.y)
-		return ;
-	vars->map[vars->player.y][vars->player.x] = vars->player.ort;
 	vars->map[y_before][x_before] = '0';
+	vars->map[vars->player.y][vars->player.x] = vars->player.ort;
 	if (vars->move_count <= INT_MAX)
 		vars->move_count++;
 	render_map(vars);
@@ -43,14 +41,54 @@ int	key_hook(int keycode, t_vars *vars)
 	y_before = vars->player.y;
 	if (keycode == ESC)
 		error_message_and_free(vars, "", 0);
-	else if (keycode == W || keycode == 65362)
+	else if (keycode == W)
 		vars->player.y--;
-	else if (keycode == S || keycode == 65364)
+	else if (keycode == S)
 		vars->player.y++;
-	else if (keycode == D || keycode == 65363)
+	else if (keycode == D)
 		vars->player.x++;
-	else if (keycode == A || keycode == 65361)
+	else if (keycode == A)
 		vars->player.x--;
+	else if (keycode == RIGHT)
+	{
+		if (vars->player.ort == 'N')
+			vars->player.ort = 'E';
+		else if (vars->player.ort == 'E')
+			vars->player.ort = 'S';
+		else if (vars->player.ort == 'S')
+			vars->player.ort = 'W';
+		else if (vars->player.ort == 'W')
+			vars->player.ort = 'N';
+		if (vars->player.ort == 'N')
+			vars->img_player->current = vars->img_player->n;
+		else if (vars->player.ort == 'E')
+			vars->img_player->current = vars->img_player->e;
+		else if (vars->player.ort == 'S')
+			vars->img_player->current = vars->img_player->s;
+		else if (vars->player.ort == 'W')
+			vars->img_player->current = vars->img_player->w;
+		update_map(vars, x_before, y_before);
+	}
+	else if (keycode == LEFT)
+	{
+		if (vars->player.ort == 'N')
+			vars->player.ort = 'W';
+		else if (vars->player.ort == 'E')
+			vars->player.ort = 'N';
+		else if (vars->player.ort == 'S')
+			vars->player.ort = 'E';
+		else if (vars->player.ort == 'W')
+			vars->player.ort = 'S';
+		if (vars->player.ort == 'N')
+			vars->img_player->current = vars->img_player->n;
+		else if (vars->player.ort == 'E')
+			vars->img_player->current = vars->img_player->e;
+		else if (vars->player.ort == 'S')
+			vars->img_player->current = vars->img_player->s;
+		else if (vars->player.ort == 'W')
+			vars->img_player->current = vars->img_player->w;
+		update_map(vars, x_before, y_before);
+	}
 	if (check_possible_to_move(vars))
 		update_map(vars, x_before, y_before);
 	else

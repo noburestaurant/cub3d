@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:38 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 16:58:58 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:31:02 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,4 @@ void	render_map(t_vars *vars)
 		}
 		y++;
 	}
-	ft_printf("move count = %d\n", vars->move_count);
 }

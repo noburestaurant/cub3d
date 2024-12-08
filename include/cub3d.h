@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 18:57:21 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 19:26:53 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define WIDTH 2000
 # define HEIGHT 1000
 # define FOV 60
+# define PI 3.141592653589793
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>

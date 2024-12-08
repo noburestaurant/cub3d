@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:34 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/06 16:49:10 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 16:29:44 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_valid_path(t_vars *vars)
 	duplicated_map = duplicate_map(vars);
 	if (duplicated_map == NULL)
 		error_message_and_free(vars, "Unexpected Error\n", 1);
-	flood_fill(vars, duplicated_map, vars->x_p, vars->y_p);
+	flood_fill(vars, duplicated_map, vars->player.x, vars->player.y);
 	check_no_c_in_map(duplicated_map, vars);
 }
 
@@ -27,12 +27,7 @@ int	flood_fill(t_vars *vars, char **map, int col, int row)
 {
 	if (row < 0 || col < 0 || vars->height <= row || vars->width <= col)
 		return (1);
-	if (map[row][col] == 'E')
-	{
-		vars->enable = 1;
-		return (1);
-	}
-	if (map[row][col] != '0' && map[row][col] != 'P' && map[row][col] != 'C')
+	if (map[row][col] != '0' && check_player(map[row][col]))
 	{
 		return (1);
 	}

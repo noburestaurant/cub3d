@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:44:12 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/06 16:49:10 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 16:30:23 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	check_rectangular(t_vars *vars)
 			len = j;
 		else
 		{
-			if (j != len)
+			if (j != len) // これはなくなると思う 長方形じゃないかもしれない
 				error_message_and_free(vars, "Invalid map\n", 1);
 		}
 		i++;
@@ -75,26 +75,24 @@ void	check_components(t_vars *vars)
 {
 	int	i;
 	int	j;
+	int	player_count;
 
+	player_count = 0;
 	i = 0;
 	while (vars->map[i])
 	{
 		j = 0;
 		while (vars->map[i][j])
 		{
-			if (vars->map[i][j] == 'P')
-				vars->p++;
-			else if (vars->map[i][j] == 'E')
-				vars->e++;
-			else if (vars->map[i][j] == 'C')
-				vars->c++;
+			if (check_player(vars->map[i][j]))
+				player_count++;
 			else if (vars->map[i][j] != '0' && vars->map[i][j] != '1')
 				error_message_and_free(vars, "Invalid map\n", 1);
 			j++;
 		}
 		i++;
 	}
-	if (vars->p != 1 || vars->e != 1 || vars->c < 1)
+	if (player_count != 1)
 		error_message_and_free(vars, "Invalid map\n", 1);
 }
 
@@ -103,15 +101,7 @@ void	parse_map(t_vars *vars)
 	check_rectangular(vars);
 	measure(vars);
 	surrounded_by_wall(vars);
-	vars->c = 0;
-	vars->p = 0;
-	vars->e = 0;
 	check_components(vars);
-	vars->enable = 0;
-	vars->x_p = 0;
-	vars->y_p = 0;
 	get_pos_p(vars);
 	check_valid_path(vars);
-	if (vars->enable != 1)
-		error_message_and_free(vars, "Invalid map\n", 1);
 }

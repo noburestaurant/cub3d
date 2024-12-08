@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/06 16:49:10 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 16:07:49 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,20 @@
 
 void	get_pos_p(t_vars *vars)
 {
-	vars->y_p = 0;
-	while (vars->map[vars->y_p])
+	vars->player.y = 0;
+	while (vars->map[vars->player.y])
 	{
-		vars->x_p = 0;
-		while (*((vars->map[vars->y_p]) + vars->x_p))
+		vars->player.x = 0;
+		while (*((vars->map[vars->player.y]) + vars->player.x))
 		{
-			if (vars->map[vars->y_p][vars->x_p] == 'P')
+			if (check_player(vars->map[vars->player.y][vars->player.x]))
+			{
+				vars->player.ort = vars->map[vars->player.y][vars->player.x];
 				return ;
-			(vars->x_p)++;
+			}
+			(vars->player.x)++;
 		}
-		(vars->y_p)++;
+		(vars->player.y)++;
 	}
 }
 

@@ -23,6 +23,7 @@ WHITE = \033[37m
 SRCS = \
 $(addsuffix .c, \
 	$(addprefix $(SRCS_DIR)/, \
+		check_player \
 		error \
 		key_event \
 		main \

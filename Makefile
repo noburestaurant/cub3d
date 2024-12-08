@@ -65,7 +65,7 @@ $(OUT_DIR)/%.o: %.c
 
 clean:
 	@make $(NPD_FLAG) -C $(LIBFT_DIR) clean
-	@make $(NPD_FLAG) -C $(MLX_DIR) clean
+# @make $(NPD_FLAG) -C $(MLX_DIR) clean
 	@$(RM) -r $(OUT_DIR)
 
 fclean: clean

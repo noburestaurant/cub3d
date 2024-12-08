@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 17:19:12 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:57:21 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@
 # define D 100
 # define RIGHT 65363
 # define LEFT 65361
+# define WIDTH 2000
+# define HEIGHT 1000
+# define FOV 60
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <math.h>
 # include "mlx.h"
 # include "get_next_line.h"
 # include "libft.h"
@@ -37,10 +41,10 @@ typedef struct s_player
 
 typedef struct s_img_player
 {
-	void	*s;
 	void	*n;
-	void	*w;
 	void	*e;
+	void	*s;
+	void	*w;
 	void	*current;
 }	t_img_player;
 
@@ -50,9 +54,7 @@ typedef struct s_vars
 	void			*win;
 	void			*img_renga;
 	void			*img_grass;
-	void			*img_goal;
-	void			*img_coin;
-	t_img_player	*img_player;
+	t_img_player	img_player;
 	int				img_width;
 	int				img_height;
 	char			**map;

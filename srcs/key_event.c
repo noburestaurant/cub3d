@@ -6,7 +6,7 @@
 /*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:04:04 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 17:36:10 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:58:13 by retanaka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ int	key_hook(int keycode, t_vars *vars)
 		else if (vars->player.ort == 'W')
 			vars->player.ort = 'N';
 		if (vars->player.ort == 'N')
-			vars->img_player->current = vars->img_player->n;
+			vars->img_player.current = vars->img_player.n;
 		else if (vars->player.ort == 'E')
-			vars->img_player->current = vars->img_player->e;
+			vars->img_player.current = vars->img_player.e;
 		else if (vars->player.ort == 'S')
-			vars->img_player->current = vars->img_player->s;
+			vars->img_player.current = vars->img_player.s;
 		else if (vars->player.ort == 'W')
-			vars->img_player->current = vars->img_player->w;
+			vars->img_player.current = vars->img_player.w;
 		update_map(vars, x_before, y_before);
 	}
 	else if (keycode == LEFT)
@@ -80,13 +80,13 @@ int	key_hook(int keycode, t_vars *vars)
 		else if (vars->player.ort == 'W')
 			vars->player.ort = 'S';
 		if (vars->player.ort == 'N')
-			vars->img_player->current = vars->img_player->n;
+			vars->img_player.current = vars->img_player.n;
 		else if (vars->player.ort == 'E')
-			vars->img_player->current = vars->img_player->e;
+			vars->img_player.current = vars->img_player.e;
 		else if (vars->player.ort == 'S')
-			vars->img_player->current = vars->img_player->s;
+			vars->img_player.current = vars->img_player.s;
 		else if (vars->player.ort == 'W')
-			vars->img_player->current = vars->img_player->w;
+			vars->img_player.current = vars->img_player.w;
 		update_map(vars, x_before, y_before);
 	}
 	if (check_possible_to_move(vars))

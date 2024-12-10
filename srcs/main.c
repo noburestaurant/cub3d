@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 17:00:28 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/11 00:16:57 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ void	init_vars(t_vars *vars)
 	vars->win = NULL;
 	vars->img_renga = NULL;
 	vars->img_grass = NULL;
+	vars->img_player = calloc(1, sizeof(t_vars) * 1);
+	if (vars->img_player == NULL)
+		exit (1); // error
 	vars->img_player->n = NULL;
 	vars->img_player->s = NULL;
 	vars->img_player->e = NULL;

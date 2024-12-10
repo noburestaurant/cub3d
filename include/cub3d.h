@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 17:19:12 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/10 23:55:08 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@
 # define D 100
 # define RIGHT 65363
 # define LEFT 65361
+
+// nobu
+# define PI 3.141592653589793
+# define TILE_SIZE 50
+# define MAP_NUM_ROWS 10
+# define MAP_NUM_COLS 11
+# define WINDOW_WIDTH = 550 // MAP_NUM_COLS * TILE_SIZE
+# define WINDOW_HEIGHT = 500 // MAP_NUM_ROWS * TILE_SIZE
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -31,6 +40,7 @@
 typedef struct s_player
 {
 	char	ort;
+	float	rotation_angle;
 	int		x;
 	int		y;
 }	t_player;

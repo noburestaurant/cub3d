@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 16:07:49 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/11 00:17:42 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+float	get_rotation_angle(char c)
+{
+	if (c == 'E')
+		return (0);
+	else if (c == 'N')
+		return (PI / 2);
+	else if (c == 'W')
+		return (PI);
+	else
+		return ((PI * 3) / 2);
+}
 
 void	get_pos_p(t_vars *vars)
 {
@@ -23,6 +35,7 @@ void	get_pos_p(t_vars *vars)
 			if (check_player(vars->map[vars->player.y][vars->player.x]))
 			{
 				vars->player.ort = vars->map[vars->player.y][vars->player.x];
+				vars->player.rotation_angle = get_rotation_angle(vars->map[vars->player.y][vars->player.x]);
 				return ;
 			}
 			(vars->player.x)++;

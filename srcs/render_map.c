@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:38 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 17:31:02 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:15:27 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,15 @@ void	choose_image(t_vars *vars, int x, int y)
 	else if (vars->map[y][x] == '1')
 		mlx_put_image_to_window(vars->mlx, vars->win,
 			vars->img_renga, x * 50, y * 50);
+	// else if (check_player(vars->map[y][x]))
+	// 	mlx_put_image_to_window(vars->mlx, vars->win,
+	// 		vars->img_player->current, x * 50, y * 50);
 	else if (check_player(vars->map[y][x]))
+	{
 		mlx_put_image_to_window(vars->mlx, vars->win,
-			vars->img_player->current, x * 50, y * 50);
+			vars->img_grass, x * 50, y * 50);
+		circle(vars, (x * 50 + (TILE_SIZE / 2)), (y * 50 + (TILE_SIZE / 2)));
+	}
 }
 
 void	render_map(t_vars *vars)

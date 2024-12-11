@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/11 00:17:42 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:08:32 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,58 @@ char	*ft_join_and_free(char *s1, char *s2)
 	free(s1);
 	free(s2);
 	return (ans);
+}
+
+void	line(t_vars *vars, int x_a, int y_a, int x_b, int y_b)
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
+
+	dx = abs(x_b - x_a);
+	dy = abs(y_b - y_a);
+	sx = (x_a < x_b) ? 1 : -1;
+	sy = (y_a < y_b) ? 1 : -1;
+	err = dx - dy;
+	while (1)
+	{
+		mlx_pixel_put(vars->mlx, vars->win, x_a, y_a, 0xFFFFFF);
+		if (x_a == x_b && y_a == y_b)
+			break ;
+		e2 = err * 2;
+		if (e2 > -dy)
+		{
+			err -= dy;
+			x_a += sx;
+		}
+		if (e2 < dx)
+		{
+			err += dx;
+			y_a += sy;
+		}
+	}
+}
+
+void	circle(t_vars *vars, int cx, int cy)
+{
+	int	radius;
+	int	x;
+	int	y;
+
+	radius = 6;
+	y = -1 * radius;
+	while (y <= radius)
+	{
+		x = -1 * radius;
+		while (x <= radius)
+		{
+			if (x * x + y * y <= radius * radius)
+				mlx_pixel_put(vars->mlx, vars->win, cx + x, cy + y, 0xFFFFFF);
+			x++;
+		}
+		y++;
+	}
 }

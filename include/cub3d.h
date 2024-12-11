@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/10 23:55:08 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/11 00:47:06 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,8 @@ void	error_message_and_free(t_vars *t_vars, char *msg, int status);
 void	free_map(char **map);
 void	free_img(t_vars *vars);
 int		window_close(t_vars *vars);
+
+void	line(t_vars *vars, int x_a, int y_a, int x_b, int y_b);
+void	circle(t_vars *vars, int cx, int cy);
 
 #endif

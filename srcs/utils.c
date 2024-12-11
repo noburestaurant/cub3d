@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/11 20:08:32 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/11 21:01:21 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,4 +160,36 @@ void	circle(t_vars *vars, int cx, int cy)
 		}
 		y++;
 	}
+}
+
+float	normalize_angle(float angle)
+{
+	float	two_pi;
+
+	two_pi = PI * 2;
+	angle = fmod(angle, two_pi);
+	if (angle < 0)
+		angle += two_pi;
+	return (angle);
+}
+
+int	is_equal(float a, float b)
+{
+	return (fabs(a - b) < 0.001);
+}
+
+void	orientation(t_vars *vars)
+{
+	int	len;
+
+	len = 10;
+	vars->player.rotation_angle = normalize_angle(vars->player.rotation_angle);
+	if (is_equal(vars->player.rotation_angle, 0))
+		printf("orientation: east\n");
+	else if (is_equal(vars->player.rotation_angle, (PI / 2)))
+		printf("orientation: north\n");
+	else if (is_equal(vars->player.rotation_angle, PI))
+		printf("orientation: west\n");
+	else if (is_equal(vars->player.rotation_angle, (PI * 3 / 2)))
+		printf("orientation: south\n");
 }

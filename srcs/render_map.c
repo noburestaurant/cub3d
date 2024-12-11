@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:38 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/11 20:15:27 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:51:46 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	choose_image(t_vars *vars, int x, int y)
 		mlx_put_image_to_window(vars->mlx, vars->win,
 			vars->img_grass, x * 50, y * 50);
 		circle(vars, (x * 50 + (TILE_SIZE / 2)), (y * 50 + (TILE_SIZE / 2)));
+		orientation(vars);
 	}
 }
 

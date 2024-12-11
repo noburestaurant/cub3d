@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/11 00:47:06 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:51:59 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <math.h>
 # include "mlx.h"
 # include "get_next_line.h"
 # include "libft.h"
@@ -105,5 +106,7 @@ int		window_close(t_vars *vars);
 
 void	line(t_vars *vars, int x_a, int y_a, int x_b, int y_b);
 void	circle(t_vars *vars, int cx, int cy);
+float	normalize_angle(float angle);
+void	orientation(t_vars *vars);
 
 #endif

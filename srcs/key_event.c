@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_event.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:04:04 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 17:36:10 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:06:03 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	update_map(t_vars *vars, int x_before, int y_before)
 {
 	vars->map[y_before][x_before] = '0';
 	vars->map[vars->player.y][vars->player.x] = vars->player.ort;
-	if (vars->move_count <= INT_MAX)
+	if (vars->move_count < INT_MAX)
 		vars->move_count++;
 	render_map(vars);
 }
@@ -41,54 +41,31 @@ int	key_hook(int keycode, t_vars *vars)
 	y_before = vars->player.y;
 	if (keycode == ESC)
 		error_message_and_free(vars, "", 0);
-	else if (keycode == W)
-		vars->player.y--;
-	else if (keycode == S)
-		vars->player.y++;
-	else if (keycode == D)
-		vars->player.x++;
-	else if (keycode == A)
-		vars->player.x--;
+	if (keycode == W || keycode == S || keycode == D || keycode == A)
+	{
+		if (keycode == W)
+			vars->player.walk_direction = vars->player.rotation_angle;
+		else if (keycode == S)
+			vars->player.walk_direction = vars->player.rotation_angle + PI;
+		else if (keycode == D)
+			vars->player.walk_direction = vars->player.rotation_angle
+				- (PI / 2);
+		else if (keycode == A)
+			vars->player.walk_direction = vars->player.rotation_angle
+				+ (PI / 2);
+		if (is_equal(vars->player.walk_direction, 0))
+			vars->player.x++;
+		else if (is_equal(vars->player.walk_direction, (PI / 2)))
+			vars->player.y--;
+		else if (is_equal(vars->player.walk_direction, PI))
+			vars->player.x--;
+		else if (is_equal(vars->player.walk_direction, (PI * 3 / 2)))
+			vars->player.y++;
+	}
 	else if (keycode == RIGHT)
-	{
-		if (vars->player.ort == 'N')
-			vars->player.ort = 'E';
-		else if (vars->player.ort == 'E')
-			vars->player.ort = 'S';
-		else if (vars->player.ort == 'S')
-			vars->player.ort = 'W';
-		else if (vars->player.ort == 'W')
-			vars->player.ort = 'N';
-		if (vars->player.ort == 'N')
-			vars->img_player->current = vars->img_player->n;
-		else if (vars->player.ort == 'E')
-			vars->img_player->current = vars->img_player->e;
-		else if (vars->player.ort == 'S')
-			vars->img_player->current = vars->img_player->s;
-		else if (vars->player.ort == 'W')
-			vars->img_player->current = vars->img_player->w;
-		update_map(vars, x_before, y_before);
-	}
+		vars->player.rotation_angle -= (PI / 2);
 	else if (keycode == LEFT)
-	{
-		if (vars->player.ort == 'N')
-			vars->player.ort = 'W';
-		else if (vars->player.ort == 'E')
-			vars->player.ort = 'N';
-		else if (vars->player.ort == 'S')
-			vars->player.ort = 'E';
-		else if (vars->player.ort == 'W')
-			vars->player.ort = 'S';
-		if (vars->player.ort == 'N')
-			vars->img_player->current = vars->img_player->n;
-		else if (vars->player.ort == 'E')
-			vars->img_player->current = vars->img_player->e;
-		else if (vars->player.ort == 'S')
-			vars->img_player->current = vars->img_player->s;
-		else if (vars->player.ort == 'W')
-			vars->img_player->current = vars->img_player->w;
-		update_map(vars, x_before, y_before);
-	}
+		vars->player.rotation_angle += (PI / 2);
 	if (check_possible_to_move(vars))
 		update_map(vars, x_before, y_before);
 	else

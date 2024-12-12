@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/11 20:51:59 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:53:43 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_player
 {
 	char	ort;
 	float	rotation_angle;
+	float	walk_direction;
 	int		x;
 	int		y;
 }	t_player;
@@ -107,6 +108,7 @@ int		window_close(t_vars *vars);
 void	line(t_vars *vars, int x_a, int y_a, int x_b, int y_b);
 void	circle(t_vars *vars, int cx, int cy);
 float	normalize_angle(float angle);
+int		is_equal(float a, float b);
 void	orientation(t_vars *vars);
 
 #endif

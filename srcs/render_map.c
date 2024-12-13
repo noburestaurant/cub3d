@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:38 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/13 15:34:54 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:53:04 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,45 @@ void	choose_image(t_vars *vars, int x, int y)
 	// }
 }
 
+void	print_shaped_fan(t_vars *vars, int x, int y)
+{
+	int		i;
+	int		len;
+	int		x_window;
+	int		y_window;
+	int		x_to;
+	int		y_to;
+	float	angle_i;
+	float	d_angle;
+
+	i = 0;
+	len = 100;
+	x_window = x * 50 + (TILE_SIZE / 2);
+	y_window = y * 50 + (TILE_SIZE / 2);
+	angle_i = vars->player.rotation_angle - (((double)FOV / (double)180 * PI) / 2);
+	// d_angle = WINDOW_WIDTH / FOV;
+	d_angle = (((double)FOV / (double)180) * PI) / WINDOW_WIDTH;
+	x_to = x_window + (len * cos(angle_i + d_angle)); // test
+	y_to = y_window - (len * sin(angle_i + d_angle)); // test
+	printf("x_window = %d\n", x_window);
+	printf("y_window = %d\n", y_window);
+	printf("x_to = %d\n", x_to);
+	printf("y_to = %d\n", y_to);
+	printf("angle_i = %.2f\n", angle_i);
+	printf("d_angle = %.5f\n\n", d_angle);
+	printf("FOV / 180 * PI = %.2f\n", ((double)FOV / (double)180) * PI);
+	printf("((double)FOV / (double)180 * PI) / 2 = %.2f\n", ((double)FOV / (double)180 * PI) / 2);
+
+	while (i < WINDOW_WIDTH)
+	{
+		x_to = x_window + (len * cos(angle_i + d_angle));
+		y_to = y_window + (len * sin(angle_i + d_angle));
+		line(vars, x_window, y_window, x_to, y_to);
+		angle_i += d_angle;
+		i++;
+	}
+}
+
 void	print_player(t_vars *vars)
 {
 	int	x;
@@ -67,7 +106,8 @@ void	print_player(t_vars *vars)
 				circle(vars, (x * 50 + (TILE_SIZE / 2)),
 					(y * 50 + (TILE_SIZE / 2)));
 				orientation(vars);
-				put_walk_direction(vars);
+				// put_walk_direction(vars);
+				print_shaped_fan(vars, x, y);
 			}
 			x++;
 		}

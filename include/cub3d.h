@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/12 17:53:43 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/12 19:59:40 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define MAP_NUM_COLS 11
 # define WINDOW_WIDTH = 550 // MAP_NUM_COLS * TILE_SIZE
 # define WINDOW_HEIGHT = 500 // MAP_NUM_ROWS * TILE_SIZE
+# define FOV 60
 
 # include <stdio.h>
 # include <stdlib.h>

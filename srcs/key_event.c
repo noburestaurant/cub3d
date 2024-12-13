@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:04:04 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/12 18:16:12 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:35:51 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ int	key_hook(int keycode, t_vars *vars)
 			vars->player.x--;
 		else if (is_equal(normalize_angle(vars->player.walk_direction), (PI * 3 / 2)))
 			vars->player.y++;
-		printf("walk direction = %.2f\n", vars->player.walk_direction / PI);
+		// printf("walk direction = %.2f\n", vars->player.walk_direction / PI);
 	}
 	else if (keycode == RIGHT)
 		vars->player.rotation_angle -= (PI / 2);
 	else if (keycode == LEFT)
 		vars->player.rotation_angle += (PI / 2);
-	printf("rotation angle = %.2f\n", vars->player.rotation_angle / PI);
+	// printf("rotation angle = %.2f\n", vars->player.rotation_angle / PI);
 	if (check_possible_to_move(vars))
 		update_map(vars, x_before, y_before);
 	else

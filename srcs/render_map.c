@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:38 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/13 23:28:01 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:48:52 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,10 @@ void	print_shaped_fan(t_vars *vars, int x, int y)
 	y_window = y * 50 + (TILE_SIZE / 2);
 	angle_i = vars->player.rotation_angle - (((double)FOV / (double)180 * PI) / 2);
 	d_angle = (((double)FOV / (double)180) * PI) / WINDOW_WIDTH;
-	x_to = x_window + (len * cos(angle_i + d_angle));
-	y_to = y_window - (len * sin(angle_i + d_angle));
 	while (i < WINDOW_WIDTH)
 	{
-		x_to = x_window + (len * cos(angle_i + d_angle));
-		y_to = y_window - (len * sin(angle_i + d_angle));
+		x_to = x_window + (len * cos(angle_i));
+		y_to = y_window - (len * sin(angle_i));
 		line(vars, x_window, y_window, x_to, y_to);
 		angle_i += d_angle;
 		i++;

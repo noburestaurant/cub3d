@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:38 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/13 23:50:02 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/14 02:30:05 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,71 @@ void	choose_image(t_vars *vars, int x, int y)
 	// }
 }
 
+int	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
+	int xplayer, int yplayer)
+{
+	int	xstep;
+	int	ystep;
+	int	xintercept;
+	int	yintercept;
+
+	xintercept = xplayer + ((yplayer - yintercept) / tan(ray_angle));
+	yintercept = yplayer / TILE_SIZE * TILE_SIZE;
+	xstep = ystep / tan(ray_angle);
+	ystep = TILE_SIZE;
+}
+
+int	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
+	int xplayer, int yplayer)
+{
+	int	xstep;
+	int	ystep;
+	int	xintercept;
+	int	yintercept;
+
+	xintercept = xplayer / TILE_SIZE * TILE_SIZE + 1;
+	yintercept = yplayer - ((xintercept - xplayer) * tan(ray_angle));
+	xstep = TILE_SIZE;
+	ystep = xstep * tan(ray_angle);
+}
+
+int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
+{
+	int	len;
+	int	xstep;
+	int	ystep;
+	int	xintercept;
+	int	yintercept;
+	int	distance_horz;
+	int	distance_vert;
+
+	distance_horz = calculate_wall_hit_distance_horizontal(vars, ray_angle, xplayer, yplayer);
+	distance_vert = calculate_wall_hit_distance_vertical(vars, ray_angle, xplayer, yplayer);
+}
+
+// get the point where the ray hits the wall in horizontal
+// 	find coordinate of the first horizontal intersection
+// 		xintercept = xplayer + ((yplayer - yintercept) / tan(ray_angle))
+// 		yintercept = yplayer / TILE_SIZE * TILE_SIZE
+// 	find xstep and ystep
+// 		xstep = ystep / tan(ray_angle)
+// 		ystep = TILE_SIZE
+// 	convert intersection point into map index
+// 		(x, y) -> map[i][j]
+// 	check if intersection hits a wall
+// 		yes -> store horizontal hit distance
+// 		no  -> find next horizontal intersection
+// get the point where the ray hits the wall in vertical
+// 	find coordinate of the first vertical intersection
+// 		xintercept = xplayer / TILE_SIZE * TILE_SIZE + 1
+// 		yintercept = yplayer - ((xintercept - xplayer) * tan(ray_angle))
+// 	find xstep and ystep
+// 		xstep = TILE_SIZE
+// 		ystep = xstep * tan(ray_angle)
+// 	convert intersection point into map index
+// 	check if intersection hits a wall
+// compare lengths of those rays and select the smallest one
+
 void	print_shaped_fan(t_vars *vars, int x, int y)
 {
 	int		i;
@@ -70,6 +135,7 @@ void	print_shaped_fan(t_vars *vars, int x, int y)
 	d_angle = (((double)FOV / (double)180) * PI) / WINDOW_WIDTH;
 	while (i < WINDOW_WIDTH)
 	{
+		// raycast(vars, ray_angle, x, y);
 		x_to = x_window + (len * cos(ray_angle));
 		y_to = y_window - (len * sin(ray_angle));
 		line(vars, x_window, y_window, x_to, y_to);

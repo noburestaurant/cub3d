@@ -159,8 +159,6 @@ int	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 	int		wall_hit_x;
 	int		wall_hit_y;
 
-	// (void)vars; // unnecesary ?
-
 	// calculate xintercept
 	xintercept = xplayer / TILE_SIZE * TILE_SIZE; // floor(xplayer / TILE_SIZE) ?
 	if (is_ray_facing_right(ray_angle))
@@ -285,7 +283,6 @@ void	print_shaped_fan(t_vars *vars, int x, int y)
 		ray_angle += d_angle;
 		i++;
 	}
-	// raycast(vars, PI * 3 / 2, x_window, y_window, 0); // test to delete
 }
 
 void	print_player(t_vars *vars)

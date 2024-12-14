@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:38 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/14 14:58:44 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:49:28 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,50 +51,99 @@ void	choose_image(t_vars *vars, int x, int y)
 	// }
 }
 
+int	is_ray_facing_up(float ray_angle)
+{
+	// printf("sin(%.2fPI) = %.2f\n", ray_angle / PI, sin(ray_angle));
+	return (sin(ray_angle) > 0);
+	// return (0 < ray_angle && ray_angle < PI);
+}
+
+int	is_ray_facing_down(float ray_angle)
+{
+	return (sin(ray_angle) < 0);
+	// return (!is_ray_facing_up(ray_angle) && !is_equal(ray_angle, PI));
+}
+
+int	is_ray_facing_right(float ray_angle)
+{
+	// printf("cos(%.2fPI = %.2f\n", ray_angle / PI, cos(ray_angle));
+	return (cos(ray_angle) > 0);
+	// return ((0 < ray_angle && ray_angle < PI / 2) || (PI * 3 / 2 < ray_angle));
+}
+
+int	is_ray_facing_left(float ray_angle)
+{
+	return (cos(ray_angle) < 0);
+	// return (!is_ray_facing_right(ray_angle) && !is_equal(ray_angle, PI / 2)
+	// 	&& (is_equal(ray_angle, PI * 3 / 2)));
+}
+
+// if (has_wall_at(next_horizontal_touch_x, next_horizontal_touch_y)) // have to create
+int	has_wall_at(t_vars *vars, int next_horizontal_touch_x, int next_horizontal_touch_y)
+{
+	int	coordinate_x_in_map;
+	int	coordinate_y_in_map;
+
+	coordinate_x_in_map = next_horizontal_touch_x / TILE_SIZE;
+	coordinate_y_in_map = next_horizontal_touch_y / TILE_SIZE;
+	return (vars->map[coordinate_y_in_map][coordinate_x_in_map] == '1');
+}
+
 int	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer)
 {
-	int	xstep;
-	int	ystep;
-	int	xintercept;
-	int	yintercept;
+	float	xstep;
+	float	ystep;
+	float	xintercept;
+	float	yintercept;
+	int		found_horz_wall;
+	int		wall_hit_x;
+	int		wall_hit_y;
 
+	// calculate yintercept
+	yintercept = (yplayer / TILE_SIZE) * TILE_SIZE;
+	if (is_ray_facing_down(ray_angle))
+		yintercept += TILE_SIZE;
+	// calculate xintercept
 	xintercept = xplayer + ((yplayer - yintercept) / tan(ray_angle));
-	yintercept = yplayer / TILE_SIZE * TILE_SIZE; // floor(xplayer / TILE_SIZE) ?
-	xstep = ystep / tan(ray_angle);
+	// calculate ystep
 	ystep = TILE_SIZE;
-	// if is_ray_facing_up
-	// 	ystep *= -1;
-	// if is_ray_facing_down
-	// 	yintercept *= -1;
-	// if is_ray_facing_left && xstep > 0
-	// 	xstep *= -1;
-	// if is_ray_facing_right && xstep < 0
-	// 	xstep *= -1;
+	if (is_ray_facing_up(ray_angle))
+		ystep *= -1;
+	// calculate xstep
+	xstep = ystep / tan(ray_angle);
+	if (is_ray_facing_left(ray_angle) && xstep > 0)
+		xstep *= -1;
+	if (is_ray_facing_right(ray_angle) && xstep < 0)
+		xstep *= -1;
+	int	next_horizontal_touch_x = xintercept;
+	int	next_horizontal_touch_y = yintercept;
+	if (is_ray_facing_up(ray_angle))
+		next_horizontal_touch_y--;
+	// increment xstep and ystep until we find a wall
+	found_horz_wall = 0;
+	while (0 <= next_horizontal_touch_x && next_horizontal_touch_x <= WINDOW_WIDTH
+		&& 0 <= next_horizontal_touch_y && next_horizontal_touch_y <= WINDOW_HEIGHT) // next_horizontal_touch is in the window
+	{
+		if (has_wall_at(vars, next_horizontal_touch_x, next_horizontal_touch_y)) // have to create
+		{
+			found_horz_wall = 1;
+			wall_hit_x = next_horizontal_touch_x;
+			wall_hit_y = next_horizontal_touch_y;
+			line(vars, xplayer, yplayer, wall_hit_x, wall_hit_y); // test to delete
+			break ;
+		}
+		else
+		{
+			// increment xstep and ystep
+			next_horizontal_touch_x += xstep;
+			next_horizontal_touch_y += ystep;
+		}
+	}
+	// calculate the distance froom point(xplayer, yplayer) to
+	// 	point(wall_hit_x, wall_hit_y) and return it
 
-	// int	next_horizontal_touch_x = xintercept;
-	// int	next_horizontal_touch_y = yintercept;
-	// if is_ray_facing_up
-	// 	next_horizontal_touch_y--; // touch y was right on the line
-	// // increment xstep and ystep until we find a wall
-	// int	found_horz_wall = 0;
-	// int	wall_hit_x;
-	// int	wall_hit_y;
-	// while (...) // next_horizontal_touch is in the window
-	// {
-	// 	if has_wall_at(next_horizontal_touch_x, next_horizontal_touch_y) // have to create
-	// 	{
-	// 		found_horz_wall = 1;
-	// 		wall_hit_x = next_horizontal_touch_x;
-	// 		wall_hit_y = next_horizontal_touch_y;
-	// 		// put line player to wall_hit to test
-	// 		break ;
-	// 	}
-	// 	else
-	// 	{
-	// 		// increment xstep and ystep
-	// 	}
-	// }
+	return (0); // test to delete
 }
 
 int	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
@@ -105,24 +154,35 @@ int	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 	int	xintercept;
 	int	yintercept;
 
+	(void)vars; // unnecesary ?
 	xintercept = xplayer / TILE_SIZE * TILE_SIZE + 1; // floor(xplayer / TILE_SIZE) ?
 	yintercept = yplayer - ((xintercept - xplayer) * tan(ray_angle));
 	xstep = TILE_SIZE;
 	ystep = xstep * tan(ray_angle);
+
+	// // print values // test
+	// printf("ray_angle = %.2f * PI\n", ray_angle / PI);
+	// printf("xintercept = %.2f\n", xintercept);
+	// printf("yintercept = %.2f\n", yintercept);
+	// printf("xstep = %.2f\n", xstep);
+	// printf("ystep = %.2f\n", ystep);
+	// //
+	return (0); // test to delete
 }
 
 int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 {
-	int	len;
-	int	xstep;
-	int	ystep;
-	int	xintercept;
-	int	yintercept;
-	int	distance_horz;
-	int	distance_vert;
+	int	len; // float ?
+	int	distance_horz; // float ?
+	int	distance_vert; // float ?
 
 	distance_horz = calculate_wall_hit_distance_horizontal(vars, ray_angle, xplayer, yplayer);
 	distance_vert = calculate_wall_hit_distance_vertical(vars, ray_angle, xplayer, yplayer);
+	if (distance_horz - distance_vert > 0)
+		len = distance_horz;
+	else
+		len = distance_vert;
+	return (len);
 }
 
 // get the point where the ray hits the wall in horizontal
@@ -154,8 +214,8 @@ void	print_shaped_fan(t_vars *vars, int x, int y)
 	int		len;
 	int		x_window;
 	int		y_window;
-	int		x_to;
-	int		y_to;
+	// int		x_to;
+	// int		y_to;
 	float	ray_angle;
 	float	d_angle;
 
@@ -165,9 +225,11 @@ void	print_shaped_fan(t_vars *vars, int x, int y)
 	y_window = y * 50 + (TILE_SIZE / 2);
 	ray_angle = vars->player.rotation_angle - (((double)FOV / (double)180 * PI) / 2);
 	d_angle = (((double)FOV / (double)180) * PI) / WINDOW_WIDTH;
+	// while (i < 1) // test
 	while (i < WINDOW_WIDTH)
 	{
-		// raycast(vars, ray_angle, x, y);
+		raycast(vars, ray_angle, x_window, y_window);
+
 		/* render 3d projected walls function
 		calculate projected wall height
 		actual wall height / distance to the wall =
@@ -178,12 +240,16 @@ void	print_shaped_fan(t_vars *vars, int x, int y)
 			projected wall height = 
 			distance from player to the projected wall = (WINDOW_WIDTH / 2) / (tan(FOV(in radian) / 30))
 		*/
-		x_to = x_window + (len * cos(ray_angle));
-		y_to = y_window - (len * sin(ray_angle));
-		line(vars, x_window, y_window, x_to, y_to);
+
+		/* render fan shape
+		// x_to = x_window + (len * cos(ray_angle));
+		// y_to = y_window - (len * sin(ray_angle));
+		// line(vars, x_window, y_window, x_to, y_to);
+		*/
 		ray_angle += d_angle;
 		i++;
 	}
+	// raycast(vars, PI * 3 / 2, x_window, y_window, 0); // test to delete
 }
 
 void	print_player(t_vars *vars)

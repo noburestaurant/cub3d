@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/13 16:55:02 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:41:52 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define WINDOW_WIDTH 550 // MAP_NUM_COLS * TILE_SIZE
 # define WINDOW_HEIGHT 500 // MAP_NUM_ROWS * TILE_SIZE
 # define FOV 60
+// # define MINIMAP_SCALE_FACTOR // when rendering any number, all value have to maltiply by the number
 
 # include <stdio.h>
 # include <stdlib.h>

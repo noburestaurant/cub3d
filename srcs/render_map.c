@@ -99,8 +99,10 @@ double	calculate_distance_between_two_points(int a_x, int a_y, int b_x, int b_y)
 	return (sqrt((delta_x) * (delta_x) + (delta_y) * (delta_y)));
 }
 
+// float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
+// 	int xplayer, int yplayer)
 float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
-	int xplayer, int yplayer)
+	int xplayer, int yplayer, float vals[2]) // test to delete
 {
 	float	xstep;
 	float	ystep;
@@ -137,12 +139,19 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	while (0 <= next_horizontal_touch_x && next_horizontal_touch_x <= WINDOW_WIDTH
 		&& 0 <= next_horizontal_touch_y && next_horizontal_touch_y <= WINDOW_HEIGHT) // next_horizontal_touch is in the window
 	{
-		if (has_wall_at(vars, next_horizontal_touch_x, next_horizontal_touch_y))
+		if (has_wall_at(vars, next_horizontal_touch_x, next_horizontal_touch_y - (is_ray_facing_up(ray_angle))))
 		{
 			found_horz_wall = 1;
 			wall_hit_x = next_horizontal_touch_x;
 			wall_hit_y = next_horizontal_touch_y - (is_ray_facing_up(ray_angle));
+
+			// test to delete
+			vals[0] = next_horizontal_touch_x;
+			vals[1] = next_horizontal_touch_y - (is_ray_facing_up(ray_angle));
+			// 
+
 			// line(vars, xplayer, yplayer, wall_hit_x, wall_hit_y); // test to delete
+
 			break ;
 		}
 		else
@@ -157,12 +166,12 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	// calculate the distance froom point(xplayer, yplayer) to
 	// 	point(wall_hit_x, wall_hit_y) and return it
 	return (calculate_distance_between_two_points(xplayer, yplayer, wall_hit_x, wall_hit_y));
-
-	return (0); // test to delete
 }
 
+// float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
+// 	int xplayer, int yplayer)
 float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
-	int xplayer, int yplayer)
+	int xplayer, int yplayer, float vals[2]) // test to delete
 {
 	float	xstep;
 	float	ystep;
@@ -193,18 +202,25 @@ float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 	// increment xstep and ystep until we find a wall
 	next_vertical_touch_x = xintercept;
 	next_vertical_touch_y = yintercept;
-	wall_hit_x = 0; // unnecessary
-	wall_hit_y = 0; // unnecessary
+	wall_hit_x = 0; // unnecessary ?
+	wall_hit_y = 0; // unnecessary ?
 	found_vert_wall = 0;
 	while (0 <= next_vertical_touch_x && next_vertical_touch_x < WINDOW_WIDTH
 		&& 0 <= next_vertical_touch_y && next_vertical_touch_y < WINDOW_HEIGHT) // next_vertical_touch is in the window
 	{
-		if (has_wall_at(vars, next_vertical_touch_x, next_vertical_touch_y))
+		if (has_wall_at(vars, next_vertical_touch_x - (is_ray_facing_left(ray_angle)), next_vertical_touch_y))
 		{
 			found_vert_wall = 1;
 			wall_hit_x = next_vertical_touch_x - (is_ray_facing_left(ray_angle));
 			wall_hit_y = next_vertical_touch_y;
+
+			// test to delete
+			vals[0] = next_vertical_touch_x - (is_ray_facing_left(ray_angle)); // test to delete
+			vals[1] = next_vertical_touch_y; // test to delete
+			// 
+
 			// line(vars, xplayer, yplayer, wall_hit_x, wall_hit_y); // test to delete
+
 			break ;
 		}
 		else
@@ -214,11 +230,9 @@ float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 			next_vertical_touch_y += ystep;
 		}
 	}
-	// calculate the distance froom point(xplayer, yplayer) to
-	// 	point(wall_hit_x, wall_hit_y) and return it
+	if (wall_hit_x == 0 && wall_hit_y == 0)
+		return (0);
 	return (calculate_distance_between_two_points(xplayer, yplayer, wall_hit_x, wall_hit_y));
-
-	return (0); // test to delete
 }
 
 int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
@@ -227,17 +241,62 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 	float	distance_horz;
 	float	distance_vert;
 
-	distance_horz = calculate_wall_hit_distance_horizontal(vars, ray_angle, xplayer, yplayer);
-	// distance_horz = 0; // test to delete
-	distance_vert = calculate_wall_hit_distance_vertical(vars, ray_angle, xplayer, yplayer);
-	if (distance_horz == 0)
-		return (distance_vert);
-	else if (distance_vert == 0)
-		return (distance_horz);
-	if (distance_horz - distance_vert > (float)0)
+	// test to delete
+	float	horz_vals[2]; // test to delete
+	float	vert_vals[2]; // test to delete
+	// 
+
+	// distance_horz = calculate_wall_hit_distance_horizontal(vars, ray_angle, xplayer, yplayer);
+	// // distance_horz = 0;
+	// distance_vert = calculate_wall_hit_distance_vertical(vars, ray_angle, xplayer, yplayer);
+	// // distance_vert = 0;
+
+	// if (distance_horz == 0 || distance_vert == 0)
+	// {
+	// 	if (distance_horz == 0)
+	// 		return (distance_vert);
+	// 	else if (distance_vert == 0)
+	// 		return (distance_horz);
+	// }
+	// if (distance_horz > distance_vert)
+	// 	len = distance_vert;
+	// else
+	// 	len = distance_horz;
+
+	// test to delete
+	horz_vals[0] = 0; // test to delete
+	vert_vals[1] = 0; // test to delete
+	distance_horz = calculate_wall_hit_distance_horizontal(vars, ray_angle, xplayer, yplayer, horz_vals); // test to delete
+	distance_vert = calculate_wall_hit_distance_vertical(vars, ray_angle, xplayer, yplayer, vert_vals); // test to delete
+	if (distance_horz == 0 || distance_vert == 0)
+	{
+		if (distance_horz == 0)
+		{
+			// if (distance_vert == 0) // delete
+			// 	printf("Error\n");
+			line(vars, xplayer, yplayer, vert_vals[0], vert_vals[1]);
+			return (distance_vert);
+		}
+		else if (distance_vert == 0)
+		{
+			// if (distance_horz == 0) // delete
+			// 	printf("Error\n");
+			line(vars, xplayer, yplayer, horz_vals[0], horz_vals[1]);
+			return (distance_horz);
+		}
+	}
+	if (distance_horz > distance_vert)
+	{
+		line(vars, xplayer, yplayer, vert_vals[0], vert_vals[1]);
 		len = distance_vert;
+	}
 	else
+	{
+		line(vars, xplayer, yplayer, horz_vals[0], horz_vals[1]);
 		len = distance_horz;
+	}
+	// 
+
 	return (len);
 }
 
@@ -290,17 +349,6 @@ void	print_shaped_fan(t_vars *vars, int x, int y)
 	{
 		// render 3d projected
 		distance_to_wall = raycast(vars, ray_angle, x_window, y_window);
-
-		// calculate projected wall height
-		// actual wall height / distance to the wall =
-		// 	projected wall height / distance from player to the projected wall
-		// actual wall height = TILE_SIZE
-		// distance to the wall = return value of raycast()
-		// 	-> correct distance to the wall = return value of raycat() * cos(ray_angle - rotation_angle)
-		// distance from player to the projected wall = (WINDOW_WIDTH / 2) / (tan(FOV(in radian) / 2))
-		// projected wall height = actual wall height / distance to the wall (correct distance to the wall)
-		// 	* distance from player to the projected wall
-
 		correct_distance_to_wall = distance_to_wall
 			* cos(ray_angle - vars->player.rotation_angle);
 		distance_from_player_to_projected_plane = (float)(WINDOW_WIDTH / 2)

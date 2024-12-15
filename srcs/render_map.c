@@ -89,7 +89,17 @@ int	has_wall_at(t_vars *vars, int next_horizontal_touch_x, int next_horizontal_t
 	return (vars->map[coordinate_y_in_map][coordinate_x_in_map] == '1');
 }
 
-int	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
+double	calculate_distance_between_two_points(int a_x, int a_y, int b_x, int b_y)
+{
+	int	delta_x;
+	int	delta_y;
+
+	delta_x = b_x - a_x;
+	delta_y = b_y - a_y;
+	return (sqrt((delta_x) * (delta_x) + (delta_y) * (delta_y)));
+}
+
+float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer)
 {
 	float	xstep;
@@ -142,11 +152,12 @@ int	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	}
 	// calculate the distance froom point(xplayer, yplayer) to
 	// 	point(wall_hit_x, wall_hit_y) and return it
+	return(calculate_distance_between_two_points(xplayer, yplayer, wall_hit_x, wall_hit_y));
 
 	return (0); // test to delete
 }
 
-int	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
+float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer)
 {
 	float	xstep;
@@ -199,20 +210,21 @@ int	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 	}
 	// calculate the distance froom point(xplayer, yplayer) to
 	// 	point(wall_hit_x, wall_hit_y) and return it
+	return(calculate_distance_between_two_points(xplayer, yplayer, wall_hit_x, wall_hit_y));
 
 	return (0); // test to delete
 }
 
 int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 {
-	int	len; // float ?
-	int	distance_horz; // float ?
-	int	distance_vert; // float ?
+	float	len; // float ?
+	float	distance_horz; // float ?
+	float	distance_vert; // float ?
 
 	// distance_horz = calculate_wall_hit_distance_horizontal(vars, ray_angle, xplayer, yplayer);
 	distance_horz = 0; // test to delete
 	distance_vert = calculate_wall_hit_distance_vertical(vars, ray_angle, xplayer, yplayer);
-	if (distance_horz - distance_vert > 0)
+	if (distance_horz - distance_vert > (float)0)
 		len = distance_horz;
 	else
 		len = distance_vert;
@@ -264,16 +276,20 @@ void	print_shaped_fan(t_vars *vars, int x, int y)
 	{
 		raycast(vars, ray_angle, x_window, y_window);
 
-		/* render 3d projected walls function
-		calculate projected wall height
-		actual wall height / distance to the wall =
-			rojected wall height / distance from player to the projected wall
-			actual wall height = WINDOW_HEIGHT
-			distance to the wall = return value of raycast()
-				-> correct distance to the wall = return value of raycat() * cos(ray_angle - rotation_angle)
-			projected wall height = 
-			distance from player to the projected wall = (WINDOW_WIDTH / 2) / (tan(FOV(in radian) / 30))
-		*/
+		// // render 3d projected walls function
+		// // calculate projected wall height
+		// actual wall height / distance to the wall =
+		// 	rojected wall height / distance from player to the projected wall
+		// actual wall height = WINDOW_HEIGHT
+		// distance to the wall = return value of raycast()
+		// 	-> correct distance to the wall = return value of raycat() * cos(ray_angle - rotation_angle)
+		// distance from player to the projected wall = (WINDOW_WIDTH / 2) / (tan(FOV(in radian) / 30))
+		// projected wall height = actual wall height / distance to the wall (correct distance to the wall)
+		// 	* distance from player to the projected wall
+		// line(i,
+		// 	(WINDOW_HEIGHT / 2) - (projected wall height / 2),
+		// 	i,
+		// 	(WINDOW_HEIGHT / 2) + (projected wall height / 2));
 
 		/* render fan shape
 		// x_to = x_window + (len * cos(ray_angle));

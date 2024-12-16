@@ -30,6 +30,7 @@ $(addsuffix .c, \
 		parse_map \
 		render_map \
 		render_ray \
+		render_field_of_view \
 		utils \
 		valid_path \
 	) \

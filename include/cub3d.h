@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/16 22:46:02 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/16 23:20:36 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,8 @@ void	circle(t_vars *vars, int cx, int cy);
 float	normalize_angle(float angle);
 int		is_equal(float a, float b);
 void	print_orientation(t_vars *vars);
+
+void	render_rays(t_vars *vars);
+void	render_ray(t_vars *vars, float ray_angle, int xplayer, int yplayer);
 
 #endif

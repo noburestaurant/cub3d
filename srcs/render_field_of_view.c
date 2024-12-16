@@ -176,6 +176,7 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 	float	distance_horz;
 	float	distance_vert;
 
+	len = 0;
 	distance_horz = calculate_wall_hit_distance_horizontal
 		(vars, ray_angle, xplayer, yplayer);
 	distance_vert = calculate_wall_hit_distance_vertical
@@ -183,16 +184,45 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 	if (distance_horz == 0 || distance_vert == 0)
 	{
 		if (distance_horz == 0)
+		{
+			vars->ray.wall_hit_x = vars->ray.vert_wall_hit_x;
+			vars->ray.wall_hit_y = vars->ray.vert_wall_hit_y;
 			return (distance_vert);
+		}
 		else if (distance_vert == 0)
+		{
+			vars->ray.wall_hit_x = vars->ray.horz_wall_hit_x;
+			vars->ray.wall_hit_y = vars->ray.horz_wall_hit_y;
 			return (distance_horz);
+		}
 	}
 	if (distance_horz > distance_vert)
+	{
+		vars->ray.wall_hit_x = vars->ray.vert_wall_hit_x;
+		vars->ray.wall_hit_y = vars->ray.vert_wall_hit_y;
 		len = distance_vert;
+	}
 	else
+	{
+		vars->ray.wall_hit_x = vars->ray.horz_wall_hit_x;
+		vars->ray.wall_hit_y = vars->ray.horz_wall_hit_y;
 		len = distance_horz;
+	}
 	return (len);
 }
+
+	// if (vars->ray.found_vert_wall == 1 && distance_horz > distance_vert)
+	// {
+	// 	vars->ray.wall_hit_x = vars->ray.vert_wall_hit_x;
+	// 	vars->ray.wall_hit_y = vars->ray.vert_wall_hit_y;
+	// 	len = distance_vert;
+	// }
+	// else if (vars->ray.found_horz_wall == 1 && distance_horz <= distance_vert)
+	// {
+	// 	vars->ray.wall_hit_x = vars->ray.horz_wall_hit_x;
+	// 	vars->ray.wall_hit_y = vars->ray.horz_wall_hit_y;
+	// 	len = distance_horz;
+	// }
 
 // things to do
 // create structure t_ray, t_texture
@@ -204,6 +234,7 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 // 	{
 // 		int	hoge;
 // 	}	t_texture;
+// 	resolve a problem "wall_hit_x, wall_hit_y"
 //	calculate direction of printed texture
 //	get data of texture of each direction
 //	get to know how to use the mlx_get_data_addr function

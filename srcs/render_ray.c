@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render_ray.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:08:10 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/16 23:20:41 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/16 23:35:01 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
+float	calculate_wall_hit_distance_horizontal_delete(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer, float vals[2]) // test to delete
 {
 	float	xstep;
@@ -45,7 +45,6 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	next_horizontal_touch_y = yintercept;
 	wall_hit_x = 0; // unnecessary
 	wall_hit_y = 0; // unnecessary
-	found_horz_wall = 0;
 	while (0 <= next_horizontal_touch_x && next_horizontal_touch_x <= WINDOW_WIDTH
 		&& 0 <= next_horizontal_touch_y && next_horizontal_touch_y <= WINDOW_HEIGHT)
 	{
@@ -71,7 +70,7 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	return (calculate_distance_between_two_points(xplayer, yplayer, wall_hit_x, wall_hit_y));
 }
 
-float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
+float	calculate_wall_hit_distance_vertical_delete(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer, float vals[2]) // test to delete
 {
 	float	xstep;
@@ -80,7 +79,6 @@ float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 	float	yintercept;
 	int		next_vertical_touch_x;
 	int		next_vertical_touch_y;
-	int		found_vert_wall;
 	int		wall_hit_x;
 	int		wall_hit_y;
 
@@ -130,7 +128,6 @@ float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 
 void	render_ray(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 {
-	float	len;
 	float	distance_horz;
 	float	distance_vert;
 	float	horz_vals[2];
@@ -138,8 +135,8 @@ void	render_ray(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 
 	horz_vals[0] = 0;
 	vert_vals[1] = 0;
-	distance_horz = calculate_wall_hit_distance_horizontal(vars, ray_angle, xplayer, yplayer, horz_vals);
-	distance_vert = calculate_wall_hit_distance_vertical(vars, ray_angle, xplayer, yplayer, vert_vals);
+	distance_horz = calculate_wall_hit_distance_horizontal_delete(vars, ray_angle, xplayer, yplayer, horz_vals);
+	distance_vert = calculate_wall_hit_distance_vertical_delete(vars, ray_angle, xplayer, yplayer, vert_vals);
 	if (distance_horz == 0 || distance_vert == 0)
 	{
 		if (distance_horz == 0)

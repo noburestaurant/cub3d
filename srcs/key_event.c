@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:04:04 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/16 22:40:13 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/16 23:41:40 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	update_map(t_vars *vars, int x_before, int y_before)
 		vars->move_count++;
 	render_map(vars);
 	print_player(vars);
+	render_rays(vars);
 	render_field_of_view(vars);
 }
 

@@ -29,6 +29,7 @@ $(addsuffix .c, \
 		main \
 		parse_map \
 		render_map \
+		render_ray \
 		utils \
 		valid_path \
 	) \

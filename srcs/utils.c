@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/16 20:49:20 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/16 22:24:51 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,6 @@ int	is_equal(float a, float b)
 
 void	print_orientation(t_vars *vars)
 {
-	int	len;
-
-	len = 10;
 	vars->player.rotation_angle = normalize_angle(vars->player.rotation_angle);
 	if (is_equal(vars->player.rotation_angle, 0))
 		printf("orientation: east\n");

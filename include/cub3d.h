@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/16 20:49:40 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/16 22:40:57 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,20 @@ typedef struct s_player
 	int		x;
 	int		y;
 }	t_player;
+
+typedef struct s_ray
+{
+	int	wall_hit_x;
+	int	wall_hit_y;
+}	t_ray;
+
+// typedef struct s_texture
+// {
+// 	int	*texture_north;
+// 	int	*texture_south;
+// 	int	*texture_east;
+// 	int	*texture_west;
+// }	t_texture;
 
 typedef struct s_img_player
 {
@@ -98,6 +112,8 @@ void	parse_map(t_vars *vars);
 void	get_img(t_vars *vars);
 void	choose_image(t_vars *vars, int x, int y);
 void	render_map(t_vars *vars);
+void	print_player(t_vars *vars);
+void	render_field_of_view(t_vars *vars);
 int		key_hook(int keycode, t_vars *vars);
 void	reset_player(t_vars *vars, int x_before, int y_before);
 void	update_map(t_vars *vars, int x_before, int y_before);

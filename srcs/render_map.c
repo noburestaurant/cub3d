@@ -337,10 +337,9 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 //	get data of texture of each direction
 //	get to know how to use the mlx_get_data_addr function
 
-void	render_field_of_view(t_vars *vars, int x, int y)
+void	render_field_of_view(t_vars *vars)
 {
 	int		i;
-	int		len;
 	int		x_window;
 	int		y_window;
 	float	ray_angle;
@@ -353,14 +352,13 @@ void	render_field_of_view(t_vars *vars, int x, int y)
 	float	projected_wall_height;
 
 	i = 0;
-	len = 100;
-	x_window = x * 50 + (TILE_SIZE / 2);
-	y_window = y * 50 + (TILE_SIZE / 2);
+	x_window = vars->player.x * 50 + (TILE_SIZE / 2);
+	y_window = vars->player.y * 50 + (TILE_SIZE / 2);
 	ray_angle = vars->player.rotation_angle - (((float)FOV / (float)180 * PI) / 2);
 	d_angle = (((float)FOV / (float)180) * PI) / WINDOW_WIDTH;
 	while (i < WINDOW_WIDTH)
 	{
-		// render 3d projected
+		// calculate length of a wall which will be rendered
 		distance_to_wall = raycast(vars, ray_angle, x_window, y_window);
 		correct_distance_to_wall = distance_to_wall
 			* cos(ray_angle - vars->player.rotation_angle);
@@ -369,6 +367,7 @@ void	render_field_of_view(t_vars *vars, int x, int y)
 		actual_wall_height = TILE_SIZE;
 		projected_wall_height = actual_wall_height / correct_distance_to_wall
 			* distance_from_player_to_projected_plane;
+		// render a wall where col is i
 		line(vars,
 			WINDOW_WIDTH - i,
 			(WINDOW_HEIGHT / 2) - (projected_wall_height / 2),
@@ -410,28 +409,54 @@ void	render_field_of_view(t_vars *vars, int x, int y)
 	}
 }
 
+// void	print_player(t_vars *vars)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	y = 0;
+// 	while (y < vars->height)
+// 	{
+// 		x = 0;
+// 		while (x < vars->width)
+// 		{
+// 			if (check_player(vars->map[y][x]))
+// 			{
+// 				circle(vars, (x * 50 + (TILE_SIZE / 2)),
+// 					(y * 50 + (TILE_SIZE / 2)));
+// 				print_orientation(vars);
+// 				render_field_of_view(vars, x, y);
+// 			}
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
+
+// void	render_map(t_vars *vars)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	y = 0;
+// 	while (y < vars->height)
+// 	{
+// 		x = 0;
+// 		while (x < vars->width)
+// 		{
+// 			choose_image(vars, x, y);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	print_player(vars);
+// }
+
 void	print_player(t_vars *vars)
 {
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < vars->height)
-	{
-		x = 0;
-		while (x < vars->width)
-		{
-			if (check_player(vars->map[y][x]))
-			{
-				circle(vars, (x * 50 + (TILE_SIZE / 2)),
-					(y * 50 + (TILE_SIZE / 2)));
-				print_orientation(vars);
-				render_field_of_view(vars, x, y);
-			}
-			x++;
-		}
-		y++;
-	}
+	circle(vars, (vars->player.x * 50 + (TILE_SIZE / 2)),
+		(vars->player.y * 50 + (TILE_SIZE / 2)));
+	print_orientation(vars);
 }
 
 void	render_map(t_vars *vars)
@@ -450,5 +475,4 @@ void	render_map(t_vars *vars)
 		}
 		y++;
 	}
-	print_player(vars);
 }

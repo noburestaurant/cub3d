@@ -323,6 +323,18 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 // 	check if intersection hits a wall
 // compare lengths of those rays and select the smallest one
 
+// things to do
+// calculate direction of printed texture
+// create structure t_ray, t_texture
+// 	typedef struct s_ray
+// 	{
+// 		int	hoge;
+// 	}	t_ray;
+// 	typedef struct s_texture
+// 	{
+// 		int	hoge;
+// 	}	t_texture;
+
 void	print_shaped_fan(t_vars *vars, int x, int y)
 {
 	int		i;
@@ -358,6 +370,36 @@ void	print_shaped_fan(t_vars *vars, int x, int y)
 			* distance_from_player_to_projected_plane;
 		line(vars, WINDOW_WIDTH - i, (WINDOW_HEIGHT / 2) - (projected_wall_height / 2),
 			WINDOW_WIDTH - i, (WINDOW_HEIGHT / 2) + (projected_wall_height / 2));
+
+		// // select which cell will be printed
+		// int	i = 0;
+		// int	texture_x = 0;
+		// int	texture_y = 0;
+		// int	texture_height = TILE_SIZE;
+		// int	texture_width = TILE_SIZE;
+		// int	print_north_texture; // ? 1 : 0
+		// int	print_south_texture; // ? 1 : 0
+		// int	print_east_texture; // ? 1 : 0
+		// int	print_west_texture; // ? 1 : 0
+		// int	color_offset;
+		// int	color;
+		// if (print_north_texture)
+		// 	texture_x = wall_hit_x % TILE_SIZE;
+		// if (print_south_texture)
+		// 	texture_x = TILE_SIZE - (wall_hit_x % TILE_SIZE);
+		// if (print_east_texture)
+		// 	texture_x = wall_hit_y % TILE_SIZE;
+		// if (print_west_texture)
+		// 	texture_x = TILE_SIZE - (wall_hit_y % TILE_SIZE);
+		// while (j < projected_wall_height)
+		// {
+		// 	texture_y = i * texture_height / projected_wall_height;
+		// 	color_offset = texture_y * line_lenght + texture_x;
+		// 	color = *(int *)(addr + color_offset);
+		// 	mlx_pixel_put(vars->mlx,
+		// 		vars->win, i, WINDOW_HEIGHT / 2 - j, color);
+		// 	i++;
+		// }
 
 		// // print value
 		// printf("distance_to_wall = %.2f\n", distance_to_wall);

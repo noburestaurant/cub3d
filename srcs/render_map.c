@@ -137,7 +137,7 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	wall_hit_y = 0; // unnecessary
 	found_horz_wall = 0;
 	while (0 <= next_horizontal_touch_x && next_horizontal_touch_x <= WINDOW_WIDTH
-		&& 0 <= next_horizontal_touch_y && next_horizontal_touch_y <= WINDOW_HEIGHT) // next_horizontal_touch is in the window
+		&& 0 <= next_horizontal_touch_y && next_horizontal_touch_y <= WINDOW_HEIGHT)
 	{
 		if (has_wall_at(vars, next_horizontal_touch_x, next_horizontal_touch_y - (is_ray_facing_up(ray_angle))))
 		{

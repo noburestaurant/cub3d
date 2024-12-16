@@ -358,7 +358,6 @@ void	render_field_of_view(t_vars *vars, int x, int y)
 	y_window = y * 50 + (TILE_SIZE / 2);
 	ray_angle = vars->player.rotation_angle - (((float)FOV / (float)180 * PI) / 2);
 	d_angle = (((float)FOV / (float)180) * PI) / WINDOW_WIDTH;
-	// while (i < 1) // test
 	while (i < WINDOW_WIDTH)
 	{
 		// render 3d projected
@@ -370,8 +369,11 @@ void	render_field_of_view(t_vars *vars, int x, int y)
 		actual_wall_height = TILE_SIZE;
 		projected_wall_height = actual_wall_height / correct_distance_to_wall
 			* distance_from_player_to_projected_plane;
-		line(vars, WINDOW_WIDTH - i, (WINDOW_HEIGHT / 2) - (projected_wall_height / 2),
-			WINDOW_WIDTH - i, (WINDOW_HEIGHT / 2) + (projected_wall_height / 2));
+		line(vars,
+			WINDOW_WIDTH - i,
+			(WINDOW_HEIGHT / 2) - (projected_wall_height / 2),
+			WINDOW_WIDTH - i,
+			(WINDOW_HEIGHT / 2) + (projected_wall_height / 2));
 
 		// // select which cell will be printed
 		// int	i = 0;
@@ -403,22 +405,6 @@ void	render_field_of_view(t_vars *vars, int x, int y)
 		// 	i++;
 		// }
 
-		// // print value
-		// printf("distance_to_wall = %.2f\n", distance_to_wall);
-		// printf("correct_distance_to_wall = %.2f\n", correct_distance_to_wall);
-		// printf("distance_from_player_to_projected_plane = %.2f\n", distance_from_player_to_projected_plane);
-		// printf("actual_wall_height = %.2f\n", actual_wall_height);
-		// printf("projected_wall_height = %.2f\n", projected_wall_height);
-		// printf("%.2f / %.2f = %.2f / %.2f\n\n",
-		// 	actual_wall_height, correct_distance_to_wall, projected_wall_height, distance_from_player_to_projected_plane);
-		// // printf("projected_wall_height = %.2f\n\n", projected_wall_height);
-		// // 
-
-		/* render fan shape
-		// x_to = x_window + (len * cos(ray_angle));
-		// y_to = y_window - (len * sin(ray_angle));
-		// line(vars, x_window, y_window, x_to, y_to);
-		*/
 		ray_angle += d_angle;
 		i++;
 	}

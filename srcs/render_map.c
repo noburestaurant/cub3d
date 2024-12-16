@@ -337,7 +337,7 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 //	get data of texture of each direction
 //	get to know how to use the mlx_get_data_addr function
 
-void	print_shaped_fan(t_vars *vars, int x, int y)
+void	render_field_of_view(t_vars *vars, int x, int y)
 {
 	int		i;
 	int		len;
@@ -439,8 +439,8 @@ void	print_player(t_vars *vars)
 			{
 				circle(vars, (x * 50 + (TILE_SIZE / 2)),
 					(y * 50 + (TILE_SIZE / 2)));
-				orientation(vars);
-				print_shaped_fan(vars, x, y);
+				print_orientation(vars);
+				render_field_of_view(vars, x, y);
 			}
 			x++;
 		}

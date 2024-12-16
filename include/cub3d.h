@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/14 14:41:52 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/16 20:49:40 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ void	line(t_vars *vars, int x_a, int y_a, int x_b, int y_b);
 void	circle(t_vars *vars, int cx, int cy);
 float	normalize_angle(float angle);
 int		is_equal(float a, float b);
-void	orientation(t_vars *vars);
+void	print_orientation(t_vars *vars);
 
 #endif

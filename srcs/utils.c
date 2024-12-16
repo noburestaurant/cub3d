@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/11 21:01:21 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/16 20:49:20 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int	is_equal(float a, float b)
 	return (fabs(a - b) < 0.001);
 }
 
-void	orientation(t_vars *vars)
+void	print_orientation(t_vars *vars)
 {
 	int	len;
 

@@ -324,7 +324,6 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 // compare lengths of those rays and select the smallest one
 
 // things to do
-// calculate direction of printed texture
 // create structure t_ray, t_texture
 // 	typedef struct s_ray
 // 	{
@@ -334,6 +333,9 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 // 	{
 // 		int	hoge;
 // 	}	t_texture;
+//	calculate direction of printed texture
+//	get data of texture of each direction
+//	get to know how to use the mlx_get_data_addr function
 
 void	print_shaped_fan(t_vars *vars, int x, int y)
 {

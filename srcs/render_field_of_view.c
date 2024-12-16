@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/17 00:40:55 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/17 00:46:57 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	is_ray_facing_left(float ray_angle)
 	return (cos(ray_angle) < 0);
 }
 
-int	has_wall_at(t_vars *vars, int next_horizontal_touch_x, int next_horizontal_touch_y)
+int	has_wall_at(t_vars *vars, int next_horizontal_touch_x,
+	int next_horizontal_touch_y)
 {
 	int	coordinate_x_in_map;
 	int	coordinate_y_in_map;
@@ -42,7 +43,8 @@ int	has_wall_at(t_vars *vars, int next_horizontal_touch_x, int next_horizontal_t
 	return (vars->map[coordinate_y_in_map][coordinate_x_in_map] == '1');
 }
 
-double	calculate_distance_between_two_points(int a_x, int a_y, int b_x, int b_y)
+double	calculate_distance_between_two_points(int a_x, int a_y,
+	int b_x, int b_y)
 {
 	int	delta_x;
 	int	delta_y;
@@ -190,29 +192,6 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 		len = distance_horz;
 	return (len);
 }
-
-// get the point where the ray hits the wall in horizontal
-// 	find coordinate of the first horizontal intersection
-// 		xintercept = xplayer + ((yplayer - yintercept) / tan(ray_angle))
-// 		yintercept = yplayer / TILE_SIZE * TILE_SIZE
-// 	find xstep and ystep
-// 		xstep = ystep / tan(ray_angle)
-// 		ystep = TILE_SIZE
-// 	convert intersection point into map index
-// 		(x, y) -> map[i][j]
-// 	check if intersection hits a wall
-// 		yes -> store horizontal hit distance
-// 		no  -> find next horizontal intersection
-// get the point where the ray hits the wall in vertical
-// 	find coordinate of the first vertical intersection
-// 		xintercept = xplayer / TILE_SIZE * TILE_SIZE + 1
-// 		yintercept = yplayer - ((xintercept - xplayer) * tan(ray_angle))
-// 	find xstep and ystep
-// 		xstep = TILE_SIZE
-// 		ystep = xstep * tan(ray_angle)
-// 	convert intersection point into map index
-// 	check if intersection hits a wall
-// compare lengths of those rays and select the smallest one
 
 // things to do
 // create structure t_ray, t_texture

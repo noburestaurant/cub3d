@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/16 23:32:37 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/17 01:29:37 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,14 @@ typedef struct s_player
 
 typedef struct s_ray
 {
-	int	wall_hit_x;
-	int	wall_hit_y;
+	float	ray_angle;
+	float	delta_angle;
+	int		found_horz_wall;
+	int		found_vert_wall;
+	int		horz_wall_hit_x;
+	int		horz_wall_hit_y;
+	int		vert_wall_hit_x;
+	int		vert_wall_hit_y;
 }	t_ray;
 
 // typedef struct s_texture
@@ -87,6 +93,8 @@ typedef struct s_vars
 	int				width;
 	int				height;
 	t_player		player;
+	// t_ray			*rays;
+	t_ray			ray;
 	int				move_count;
 }	t_vars;
 

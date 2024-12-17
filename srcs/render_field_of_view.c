@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 01:16:52 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 01:42:44 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,13 +319,26 @@ void	render_field_of_view(t_vars *vars)
 // get data of texture of each direction
 // get to know how to use the mlx_get_data_addr function
 // calculate the direction of printing wall // ok
-// delete unnecessary code and comment
+// delete unnecessary code and comment // ok
 // render floor and ceiling
 // support norm
-// support minimap
+// add member of each structure
+// delete unnecessary variable and member of strcuture
+// mlx Error handling
+// 
+// search
+// support parse file
+// map Error handling
+// 
+// name of functions and variables sould be easy to understand
+// memory leak
+// fd leak
+// support norm
+// 
+// support minimap (if you have nothing to do)
 
 // issue
-// 多分壁をレンダリングする位置を間違えてる
+// 多分壁をレンダリングする位置を間違えてる // resolve
 // 壁が近いと南北が逆になる
 
 // memo

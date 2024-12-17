@@ -6,41 +6,47 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 03:15:10 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 04:36:32 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	render_field_of_view(t_vars *vars)
+float	calc_projected_wall_height(t_vars *vars)
 {
-	int		i;
-	int		xplayer;
-	int		yplayer;
-
 	float	distance_to_wall;
 	float	correct_distance_to_wall;
 	float	distance_from_player_to_projected_plane;
 	float	actual_wall_height;
 	float	projected_wall_height;
 
+	// calculate length of a wall which will be rendered
+	distance_to_wall = raycast(vars, vars->ray.ray_angle,
+		vars->player.xplayer, vars->player.yplayer);
+	correct_distance_to_wall = distance_to_wall
+		* cos(vars->ray.ray_angle - vars->player.rotation_angle);
+	distance_from_player_to_projected_plane = (float)(WINDOW_WIDTH / 2)
+		/ (tan(((float)FOV / (float)180 * PI) / (float)2));
+	actual_wall_height = TILE_SIZE;
+	projected_wall_height = actual_wall_height / correct_distance_to_wall
+		* distance_from_player_to_projected_plane;
+	return (projected_wall_height);
+}
+
+void	render_field_of_view(t_vars *vars)
+{
+	int		i;
+	float	projected_wall_height;
+
 	i = 0;
-	xplayer = vars->player.x * 50 + (TILE_SIZE / 2);
-	yplayer = vars->player.y * 50 + (TILE_SIZE / 2);
+	vars->player.xplayer = vars->player.x * 50 + (TILE_SIZE / 2);
+	vars->player.yplayer = vars->player.y * 50 + (TILE_SIZE / 2);
 	vars->ray.ray_angle = vars->player.rotation_angle
 		- (((float)FOV / (float)180 * PI) / 2);
 	vars->ray.delta_angle = (((float)FOV / (float)180) * PI) / WINDOW_WIDTH;
 	while (i < WINDOW_WIDTH)
 	{
-		// calculate length of a wall which will be rendered
-		distance_to_wall = raycast(vars, vars->ray.ray_angle, xplayer, yplayer);
-		correct_distance_to_wall = distance_to_wall
-			* cos(vars->ray.ray_angle - vars->player.rotation_angle);
-		distance_from_player_to_projected_plane = (float)(WINDOW_WIDTH / 2)
-			/ (tan(((float)FOV / (float)180 * PI) / (float)2));
-		actual_wall_height = TILE_SIZE;
-		projected_wall_height = actual_wall_height / correct_distance_to_wall
-			* distance_from_player_to_projected_plane;
+		projected_wall_height = calc_projected_wall_height(vars);
 
 		// select which cell will be printed
 		int	texture_x = 0;

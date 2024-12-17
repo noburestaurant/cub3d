@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 03:20:27 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 04:26:32 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ typedef struct s_player
 	char	ort;
 	float	rotation_angle;
 	float	walk_direction;
-	int		x;
-	int		y;
+	int		xplayer; // window coordinate
+	int		yplayer; // window coordinate
+	int		x; // map index
+	int		y; // map index
 }	t_player;
 
 typedef struct s_ray

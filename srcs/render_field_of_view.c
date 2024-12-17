@@ -277,18 +277,18 @@ void	render_field_of_view(t_vars *vars)
 			WINDOW_WIDTH - i,
 			(WINDOW_HEIGHT / 2) + (projected_wall_height / 2));
 
-		// // select which cell will be printed
-		// int	texture_x = 0;
-		// int	texture_y = 0;
-		// int	texture_height = TILE_SIZE;
-		// int	texture_width = TILE_SIZE;
+		// select which cell will be printed
+		int	texture_x = 0;
+		int	texture_y = 0;
+		int	texture_height = TILE_SIZE;
+		int	texture_width = TILE_SIZE;
 		// int	print_north_texture; // ? 1 : 0
 		// int	print_south_texture; // ? 1 : 0
 		// int	print_east_texture; // ? 1 : 0
 		// int	print_west_texture; // ? 1 : 0
-		// int	color_offset;
-		// int	color;
-		// int	j = 0;
+		int	color_offset;
+		int	color;
+		int	j = 0;
 		// if (print_north_texture)
 		// 	texture_x = vars->ray.wall_hit_x % TILE_SIZE;
 		// if (print_south_texture)
@@ -297,15 +297,19 @@ void	render_field_of_view(t_vars *vars)
 		// 	texture_x = vars->ray.wall_hit_y % TILE_SIZE;
 		// if (print_west_texture)
 		// 	texture_x = TILE_SIZE - (vars->ray.wall_hit_y % TILE_SIZE);
-		// while (j < projected_wall_height)
-		// {
-		// 	texture_y = i * texture_height / projected_wall_height;
-		// 	color_offset = texture_y * texture_width + texture_x;
-		// 	color = *(int *)(addr + color_offset);
-		// 	mlx_pixel_put(vars->mlx,
-		// 		vars->win, i, WINDOW_HEIGHT / 2 - j, color);
-		// 	j++;
-		// }
+		texture_x = vars->ray.wall_hit_y % TILE_SIZE; // sample
+		while (j < projected_wall_height)
+		{
+			texture_y = i * texture_height / projected_wall_height;
+			// color_offset = texture_y * texture_width + (texture_x * vars->textures->texture_east.bits_per_pixel);
+			color_offset = texture_y * vars->textures->texture_east.line_length
+				+ texture_x * (vars->textures->texture_east.bits_per_pixel / 8);
+			// color = *(int *)(addr + color_offset);
+			color = *(int *)(vars->textures->texture_east.addr + color_offset); // sample
+			mlx_pixel_put(vars->mlx,
+				vars->win, i, WINDOW_HEIGHT / 2 - j, color);
+			j++;
+		}
 
 		vars->ray.ray_angle += vars->ray.delta_angle;
 		i++;

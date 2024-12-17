@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/17 17:56:49 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:30:28 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,38 @@ void	get_img(t_vars *vars)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
 	
 	// malloc texture variable
-	vars->texture = (t_texture *)malloc(sizeof(t_texture) * 1);
-	if (vars->texture == NULL)
+	vars->textures = (t_texture_list *)malloc(sizeof(t_texture_list) * 1);
+	if (vars->textures == NULL)
 		exit(1); // Error
 	// convert img to addr
-	vars->texture->texture_north = mlx_get_data
-		(vars->img_player->north, , , );
-	
+	vars->textures->texture_north.addr = mlx_get_data_addr(
+		vars->img_player->north,
+		&(vars->textures->texture_north.bits_per_pixel),
+		&(vars->textures->texture_north.line_length),
+		&(vars->textures->texture_north.endian));
+	if (vars->textures->texture_north.addr == NULL) // search what is retured when mlx_get_data_addr occurs Error
+		exit(1);
+	vars->textures->texture_south.addr = mlx_get_data_addr(
+		vars->img_player->south,
+		&(vars->textures->texture_south.bits_per_pixel),
+		&(vars->textures->texture_south.line_length),
+		&(vars->textures->texture_south.endian));
+	if (vars->textures->texture_south.addr == NULL) // search what is retured when mlx_get_data_addr occurs Error
+		exit(1);
+	vars->textures->texture_east.addr = mlx_get_data_addr(
+		vars->img_player->east,
+		&(vars->textures->texture_east.bits_per_pixel),
+		&(vars->textures->texture_east.line_length),
+		&(vars->textures->texture_east.endian));
+	if (vars->textures->texture_east.addr == NULL) // search what is retured when mlx_get_data_addr occurs Error
+		exit(1);
+	vars->textures->texture_west.addr = mlx_get_data_addr(
+		vars->img_player->west,
+		&(vars->textures->texture_west.bits_per_pixel),
+		&(vars->textures->texture_west.line_length),
+		&(vars->textures->texture_west.endian));
+	if (vars->textures->texture_west.addr == NULL) // search what is retured when mlx_get_data_addr occurs Error
+		exit(1);
 
 	vars->img_player->current = vars->img_player->n;
 }

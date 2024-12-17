@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:04:04 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/17 21:41:41 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 01:17:51 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	update_map(t_vars *vars, int x_before, int y_before)
 	vars->map[vars->player.y][vars->player.x] = vars->player.ort;
 	if (vars->move_count < INT_MAX)
 		vars->move_count++;
-
 	mlx_clear_window(vars->mlx, vars->win);
+
 	// render map, player position, and rays
 	render_map(vars);
 	print_player(vars);
@@ -70,13 +70,11 @@ int	key_hook(int keycode, t_vars *vars)
 			vars->player.x--;
 		else if (is_equal(normalize_angle(vars->player.walk_direction), (PI * 3 / 2)))
 			vars->player.y++;
-		// printf("walk direction = %.2f\n", vars->player.walk_direction / PI);
 	}
 	else if (keycode == RIGHT)
 		vars->player.rotation_angle -= (PI / 2);
 	else if (keycode == LEFT)
 		vars->player.rotation_angle += (PI / 2);
-	// printf("rotation angle = %.2f\n", vars->player.rotation_angle / PI);
 	if (check_possible_to_move(vars))
 		update_map(vars, x_before, y_before);
 	else

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 05:30:22 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 05:52:12 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ float	calc_projected_wall_height(t_vars *vars)
 	float	actual_wall_height;
 	float	projected_wall_height;
 
-	// calculate length of a wall which will be rendered
 	distance_to_wall = raycast(vars, vars->ray.ray_angle,
-		vars->player.xplayer, vars->player.yplayer);
+			vars->player.xplayer, vars->player.yplayer);
 	correct_distance_to_wall = distance_to_wall
 		* cos(vars->ray.ray_angle - vars->player.rotation_angle);
 	distance_from_player_to_projected_plane = (float)(WINDOW_WIDTH / 2)
@@ -37,44 +36,63 @@ void	get_rendering_wall_direction(t_vars *vars)
 {
 	if (vars->ray.wall_hit_y % TILE_SIZE == 0)
 	{
-		if (vars->player.y * TILE_SIZE > (int)vars->ray.wall_hit_y) // north
+		if (vars->player.y * TILE_SIZE > (int)vars->ray.wall_hit_y)
 			vars->render_info.wall_direction = 1;
-		else // south
+		else
 			vars->render_info.wall_direction = 2;
 	}
 	if (vars->ray.wall_hit_x % TILE_SIZE == 0)
 	{
-		if (vars->player.x * TILE_SIZE < (int)vars->ray.wall_hit_x) // east
+		if (vars->player.x * TILE_SIZE < (int)vars->ray.wall_hit_x)
 			vars->render_info.wall_direction = 3;
-		else // west
+		else
 			vars->render_info.wall_direction = 4;
 	}
 }
 
 void	choose_rendering_wall_texture(t_vars *vars)
 {
-	if (vars->render_info.wall_direction == 1) // north
+	if (vars->render_info.wall_direction == 1)
 	{
 		vars->render_info.texture_x = vars->ray.wall_hit_x % TILE_SIZE;
 		vars->render_info.rendering_wall = &(vars->textures->texture_north);
 	}
-	else if (vars->render_info.wall_direction == 2) // south
+	else if (vars->render_info.wall_direction == 2)
 	{
 		vars->render_info.texture_x = TILE_SIZE
 			- (vars->ray.wall_hit_x % TILE_SIZE);
 		vars->render_info.rendering_wall = &(vars->textures->texture_south);
 	}
-	else if (vars->render_info.wall_direction == 3) // east
+	else if (vars->render_info.wall_direction == 3)
 	{
 		vars->render_info.texture_x = vars->ray.wall_hit_y % TILE_SIZE;
 		vars->render_info.rendering_wall = &(vars->textures->texture_east);
 	}
-	else if (vars->render_info.wall_direction == 4) // west
+	else if (vars->render_info.wall_direction == 4)
 	{
 		vars->render_info.texture_x = TILE_SIZE
 			- (vars->ray.wall_hit_y % TILE_SIZE);
 		vars->render_info.rendering_wall = &(vars->textures->texture_west);
 	}
+}
+
+void	get_pixel_color_and_render_it(t_vars *vars, int projected_wall_height,
+	int i, int j)
+{
+	vars->render_info.texture_y = j
+		* (vars->render_info.texture_height / projected_wall_height);
+	vars->render_info.color_offset = vars->render_info.texture_y
+		* vars->render_info.rendering_wall->line_length
+		+ (vars->render_info.rendering_wall->line_length
+			- (vars->render_info.texture_x
+				* (vars->render_info.rendering_wall->bits_per_pixel / 8)));
+	vars->render_info.color = *(int *)(vars->render_info.rendering_wall->addr
+			+ vars->render_info.color_offset);
+	mlx_pixel_put(vars->mlx,
+		vars->win,
+		i,
+		vars->render_info.start_y + j,
+		vars->render_info.color);
 }
 
 void	render_field_of_view(t_vars *vars)
@@ -94,28 +112,18 @@ void	render_field_of_view(t_vars *vars)
 		projected_wall_height = calc_projected_wall_height(vars);
 		vars->render_info.texture_x = 0;
 		vars->render_info.texture_y = 0;
-		vars->render_info.texture_height = TILE_SIZE; // ホントはget_imgしたときの変数を使う
+		vars->render_info.texture_height = TILE_SIZE;
 		vars->render_info.wall_direction = 0;
+		vars->render_info.start_y = (WINDOW_HEIGHT / 2)
+			- (projected_wall_height / 2);
 		j = 0;
 		get_rendering_wall_direction(vars);
 		choose_rendering_wall_texture(vars);
-
-		// calclate printing color and render it
-		int	wall_start_y = (WINDOW_HEIGHT / 2) - (projected_wall_height / 2);
 		while (j < projected_wall_height)
 		{
-			vars->render_info.texture_y = j * vars->render_info.texture_height / projected_wall_height;
-			vars->render_info.color_offset = vars->render_info.texture_y * vars->render_info.rendering_wall->line_length
-				+ (vars->render_info.rendering_wall->line_length - (vars->render_info.texture_x * (vars->render_info.rendering_wall->bits_per_pixel / 8)));
-			vars->render_info.color = *(int *)(vars->render_info.rendering_wall->addr + vars->render_info.color_offset);
-			mlx_pixel_put(vars->mlx,
-				vars->win,
-				i,
-				wall_start_y + j,
-				vars->render_info.color);
+			get_pixel_color_and_render_it(vars, projected_wall_height, i, j);
 			j++;
 		}
-
 		vars->ray.ray_angle += vars->ray.delta_angle;
 		i++;
 	}
@@ -159,6 +167,8 @@ void	render_field_of_view(t_vars *vars)
 // 多分壁をレンダリングする位置を間違えてる // resolve
 // 壁が近いと南北が逆になる
 // 横の移動が正常の方向とは逆の方向になっている
+// xpm file の height と width を指定するか、しないか
+// 	vars->render_info.texture_height = TILE_SIZE ?
 
 // memo
 // 	line_length = 200 (probry 50 * sizeof(int))

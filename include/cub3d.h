@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 04:26:32 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 04:42:02 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,6 @@ typedef struct s_ray
 	int		wall_hit_y;
 }	t_ray;
 
-// typedef struct s_texture
-// {
-// 	char	*texture_north;
-// 	char	*texture_south;
-// 	char	*texture_east;
-// 	char	*texture_west;
-// }	t_texture;
-
 typedef struct s_texture
 {
 	char	*addr;
@@ -114,7 +106,6 @@ typedef struct s_vars
 	int				width;
 	int				height;
 	t_player		player;
-	// t_ray			*rays;
 	t_ray			ray;
 	int				move_count;
 }	t_vars;

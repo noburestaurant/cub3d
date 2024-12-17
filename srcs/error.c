@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:01:16 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 16:56:31 by retanaka         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:50:06 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,5 @@ void	free_img(t_vars *vars)
 			mlx_destroy_image(vars->mlx, vars->img_renga);
 		if (vars->img_grass != NULL)
 			mlx_destroy_image(vars->mlx, vars->img_grass);
-		if (vars->img_player->n != NULL)
-			mlx_destroy_image(vars->mlx, vars->img_player->n);
-		if (vars->img_player->s != NULL)
-			mlx_destroy_image(vars->mlx, vars->img_player->s);
-		if (vars->img_player->e != NULL)
-			mlx_destroy_image(vars->mlx, vars->img_player->e);
-		if (vars->img_player->w != NULL)
-			mlx_destroy_image(vars->mlx, vars->img_player->w);
 	}
 }

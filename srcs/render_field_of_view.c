@@ -281,14 +281,16 @@ void	render_field_of_view(t_vars *vars)
 		int	texture_x = 0;
 		int	texture_y = 0;
 		int	texture_height = TILE_SIZE;
-		int	texture_width = TILE_SIZE;
+		// int	texture_width = TILE_SIZE;
+		int	color_offset;
+		int	color;
+		int	j = 0;
+
 		// int	print_north_texture; // ? 1 : 0
 		// int	print_south_texture; // ? 1 : 0
 		// int	print_east_texture; // ? 1 : 0
 		// int	print_west_texture; // ? 1 : 0
-		int	color_offset;
-		int	color;
-		int	j = 0;
+
 		// if (print_north_texture)
 		// 	texture_x = vars->ray.wall_hit_x % TILE_SIZE;
 		// if (print_south_texture)
@@ -297,7 +299,9 @@ void	render_field_of_view(t_vars *vars)
 		// 	texture_x = vars->ray.wall_hit_y % TILE_SIZE;
 		// if (print_west_texture)
 		// 	texture_x = TILE_SIZE - (vars->ray.wall_hit_y % TILE_SIZE);
+
 		texture_x = vars->ray.wall_hit_y % TILE_SIZE; // sample
+
 		while (j < projected_wall_height)
 		{
 			texture_y = i * texture_height / projected_wall_height;

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/17 19:30:28 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:50:44 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,41 +65,25 @@ void	get_img(t_vars *vars)
 			&(vars->img_width), &(vars->img_height));
 	if (vars->img_grass == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_player->n = mlx_xpm_file_to_image(vars->mlx, "./img/player_n.xpm",
-			&(vars->img_width), &(vars->img_height));
-	if (vars->img_player->n == NULL)
-		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_player->s = mlx_xpm_file_to_image(vars->mlx, "./img/player_s.xpm",
-			&(vars->img_width), &(vars->img_height));
-	if (vars->img_player->s == NULL)
-		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_player->e = mlx_xpm_file_to_image(vars->mlx, "./img/player_e.xpm",
-			&(vars->img_width), &(vars->img_height));
-	if (vars->img_player->e == NULL)
-		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_player->w = mlx_xpm_file_to_image(vars->mlx, "./img/player_w.xpm",
-			&(vars->img_width), &(vars->img_height));
-	if (vars->img_player->w == NULL)
-		error_message_and_free(vars, "Unexpected error: mlx", 1);
 
 	// get images of wall texture
-	vars->img_player->north = mlx_xpm_file_to_image(vars->mlx, "./img/north",
+	vars->img_player->north = mlx_xpm_file_to_image(vars->mlx, "./img/north.xpm",
 			&(vars->img_width), &(vars->img_height));
 	if (vars->img_player->north == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_player->south = mlx_xpm_file_to_image(vars->mlx, "./img/south",
+	vars->img_player->south = mlx_xpm_file_to_image(vars->mlx, "./img/south.xpm",
 			&(vars->img_width), &(vars->img_height));
 	if (vars->img_player->south == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_player->east = mlx_xpm_file_to_image(vars->mlx, "./img/east",
+	vars->img_player->east = mlx_xpm_file_to_image(vars->mlx, "./img/east.xpm",
 			&(vars->img_width), &(vars->img_height));
 	if (vars->img_player->east == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	vars->img_player->west = mlx_xpm_file_to_image(vars->mlx, "./img/west",
+	vars->img_player->west = mlx_xpm_file_to_image(vars->mlx, "./img/west.xpm",
 			&(vars->img_width), &(vars->img_height));
 	if (vars->img_player->west == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
-	
+
 	// malloc texture variable
 	vars->textures = (t_texture_list *)malloc(sizeof(t_texture_list) * 1);
 	if (vars->textures == NULL)
@@ -133,8 +117,6 @@ void	get_img(t_vars *vars)
 		&(vars->textures->texture_west.endian));
 	if (vars->textures->texture_west.addr == NULL) // search what is retured when mlx_get_data_addr occurs Error
 		exit(1);
-
-	vars->img_player->current = vars->img_player->n;
 }
 
 void	init_vars(t_vars *vars)
@@ -146,10 +128,6 @@ void	init_vars(t_vars *vars)
 	vars->img_player = calloc(1, sizeof(t_vars) * 1);
 	if (vars->img_player == NULL)
 		exit (1); // error
-	vars->img_player->n = NULL;
-	vars->img_player->s = NULL;
-	vars->img_player->e = NULL;
-	vars->img_player->w = NULL;
 	vars->map = NULL;
 }
 

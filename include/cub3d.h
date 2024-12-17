@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/17 19:18:45 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:51:07 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,6 @@ typedef struct s_img_player
 	void	*south;
 	void	*east;
 	void	*west;
-	void	*n;
-	void	*s;
-	void	*e;
-	void	*w;
-	void	*current; // delete
 }	t_img_player;
 
 typedef struct s_vars

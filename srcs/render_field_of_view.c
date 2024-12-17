@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 03:09:09 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 03:09:39 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,7 @@ void	render_field_of_view(t_vars *vars)
 // get to know how to use the mlx_get_data_addr function
 // calculate the direction of printing wall // ok
 // delete unnecessary code and comment // ok
-// render floor and ceiling
+// render floor and ceiling // ok
 // support norm
 // add member of each structure
 // delete unnecessary variable and member of strcuture

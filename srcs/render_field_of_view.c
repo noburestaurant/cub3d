@@ -234,11 +234,15 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 // 	{
 // 		int	hoge;
 // 	}	t_texture;
-// 	resolve a problem "wall_hit_x, wall_hit_y"
-//	calculate direction of printed texture
-//	get data of texture of each direction
-//	get to know how to use the mlx_get_data_addr function
-//	calculate the direction of printing wall // next
+// resolve a problem "wall_hit_x, wall_hit_y"
+// calculate direction of printed texture
+// get data of texture of each direction
+// get to know how to use the mlx_get_data_addr function
+// calculate the direction of printing wall // ok
+// delete unnecessary code and comment
+// render floor and ceiling
+// support norm
+// support minimap
 
 // issue
 // 多分壁をレンダリングする位置を間違えてる

@@ -246,6 +246,7 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 
 // issue
 // 多分壁をレンダリングする位置を間違えてる
+// 壁が近いと南北が逆になる
 
 void	render_field_of_view(t_vars *vars)
 {

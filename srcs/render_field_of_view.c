@@ -238,6 +238,10 @@ int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 //	calculate direction of printed texture
 //	get data of texture of each direction
 //	get to know how to use the mlx_get_data_addr function
+//	calculate the direction of printing wall // next
+
+// issue
+// 多分壁をレンダリングする位置を間違えてる
 
 void	render_field_of_view(t_vars *vars)
 {
@@ -271,16 +275,16 @@ void	render_field_of_view(t_vars *vars)
 		projected_wall_height = actual_wall_height / correct_distance_to_wall
 			* distance_from_player_to_projected_plane;
 		// render a wall where col is i
-		line(vars,
-			WINDOW_WIDTH - i,
-			(WINDOW_HEIGHT / 2) - (projected_wall_height / 2),
-			WINDOW_WIDTH - i,
-			(WINDOW_HEIGHT / 2) + (projected_wall_height / 2));
+		// line(vars,
+		// 	WINDOW_WIDTH - i,
+		// 	(WINDOW_HEIGHT / 2) - (projected_wall_height / 2),
+		// 	WINDOW_WIDTH - i,
+		// 	(WINDOW_HEIGHT / 2) + (projected_wall_height / 2));
 
 		// select which cell will be printed
 		int	texture_x = 0;
 		int	texture_y = 0;
-		int	texture_height = TILE_SIZE;
+		int	texture_height = TILE_SIZE; // ホントはget_imgしたときの変数を使う
 		// int	texture_width = TILE_SIZE;
 		int	color_offset;
 		int	color;
@@ -300,18 +304,103 @@ void	render_field_of_view(t_vars *vars)
 		// if (print_west_texture)
 		// 	texture_x = TILE_SIZE - (vars->ray.wall_hit_y % TILE_SIZE);
 
-		texture_x = vars->ray.wall_hit_y % TILE_SIZE; // sample
+		// calculate printing wall direction
+		int	wall_direction = 0;
+		// if (vars->ray.wall_hit_y % TILE_SIZE == 0)
+		// {
+		// 	if (vars->player.x < (int)vars->ray.wall_hit_x)
+		// 		wall_direction = 2;
+		// 	else
+		// 		wall_direction = 3;
+		// }
+		// if (vars->ray.wall_hit_x % TILE_SIZE == 0)
+		// {
+		// 	if (vars->player.y > (int)vars->ray.wall_hit_y)
+		// 		wall_direction = 0;
+		// 	else
+		// 		wall_direction = 1;
+		// }
+		if (vars->ray.wall_hit_y % TILE_SIZE == 0)
+		{
+			if (vars->player.y > (int)vars->ray.wall_hit_y) // north
+			{
+				printf("is north\n");
+				wall_direction = 0;
+			}
+			else // south
+			{
+				printf("is south\n");
+				wall_direction = 1;
+			}
+		}
+		if (vars->ray.wall_hit_x % TILE_SIZE == 0)
+		{
+			// printf("vars->ray.wall_hit_x = %d\n", vars->ray.wall_hit_x);
+			if (vars->player.x < (int)vars->ray.wall_hit_x) // east
+			{
+				printf("is east\n");
+				wall_direction = 2;
+			}
+			else // west
+			{
+				printf("is west\n");
+				wall_direction = 3;
+			}
+		}
+
+		// choose printing wall texture
+		t_texture	*draw_wall;
+		if (wall_direction == 0) // north
+		{
+			texture_x = vars->ray.wall_hit_x % TILE_SIZE;
+			draw_wall = &(vars->textures->texture_north);
+		}
+		else if (wall_direction == 1) // south
+		{
+			texture_x = TILE_SIZE - (vars->ray.wall_hit_x % TILE_SIZE);
+			draw_wall = &(vars->textures->texture_south);
+		}
+		else if (wall_direction == 2) // east
+		{
+			texture_x = vars->ray.wall_hit_y % TILE_SIZE;
+			// printf("%d %% %d = %d\n", vars->ray.wall_hit_y, TILE_SIZE, texture_x);
+			draw_wall = &(vars->textures->texture_east);
+		}
+		else if (wall_direction == 3) // west
+		{
+			texture_x = TILE_SIZE - (vars->ray.wall_hit_y % TILE_SIZE);
+			draw_wall = &(vars->textures->texture_west);
+		}
+		else
+		{
+			write(2, "Error\n", 6);
+			exit(1);
+		}
+
+		printf("texture_x = %d\n", texture_x);
+		printf("wall_direction = %d\n", wall_direction);
+		// printf(" = %d\n", );
+
+		int	wall_start_y = (WINDOW_HEIGHT / 2) - (projected_wall_height / 2);
 
 		while (j < projected_wall_height)
 		{
-			texture_y = i * texture_height / projected_wall_height;
+			texture_y = j * texture_height / projected_wall_height;
 			// color_offset = texture_y * texture_width + (texture_x * vars->textures->texture_east.bits_per_pixel);
 			color_offset = texture_y * vars->textures->texture_east.line_length
 				+ texture_x * (vars->textures->texture_east.bits_per_pixel / 8);
 			// color = *(int *)(addr + color_offset);
-			color = *(int *)(vars->textures->texture_east.addr + color_offset); // sample
+			color = *(int *)(draw_wall->addr + color_offset); // sample
+			// mlx_pixel_put(vars->mlx, // maybe wrong
+			// 	vars->win,
+			// 	i,
+			// 	WINDOW_HEIGHT / 2 - j,
+			// 	color);
 			mlx_pixel_put(vars->mlx,
-				vars->win, i, WINDOW_HEIGHT / 2 - j, color);
+				vars->win,
+				i,
+				wall_start_y + j,
+				color);
 			j++;
 		}
 
@@ -319,3 +408,7 @@ void	render_field_of_view(t_vars *vars)
 		i++;
 	}
 }
+
+// memo
+// 	line_length = 200 (probry 50 * sizeof(int))
+// 	bits_per_pixel = 32

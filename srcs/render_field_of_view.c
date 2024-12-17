@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 05:52:12 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 06:34:46 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,16 @@ void	get_pixel_color_and_render_it(t_vars *vars, int projected_wall_height,
 		vars->render_info.color);
 }
 
+void	init_render_info(t_vars *vars, float projected_wall_height)
+{
+	vars->render_info.texture_x = 0;
+	vars->render_info.texture_y = 0;
+	vars->render_info.texture_height = TILE_SIZE;
+	vars->render_info.wall_direction = 0;
+	vars->render_info.start_y = (WINDOW_HEIGHT / 2)
+		- (projected_wall_height / 2);
+}
+
 void	render_field_of_view(t_vars *vars)
 {
 	int		i;
@@ -110,12 +120,7 @@ void	render_field_of_view(t_vars *vars)
 	while (i < WINDOW_WIDTH)
 	{
 		projected_wall_height = calc_projected_wall_height(vars);
-		vars->render_info.texture_x = 0;
-		vars->render_info.texture_y = 0;
-		vars->render_info.texture_height = TILE_SIZE;
-		vars->render_info.wall_direction = 0;
-		vars->render_info.start_y = (WINDOW_HEIGHT / 2)
-			- (projected_wall_height / 2);
+		init_render_info(vars, projected_wall_height);
 		j = 0;
 		get_rendering_wall_direction(vars);
 		choose_rendering_wall_texture(vars);

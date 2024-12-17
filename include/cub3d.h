@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 05:32:16 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 06:16:42 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef struct s_texture_list
 	t_texture	texture_east;
 	t_texture	texture_west;
 }	t_texture_list;
-
 
 typedef struct s_img_player
 {

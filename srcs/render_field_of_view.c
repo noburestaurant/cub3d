@@ -96,7 +96,7 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 		{
 			vars->ray.found_horz_wall = 1;
 			vars->ray.horz_wall_hit_x = next_horizontal_touch_x;
-			vars->ray.horz_wall_hit_y = next_horizontal_touch_y - (is_ray_facing_up(ray_angle));
+			vars->ray.horz_wall_hit_y = next_horizontal_touch_y;
 			break ;
 		}
 		else
@@ -153,7 +153,7 @@ float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 		if (has_wall_at(vars, next_vertical_touch_x - (is_ray_facing_left(ray_angle)), next_vertical_touch_y))
 		{
 			vars->ray.found_vert_wall = 1;
-			vars->ray.vert_wall_hit_x = next_vertical_touch_x - (is_ray_facing_left(ray_angle));
+			vars->ray.vert_wall_hit_x = next_vertical_touch_x;
 			vars->ray.vert_wall_hit_y = next_vertical_touch_y;
 			break ;
 		}
@@ -322,7 +322,9 @@ void	render_field_of_view(t_vars *vars)
 		// }
 		if (vars->ray.wall_hit_y % TILE_SIZE == 0)
 		{
-			if (vars->player.y > (int)vars->ray.wall_hit_y) // north
+			printf("vars->player.y = %d, (int)vars->ray.wall_hit_y = %d\n",
+				vars->player.y * TILE_SIZE, (int)vars->ray.wall_hit_y);
+			if (vars->player.y * TILE_SIZE > (int)vars->ray.wall_hit_y) // north // player.y is mapindex so it should be (player.y * TILE_SIZE)
 			{
 				printf("is north\n");
 				wall_direction = 0;
@@ -336,7 +338,7 @@ void	render_field_of_view(t_vars *vars)
 		if (vars->ray.wall_hit_x % TILE_SIZE == 0)
 		{
 			// printf("vars->ray.wall_hit_x = %d\n", vars->ray.wall_hit_x);
-			if (vars->player.x < (int)vars->ray.wall_hit_x) // east
+			if (vars->player.x * TILE_SIZE < (int)vars->ray.wall_hit_x) // east
 			{
 				printf("is east\n");
 				wall_direction = 2;
@@ -386,9 +388,10 @@ void	render_field_of_view(t_vars *vars)
 		while (j < projected_wall_height)
 		{
 			texture_y = j * texture_height / projected_wall_height;
-			// color_offset = texture_y * texture_width + (texture_x * vars->textures->texture_east.bits_per_pixel);
-			color_offset = texture_y * vars->textures->texture_east.line_length
-				+ texture_x * (vars->textures->texture_east.bits_per_pixel / 8);
+			// color_offset = texture_y * vars->textures->texture_east.line_length
+			// 	+ (texture_x * (vars->textures->texture_east.bits_per_pixel / 8));
+			color_offset = texture_y * draw_wall->line_length
+				+ (draw_wall->line_length - (texture_x * (draw_wall->bits_per_pixel / 8)));
 			// color = *(int *)(addr + color_offset);
 			color = *(int *)(draw_wall->addr + color_offset); // sample
 			// mlx_pixel_put(vars->mlx, // maybe wrong

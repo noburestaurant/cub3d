@@ -31,6 +31,7 @@ $(addsuffix .c, \
 		render_map \
 		render_ray \
 		render_field_of_view \
+		render_field_of_view_utils \
 		render_floor_and_ceiling \
 		ray_utils \
 		raycast \

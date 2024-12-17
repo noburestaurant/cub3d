@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 07:48:23 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 07:56:30 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,6 @@ void	get_pixel_color_and_render_it(t_vars *vars, float projected_wall_height,
 		i,
 		vars->render_info.start_y + j,
 		vars->render_info.color);
-}
-
-void	init_render_info(t_vars *vars, float projected_wall_height)
-{
-	vars->render_info.texture_x = 0;
-	vars->render_info.texture_y = 0;
-	vars->render_info.texture_height = TILE_SIZE;
-	vars->render_info.wall_direction = 0;
-	vars->render_info.start_y = (WINDOW_HEIGHT / 2)
-		- (projected_wall_height / 2);
 }
 
 void	render_field_of_view(t_vars *vars)

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 06:34:46 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 07:48:23 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	choose_rendering_wall_texture(t_vars *vars)
 	}
 }
 
-void	get_pixel_color_and_render_it(t_vars *vars, int projected_wall_height,
+void	get_pixel_color_and_render_it(t_vars *vars, float projected_wall_height,
 	int i, int j)
 {
 	vars->render_info.texture_y = j

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/16 23:55:22 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:56:49 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,34 @@ void	get_img(t_vars *vars)
 			&(vars->img_width), &(vars->img_height));
 	if (vars->img_player->w == NULL)
 		error_message_and_free(vars, "Unexpected error: mlx", 1);
+
+	// get images of wall texture
+	vars->img_player->north = mlx_xpm_file_to_image(vars->mlx, "./img/north",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_player->north == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	vars->img_player->south = mlx_xpm_file_to_image(vars->mlx, "./img/south",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_player->south == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	vars->img_player->east = mlx_xpm_file_to_image(vars->mlx, "./img/east",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_player->east == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	vars->img_player->west = mlx_xpm_file_to_image(vars->mlx, "./img/west",
+			&(vars->img_width), &(vars->img_height));
+	if (vars->img_player->west == NULL)
+		error_message_and_free(vars, "Unexpected error: mlx", 1);
+	
+	// malloc texture variable
+	vars->texture = (t_texture *)malloc(sizeof(t_texture) * 1);
+	if (vars->texture == NULL)
+		exit(1); // Error
+	// convert img to addr
+	vars->texture->texture_north = mlx_get_data
+		(vars->img_player->north, , , );
+	
+
 	vars->img_player->current = vars->img_player->n;
 }
 

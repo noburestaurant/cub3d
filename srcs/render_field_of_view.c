@@ -278,7 +278,6 @@ void	render_field_of_view(t_vars *vars)
 			(WINDOW_HEIGHT / 2) + (projected_wall_height / 2));
 
 		// // select which cell will be printed
-		// int	i = 0;
 		// int	texture_x = 0;
 		// int	texture_y = 0;
 		// int	texture_height = TILE_SIZE;
@@ -289,22 +288,23 @@ void	render_field_of_view(t_vars *vars)
 		// int	print_west_texture; // ? 1 : 0
 		// int	color_offset;
 		// int	color;
+		// int	j = 0;
 		// if (print_north_texture)
-		// 	texture_x = wall_hit_x % TILE_SIZE;
+		// 	texture_x = vars->ray.wall_hit_x % TILE_SIZE;
 		// if (print_south_texture)
-		// 	texture_x = TILE_SIZE - (wall_hit_x % TILE_SIZE);
+		// 	texture_x = TILE_SIZE - (vars->ray.wall_hit_x % TILE_SIZE);
 		// if (print_east_texture)
-		// 	texture_x = wall_hit_y % TILE_SIZE;
+		// 	texture_x = vars->ray.wall_hit_y % TILE_SIZE;
 		// if (print_west_texture)
-		// 	texture_x = TILE_SIZE - (wall_hit_y % TILE_SIZE);
+		// 	texture_x = TILE_SIZE - (vars->ray.wall_hit_y % TILE_SIZE);
 		// while (j < projected_wall_height)
 		// {
 		// 	texture_y = i * texture_height / projected_wall_height;
-		// 	color_offset = texture_y * line_lenght + texture_x;
+		// 	color_offset = texture_y * texture_width + texture_x;
 		// 	color = *(int *)(addr + color_offset);
 		// 	mlx_pixel_put(vars->mlx,
 		// 		vars->win, i, WINDOW_HEIGHT / 2 - j, color);
-		// 	i++;
+		// 	j++;
 		// }
 
 		vars->ray.ray_angle += vars->ray.delta_angle;

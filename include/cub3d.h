@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/17 01:40:25 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:52:28 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,25 @@ typedef struct s_ray
 	int		wall_hit_y;
 }	t_ray;
 
-// typedef struct s_texture
-// {
-// 	int	*texture_north;
-// 	int	*texture_south;
-// 	int	*texture_east;
-// 	int	*texture_west;
-// }	t_texture;
+typedef struct s_texture
+{
+	char	*texture_north;
+	char	*texture_south;
+	char	*texture_east;
+	char	*texture_west;
+}	t_texture;
 
 typedef struct s_img_player
 {
-	void	*s;
+	void	*north;
+	void	*south;
+	void	*east;
+	void	*west;
 	void	*n;
-	void	*w;
+	void	*s;
 	void	*e;
-	void	*current;
+	void	*w;
+	void	*current; // delete
 }	t_img_player;
 
 typedef struct s_vars
@@ -89,6 +93,7 @@ typedef struct s_vars
 	void			*img_goal;
 	void			*img_coin;
 	t_img_player	*img_player;
+	t_texture		*texture;
 	int				img_width;
 	int				img_height;
 	char			**map;

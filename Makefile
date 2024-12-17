@@ -31,6 +31,7 @@ $(addsuffix .c, \
 		render_map \
 		render_ray \
 		render_field_of_view \
+		render_floor_and_ceiling \
 		utils \
 		valid_path \
 	) \

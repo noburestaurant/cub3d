@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 01:47:35 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 03:09:09 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,6 +341,7 @@ void	render_field_of_view(t_vars *vars)
 // issue
 // 多分壁をレンダリングする位置を間違えてる // resolve
 // 壁が近いと南北が逆になる
+// 横の移動が正常の方向とは逆の方向になっている
 
 // memo
 // 	line_length = 200 (probry 50 * sizeof(int))

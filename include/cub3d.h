@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 04:42:02 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 05:24:57 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,17 @@ typedef struct s_img_player
 	void	*west;
 }	t_img_player;
 
+typedef struct s_render_wall
+{
+	int			texture_x;
+	int			texture_y;
+	int			texture_height;
+	int			wall_direction;
+	int			color_offset;
+	int			color;
+	t_texture	*rendering_wall;
+}	t_render_wall;
+
 typedef struct s_vars
 {
 	void			*mlx;
@@ -107,6 +118,7 @@ typedef struct s_vars
 	int				height;
 	t_player		player;
 	t_ray			ray;
+	t_render_wall	render_info;
 	int				move_count;
 }	t_vars;
 

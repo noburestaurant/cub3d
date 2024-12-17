@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 04:36:32 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 05:30:22 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,54 @@ float	calc_projected_wall_height(t_vars *vars)
 	return (projected_wall_height);
 }
 
+void	get_rendering_wall_direction(t_vars *vars)
+{
+	if (vars->ray.wall_hit_y % TILE_SIZE == 0)
+	{
+		if (vars->player.y * TILE_SIZE > (int)vars->ray.wall_hit_y) // north
+			vars->render_info.wall_direction = 1;
+		else // south
+			vars->render_info.wall_direction = 2;
+	}
+	if (vars->ray.wall_hit_x % TILE_SIZE == 0)
+	{
+		if (vars->player.x * TILE_SIZE < (int)vars->ray.wall_hit_x) // east
+			vars->render_info.wall_direction = 3;
+		else // west
+			vars->render_info.wall_direction = 4;
+	}
+}
+
+void	choose_rendering_wall_texture(t_vars *vars)
+{
+	if (vars->render_info.wall_direction == 1) // north
+	{
+		vars->render_info.texture_x = vars->ray.wall_hit_x % TILE_SIZE;
+		vars->render_info.rendering_wall = &(vars->textures->texture_north);
+	}
+	else if (vars->render_info.wall_direction == 2) // south
+	{
+		vars->render_info.texture_x = TILE_SIZE
+			- (vars->ray.wall_hit_x % TILE_SIZE);
+		vars->render_info.rendering_wall = &(vars->textures->texture_south);
+	}
+	else if (vars->render_info.wall_direction == 3) // east
+	{
+		vars->render_info.texture_x = vars->ray.wall_hit_y % TILE_SIZE;
+		vars->render_info.rendering_wall = &(vars->textures->texture_east);
+	}
+	else if (vars->render_info.wall_direction == 4) // west
+	{
+		vars->render_info.texture_x = TILE_SIZE
+			- (vars->ray.wall_hit_y % TILE_SIZE);
+		vars->render_info.rendering_wall = &(vars->textures->texture_west);
+	}
+}
+
 void	render_field_of_view(t_vars *vars)
 {
 	int		i;
+	int		j;
 	float	projected_wall_height;
 
 	i = 0;
@@ -47,68 +92,27 @@ void	render_field_of_view(t_vars *vars)
 	while (i < WINDOW_WIDTH)
 	{
 		projected_wall_height = calc_projected_wall_height(vars);
-
-		// select which cell will be printed
-		int	texture_x = 0;
-		int	texture_y = 0;
-		int	texture_height = TILE_SIZE; // ホントはget_imgしたときの変数を使う
-		int	color_offset;
-		int	color;
-		int	j = 0;
-
-		// calculate printing wall direction
-		int	wall_direction = 0;
-		if (vars->ray.wall_hit_y % TILE_SIZE == 0)
-		{
-			if (vars->player.y * TILE_SIZE > (int)vars->ray.wall_hit_y) // north
-				wall_direction = 0;
-			else // south
-				wall_direction = 1;
-		}
-		if (vars->ray.wall_hit_x % TILE_SIZE == 0)
-		{
-			if (vars->player.x * TILE_SIZE < (int)vars->ray.wall_hit_x) // east
-				wall_direction = 2;
-			else // west
-				wall_direction = 3;
-		}
-
-		// choose printing wall texture
-		t_texture	*draw_wall;
-		if (wall_direction == 0) // north
-		{
-			texture_x = vars->ray.wall_hit_x % TILE_SIZE;
-			draw_wall = &(vars->textures->texture_north);
-		}
-		else if (wall_direction == 1) // south
-		{
-			texture_x = TILE_SIZE - (vars->ray.wall_hit_x % TILE_SIZE);
-			draw_wall = &(vars->textures->texture_south);
-		}
-		else if (wall_direction == 2) // east
-		{
-			texture_x = vars->ray.wall_hit_y % TILE_SIZE;
-			draw_wall = &(vars->textures->texture_east);
-		}
-		else if (wall_direction == 3) // west
-		{
-			texture_x = TILE_SIZE - (vars->ray.wall_hit_y % TILE_SIZE);
-			draw_wall = &(vars->textures->texture_west);
-		}
+		vars->render_info.texture_x = 0;
+		vars->render_info.texture_y = 0;
+		vars->render_info.texture_height = TILE_SIZE; // ホントはget_imgしたときの変数を使う
+		vars->render_info.wall_direction = 0;
+		j = 0;
+		get_rendering_wall_direction(vars);
+		choose_rendering_wall_texture(vars);
 
 		// calclate printing color and render it
 		int	wall_start_y = (WINDOW_HEIGHT / 2) - (projected_wall_height / 2);
 		while (j < projected_wall_height)
 		{
-			texture_y = j * texture_height / projected_wall_height;
-			color_offset = texture_y * draw_wall->line_length
-				+ (draw_wall->line_length - (texture_x * (draw_wall->bits_per_pixel / 8)));
-			color = *(int *)(draw_wall->addr + color_offset);
+			vars->render_info.texture_y = j * vars->render_info.texture_height / projected_wall_height;
+			vars->render_info.color_offset = vars->render_info.texture_y * vars->render_info.rendering_wall->line_length
+				+ (vars->render_info.rendering_wall->line_length - (vars->render_info.texture_x * (vars->render_info.rendering_wall->bits_per_pixel / 8)));
+			vars->render_info.color = *(int *)(vars->render_info.rendering_wall->addr + vars->render_info.color_offset);
 			mlx_pixel_put(vars->mlx,
 				vars->win,
 				i,
 				wall_start_y + j,
-				color);
+				vars->render_info.color);
 			j++;
 		}
 

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 11:06:50 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:57:57by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	next_horz_touch_x = vars->ray.xintercept;
 	next_horz_touch_y = vars->ray.yintercept;
 	vars->ray.found_horz_wall = 0;
-	while (0 <= next_horz_touch_x && next_horz_touch_x <= WINDOW_WIDTH
-		&& 0 <= next_horz_touch_y && next_horz_touch_y <= WINDOW_HEIGHT)
+	while (0 <= next_horz_touch_x && next_horz_touch_x < WINDOW_WIDTH
+		&& 0 <= next_horz_touch_y && next_horz_touch_y < WINDOW_HEIGHT)
 	{
 		if (has_wall_at(vars, next_horz_touch_x, next_horz_touch_y
 				- (is_ray_facing_up(ray_angle))))
@@ -88,8 +88,8 @@ float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 	next_vert_touch_x = vars->ray.xintercept;
 	next_vert_touch_y = vars->ray.yintercept;
 	vars->ray.found_vert_wall = 0;
-	while (0 <= next_vert_touch_x && next_vert_touch_x <= WINDOW_WIDTH
-		&& 0 <= next_vert_touch_y && next_vert_touch_y <= WINDOW_HEIGHT)
+	while (0 <= next_vert_touch_x && next_vert_touch_x < WINDOW_WIDTH
+		&& 0 <= next_vert_touch_y && next_vert_touch_y < WINDOW_HEIGHT)
 	{
 		if (has_wall_at(vars, next_vert_touch_x
 				- (is_ray_facing_left(ray_angle)), next_vert_touch_y))

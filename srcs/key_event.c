@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:04:04 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 11:52:05 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 12:17:05 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,6 @@
 int	check_possible_to_move(t_vars *vars)
 {
 	return (vars->map[vars->player.y][vars->player.x] != '1');
-}
-
-void	update_map(t_vars *vars, int x_before, int y_before)
-{
-	vars->map[y_before][x_before] = '0';
-	vars->map[vars->player.y][vars->player.x] = vars->player.ort;
-	if (vars->move_count < INT_MAX)
-		vars->move_count++;
-	mlx_clear_window(vars->mlx, vars->win);
-
-	// render map, player position, and rays
-	render_map(vars);
-	print_player(vars);
-	render_rays(vars);
-	print_orientation(vars);
-	render_field_of_view(vars);
-	// 
-
-	// // render ceiling
-	// print_orientation(vars);
-	// render_floor_and_ceiling(vars);
-	// render_field_of_view(vars);
-	// // 
 }
 
 void	reset_player(t_vars *vars, int x_before, int y_before)

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 11:07:54 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 12:22:59 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,17 +143,20 @@ char	**duplicate_map(t_vars *vars);
 void	check_no_c_in_map(char **duplicated_map, t_vars *vars);
 void	check_valid_path(t_vars *vars);
 void	parse_map(t_vars *vars);
-void	get_img(t_vars *vars);
 void	choose_image(t_vars *vars, int x, int y);
 void	render_map(t_vars *vars);
+void	get_img(t_vars *vars);
+void	convert_img_to_data_addr(t_vars *vars);
 void	print_player(t_vars *vars);
 void	render_field_of_view(t_vars *vars);
 int		is_ray_facing_up(float ray_angle);
 int		is_ray_facing_down(float ray_angle);
 int		is_ray_facing_right(float ray_angle);
 int		is_ray_facing_left(float ray_angle);
-double	calculate_distance_between_two_points(int a_x, int a_y, int b_x, int b_y);
-int		has_wall_at(t_vars *vars, int next_horizontal_touch_x, int next_horizontal_touch_y);
+double	calculate_distance_between_two_points(int a_x, int a_y,
+			int b_x, int b_y);
+int		has_wall_at(t_vars *vars,
+			int next_horizontal_touch_x, int next_horizontal_touch_y);
 float	distance_vert_is_smallest(t_vars *vars, float distance_vert);
 float	distance_horz_is_smallest(t_vars *vars, float distance_horz);
 int		key_hook(int keycode, t_vars *vars);
@@ -170,12 +173,12 @@ void	render_floor_and_ceiling(t_vars *vars);
 float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer);
 void	init_render_info(t_vars *vars, float projected_wall_height);
 
+// will be deleted
 void	line(t_vars *vars, int x_a, int y_a, int x_b, int y_b);
 void	circle(t_vars *vars, int cx, int cy);
 float	normalize_angle(float angle);
 int		is_equal(float a, float b);
 void	print_orientation(t_vars *vars);
-
 void	render_rays(t_vars *vars);
 void	render_ray(t_vars *vars, float ray_angle, int xplayer, int yplayer);
 

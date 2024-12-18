@@ -6,31 +6,11 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:15 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 03:14:56 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 11:04:18 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	is_ray_facing_up(float ray_angle)
-{
-	return (sin(ray_angle) > 0);
-}
-
-int	is_ray_facing_down(float ray_angle)
-{
-	return (sin(ray_angle) < 0);
-}
-
-int	is_ray_facing_right(float ray_angle)
-{
-	return (cos(ray_angle) > 0);
-}
-
-int	is_ray_facing_left(float ray_angle)
-{
-	return (cos(ray_angle) < 0);
-}
 
 int	has_wall_at(t_vars *vars, int next_horizontal_touch_x,
 	int next_horizontal_touch_y)

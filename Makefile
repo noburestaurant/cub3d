@@ -34,6 +34,7 @@ $(addsuffix .c, \
 		render_field_of_view_utils \
 		render_floor_and_ceiling \
 		ray_utils \
+		ray_facing \
 		raycast \
 		utils \
 		valid_path \

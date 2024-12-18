@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 12:05:30 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 22:25:53 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,56 +109,20 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-// '0' '1' 'C' 'E' 'P' 以外のものがないか
-// '1' でかこわれているか
-// 'E', 'P', 'C' は一つずつあるか
+// 無効なマップ
+// マップが'1'で囲まれていない場合
+// '0', '1'以外の文字を含む空間の描画、またはプレイヤーがそこに移動する場合
+// 'N', 'S', 'W', 'E' が複数存在する場合（プレイヤーのスポーン位置は1つのみ）
 
-// flood_fillでマップが変わっていないか ok
-// 画像を作る ok
-// マップを出力する関数 ok
-// キーイベント（shige参考）ok
-// マップの更新 ok
-// Cをすべて通ってゴールできるか ok
+// マップ実装詳細
+// map の1行目と最後の行が'1'または' 'で構成されていること
+// 各行のの左右の端が'1'である
+// '0'およびプレイヤーのスポーン地点（N, S, E, W）の周囲8方向に<space>, <tab>が存在しないこと
+// 	この際、対象行のn番目の文字が前後の行より大きい場合、壁に囲まれていないとみなす？
 
-// support movecount ok
-// printf should be ft_printf
-// norm ok
-// make file (cflag) ok
-// ignoring return value of write
-// レビュー項目を実施
-// map directory? texture directory?
-
-// ./cub3d ber でエラーにならな ok
-// ./cub3d 1.bers でエラーにならない ok
-// file が空だったときにSEGV ok
-// file が改行だけのときにSEGV ok
-// 2.ber のときは正常に機能(確認する)
-// バツを押すとウィンドウが閉じられない ok
-// doesnt support as the player can finish ok
-// the game only after picking every collectible ok
-// has to support arrow key ok
-// free ok
-
-// norminette
-	// ft_splitのヘッダー // ok
-// strchr -> strnstr // ok
-	// check_args関数 (edge case example: "../cub3d/test.ber")
-// leaks // ok
-// valgrind --leak-check=full --show-leak-kinds=all ./your_program_file [args]
-// 1 get_map func // ok
-// 	char **map = ft_split();
-// 	free(linked_lines);
-// 2 mlx (click the cross button, push ESC key, goal correctly) // ok
-	// free(mlx);
-	// mlx_destroy_display();
-	// mlx_destory_image();
-	// *refer to repo of rnakatan
-// 	mlx_xpm_file_to_image() == NULL // ok
-// if error is occured, just check a object has been already got // ok
-// if mlx occurs error, handle the error // ok
-// return status // ok
-
-// leaks in error_handling func // ok
-// check_args (test.ber.e) // ok
-// close(fd)
-// mlx_linux doesnt work
+// 床と天井の色の指定
+// 床と天井の色は、課題要件に基づき特定の色で指定されますが、テクスチャでの描画も可能
+// 解析時に、床と天井が色指定かテクスチャパスしていかを認識する
+// 'F'か'C'の後の文字列が数字で構成されている場合、色指定とみなす
+// 	RGBの3つの値を構造体に代入する
+// テクスチャ指定の場合は、'N', 'S', 'E', 'W'の指定と同様の処理を行う

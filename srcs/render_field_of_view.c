@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 14:29:28 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 14:43:32 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ void	get_rendering_wall_direction(t_vars *vars)
 {
 	if (vars->ray.wall_hit_y % TILE_SIZE == 0)
 	{
-		if (vars->player.y * TILE_SIZE + (TILE_SIZE / 2) > (int)vars->ray.wall_hit_y)
+		if (vars->player.y * TILE_SIZE + (TILE_SIZE / 2)
+			> (int)vars->ray.wall_hit_y)
 			vars->render_info.wall_direction = 1;
 		else
 			vars->render_info.wall_direction = 2;
 	}
 	if (vars->ray.wall_hit_x % TILE_SIZE == 0)
 	{
-		if (vars->player.x * TILE_SIZE + (TILE_SIZE / 2) < (int)vars->ray.wall_hit_x)
+		if (vars->player.x * TILE_SIZE + (TILE_SIZE / 2)
+			< (int)vars->ray.wall_hit_x)
 			vars->render_info.wall_direction = 3;
 		else
 			vars->render_info.wall_direction = 4;

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 03:15:19 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 09:09:31 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,27 @@
 float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer)
 {
-	float	xstep;
-	float	ystep;
-	float	xintercept;
-	float	yintercept;
+	// float	xstep;
+	// float	ystep;
+	// float	xintercept;
+	// float	yintercept;
 	int		next_horizontal_touch_x;
 	int		next_horizontal_touch_y;
 
-	// calculate yintercept
-	yintercept = (yplayer / TILE_SIZE) * TILE_SIZE;
+	vars->ray.yintercept = (yplayer / TILE_SIZE) * TILE_SIZE;
 	if (is_ray_facing_down(ray_angle))
-		yintercept += TILE_SIZE;
-	// calculate xintercept
-	xintercept = xplayer + ((yplayer - yintercept) / tan(ray_angle));
-	// calculate ystep
-	ystep = TILE_SIZE;
+		vars->ray.yintercept += TILE_SIZE;
+	vars->ray.xintercept = xplayer + ((yplayer - vars->ray.yintercept) / tan(ray_angle));
+	vars->ray.ystep = TILE_SIZE;
 	if (is_ray_facing_up(ray_angle))
-		ystep *= -1;
-	// calculate xstep
-	xstep = ystep / tan(ray_angle);
-	if (is_ray_facing_left(ray_angle) && xstep > 0)
-		xstep *= -1;
-	if (is_ray_facing_right(ray_angle) && xstep < 0)
-		xstep *= -1;
-	// increment xstep and ystep until we find a wall
-	next_horizontal_touch_x = xintercept;
-	next_horizontal_touch_y = yintercept;
+		vars->ray.ystep *= -1;
+	vars->ray.xstep = vars->ray.ystep / tan(ray_angle);
+	if (is_ray_facing_left(ray_angle) && vars->ray.xstep > 0)
+		vars->ray.xstep *= -1;
+	if (is_ray_facing_right(ray_angle) && vars->ray.xstep < 0)
+		vars->ray.xstep *= -1;
+	next_horizontal_touch_x = vars->ray.xintercept;
+	next_horizontal_touch_y = vars->ray.yintercept;
 	vars->ray.horz_wall_hit_x = 0;
 	vars->ray.horz_wall_hit_y = 0;
 	vars->ray.found_horz_wall = 0;
@@ -56,9 +51,9 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 		}
 		else
 		{
-			// increment xstep and ystep
-			next_horizontal_touch_x += xstep;
-			next_horizontal_touch_y += ystep;
+			// increment vars->ray.xstep and vars->ray.ystep
+			next_horizontal_touch_x += vars->ray.xstep;
+			next_horizontal_touch_y += vars->ray.ystep;
 		}
 	}
 	if (vars->ray.found_horz_wall != 1)
@@ -70,32 +65,23 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer)
 {
-	float	xstep;
-	float	ystep;
-	float	xintercept;
-	float	yintercept;
 	int		next_vertical_touch_x;
 	int		next_vertical_touch_y;
 
-	// calculate xintercept
-	xintercept = xplayer / TILE_SIZE * TILE_SIZE;
+	vars->ray.xintercept = xplayer / TILE_SIZE * TILE_SIZE;
 	if (is_ray_facing_right(ray_angle))
-		xintercept += TILE_SIZE;
-	// calculate yintercept
-	yintercept = yplayer - ((xintercept - xplayer) * tan(ray_angle));
-	// calculate xstep
-	xstep = TILE_SIZE;
-	if (is_ray_facing_left(ray_angle) && xstep > 0)
-		xstep *= -1;
-	// calculate ystep
-	ystep = xstep * tan(ray_angle);
-	if (is_ray_facing_up(ray_angle) && ystep > 0)
-		ystep *= -1;
-	if (is_ray_facing_down(ray_angle) && ystep < 0)
-		ystep *= -1;
-	// increment xstep and ystep until we find a wall
-	next_vertical_touch_x = xintercept;
-	next_vertical_touch_y = yintercept;
+		vars->ray.xintercept += TILE_SIZE;
+	vars->ray.yintercept = yplayer - ((vars->ray.xintercept - xplayer) * tan(ray_angle));
+	vars->ray.xstep = TILE_SIZE;
+	if (is_ray_facing_left(ray_angle) && vars->ray.xstep > 0)
+		vars->ray.xstep *= -1;
+	vars->ray.ystep = vars->ray.xstep * tan(ray_angle);
+	if (is_ray_facing_up(ray_angle) && vars->ray.ystep > 0)
+		vars->ray.ystep *= -1;
+	if (is_ray_facing_down(ray_angle) && vars->ray.ystep < 0)
+		vars->ray.ystep *= -1;
+	next_vertical_touch_x = vars->ray.xintercept;
+	next_vertical_touch_y = vars->ray.yintercept;
 	vars->ray.vert_wall_hit_x = 0;
 	vars->ray.vert_wall_hit_y = 0;
 	vars->ray.found_vert_wall = 0;
@@ -111,9 +97,9 @@ float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 		}
 		else
 		{
-			// increment xstep and ystep
-			next_vertical_touch_x += xstep;
-			next_vertical_touch_y += ystep;
+			// increment vars->ray.xstep and vars->ray.ystep
+			next_vertical_touch_x += vars->ray.xstep;
+			next_vertical_touch_y += vars->ray.ystep;
 		}
 	}
 	if (vars->ray.found_vert_wall != 1)

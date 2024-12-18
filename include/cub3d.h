@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 07:56:48 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 09:04:18 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ typedef struct s_ray
 {
 	float	ray_angle;
 	float	delta_angle;
+	float	xstep;
+	float	ystep;
+	float	xintercept;
+	float	yintercept;
 	int		found_horz_wall;
 	int		found_vert_wall;
 	int		horz_wall_hit_x;

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 07:56:30 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 11:13:31 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void	render_field_of_view(t_vars *vars)
 // issue
 // 多分壁をレンダリングする位置を間違えてる // resolve
 // 壁が近いと南北が逆になる
+// sample.berでセグフォする
 // 横の移動が正常の方向とは逆の方向になっている
 // xpm file の height と width を指定するか、しないか
 // 	vars->render_info.texture_height = TILE_SIZE ?

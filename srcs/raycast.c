@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 09:18:11 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 10:59:58 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,36 +33,31 @@ void	calc_step_and_intercept_horizontal(t_vars *vars, float ray_angle,
 float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer)
 {
-	int		next_horizontal_touch_x;
-	int		next_horizontal_touch_y;
+	int		next_horz_touch_x;
+	int		next_horz_touch_y;
 
 	calc_step_and_intercept_horizontal(vars, ray_angle, xplayer, yplayer);
-	next_horizontal_touch_x = vars->ray.xintercept;
-	next_horizontal_touch_y = vars->ray.yintercept;
-	vars->ray.horz_wall_hit_x = 0;
-	vars->ray.horz_wall_hit_y = 0;
+	next_horz_touch_x = vars->ray.xintercept;
+	next_horz_touch_y = vars->ray.yintercept;
 	vars->ray.found_horz_wall = 0;
-	while (0 <= next_horizontal_touch_x && next_horizontal_touch_x <= WINDOW_WIDTH
-		&& 0 <= next_horizontal_touch_y && next_horizontal_touch_y <= WINDOW_HEIGHT)
+	while (0 <= next_horz_touch_x && next_horz_touch_x <= WINDOW_WIDTH
+		&& 0 <= next_horz_touch_y && next_horz_touch_y <= WINDOW_HEIGHT)
 	{
-		if (has_wall_at(vars, next_horizontal_touch_x, next_horizontal_touch_y - (is_ray_facing_up(ray_angle))))
+		if (has_wall_at(vars, next_horz_touch_x, next_horz_touch_y
+				- (is_ray_facing_up(ray_angle))))
 		{
 			vars->ray.found_horz_wall = 1;
-			vars->ray.horz_wall_hit_x = next_horizontal_touch_x;
-			vars->ray.horz_wall_hit_y = next_horizontal_touch_y;
+			vars->ray.horz_wall_hit_x = next_horz_touch_x;
+			vars->ray.horz_wall_hit_y = next_horz_touch_y;
 			break ;
 		}
-		else
-		{
-			// increment vars->ray.xstep and vars->ray.ystep
-			next_horizontal_touch_x += vars->ray.xstep;
-			next_horizontal_touch_y += vars->ray.ystep;
-		}
+		next_horz_touch_x += vars->ray.xstep;
+		next_horz_touch_y += vars->ray.ystep;
 	}
 	if (vars->ray.found_horz_wall != 1)
 		return (0);
 	return (calculate_distance_between_two_points(xplayer, yplayer,
-		vars->ray.horz_wall_hit_x, vars->ray.horz_wall_hit_y));
+			vars->ray.horz_wall_hit_x, vars->ray.horz_wall_hit_y));
 }
 
 void	calc_step_and_intercept_vertical(t_vars *vars, float ray_angle,
@@ -86,75 +81,62 @@ void	calc_step_and_intercept_vertical(t_vars *vars, float ray_angle,
 float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer)
 {
-	int		next_vertical_touch_x;
-	int		next_vertical_touch_y;
+	int		next_vert_touch_x;
+	int		next_vert_touch_y;
 
 	calc_step_and_intercept_vertical(vars, ray_angle, xplayer, yplayer);
-	next_vertical_touch_x = vars->ray.xintercept;
-	next_vertical_touch_y = vars->ray.yintercept;
-	vars->ray.vert_wall_hit_x = 0;
-	vars->ray.vert_wall_hit_y = 0;
+	next_vert_touch_x = vars->ray.xintercept;
+	next_vert_touch_y = vars->ray.yintercept;
 	vars->ray.found_vert_wall = 0;
-	while (0 <= next_vertical_touch_x && next_vertical_touch_x < WINDOW_WIDTH
-		&& 0 <= next_vertical_touch_y && next_vertical_touch_y < WINDOW_HEIGHT)
+	while (0 <= next_vert_touch_x && next_vert_touch_x <= WINDOW_WIDTH
+		&& 0 <= next_vert_touch_y && next_vert_touch_y <= WINDOW_HEIGHT)
 	{
-		if (has_wall_at(vars, next_vertical_touch_x - (is_ray_facing_left(ray_angle)), next_vertical_touch_y))
+		if (has_wall_at(vars, next_vert_touch_x
+				- (is_ray_facing_left(ray_angle)), next_vert_touch_y))
 		{
 			vars->ray.found_vert_wall = 1;
-			vars->ray.vert_wall_hit_x = next_vertical_touch_x;
-			vars->ray.vert_wall_hit_y = next_vertical_touch_y;
+			vars->ray.vert_wall_hit_x = next_vert_touch_x;
+			vars->ray.vert_wall_hit_y = next_vert_touch_y;
 			break ;
 		}
-		else
-		{
-			// increment vars->ray.xstep and vars->ray.ystep
-			next_vertical_touch_x += vars->ray.xstep;
-			next_vertical_touch_y += vars->ray.ystep;
-		}
+		next_vert_touch_x += vars->ray.xstep;
+		next_vert_touch_y += vars->ray.ystep;
 	}
 	if (vars->ray.found_vert_wall != 1)
 		return (0);
 	return (calculate_distance_between_two_points(xplayer, yplayer,
-		vars->ray.vert_wall_hit_x, vars->ray.vert_wall_hit_y));
+			vars->ray.vert_wall_hit_x, vars->ray.vert_wall_hit_y));
 }
 
-int	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
+float	distance_vert_is_smallest(t_vars *vars, float distance_vert)
 {
-	float	len;
+	vars->ray.wall_hit_x = vars->ray.vert_wall_hit_x;
+	vars->ray.wall_hit_y = vars->ray.vert_wall_hit_y;
+	return (distance_vert);
+}
+
+float	distance_horz_is_smallest(t_vars *vars, float distance_horz)
+{
+	vars->ray.wall_hit_x = vars->ray.horz_wall_hit_x;
+	vars->ray.wall_hit_y = vars->ray.horz_wall_hit_y;
+	return (distance_horz);
+}
+
+float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
+{
 	float	distance_horz;
 	float	distance_vert;
 
-	len = 0;
 	distance_horz = calculate_wall_hit_distance_horizontal
 		(vars, ray_angle, xplayer, yplayer);
 	distance_vert = calculate_wall_hit_distance_vertical
 		(vars, ray_angle, xplayer, yplayer);
-	if (distance_horz == 0 || distance_vert == 0)
-	{
-		if (distance_horz == 0)
-		{
-			vars->ray.wall_hit_x = vars->ray.vert_wall_hit_x;
-			vars->ray.wall_hit_y = vars->ray.vert_wall_hit_y;
-			return (distance_vert);
-		}
-		else if (distance_vert == 0)
-		{
-			vars->ray.wall_hit_x = vars->ray.horz_wall_hit_x;
-			vars->ray.wall_hit_y = vars->ray.horz_wall_hit_y;
-			return (distance_horz);
-		}
-	}
+	if (distance_horz == 0)
+		return (distance_vert_is_smallest(vars, distance_vert));
+	else if (distance_vert == 0)
+		return (distance_horz_is_smallest(vars, distance_horz));
 	if (distance_horz > distance_vert)
-	{
-		vars->ray.wall_hit_x = vars->ray.vert_wall_hit_x;
-		vars->ray.wall_hit_y = vars->ray.vert_wall_hit_y;
-		len = distance_vert;
-	}
+		return (distance_vert_is_smallest(vars, distance_vert));
 	else
-	{
-		vars->ray.wall_hit_x = vars->ray.horz_wall_hit_x;
-		vars->ray.wall_hit_y = vars->ray.horz_wall_hit_y;
-		len = distance_horz;
-	}
-	return (len);
+		return (distance_horz_is_smallest(vars, distance_horz));
 }

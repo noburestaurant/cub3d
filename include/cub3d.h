@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 09:04:18 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 10:55:08 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int		window_close(t_vars *vars);
 void	render_floor(t_vars *vars, int floor_color);
 void	render_ceiling(t_vars *vars, int ceiling_color);
 void	render_floor_and_ceiling(t_vars *vars);
-int		raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer);
+float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer);
 void	init_render_info(t_vars *vars, float projected_wall_height);
 
 void	line(t_vars *vars, int x_a, int y_a, int x_b, int y_b);

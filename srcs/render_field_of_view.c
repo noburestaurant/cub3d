@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 21:32:05 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 22:55:57 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,9 @@ void	render_field_of_view(t_vars *vars)
 // render floor and ceiling // ok
 // support norm // ok
 // add member of each structure // ok
-// delete unnecessary variable and member of strcuture
-// mlx Error handling
+// delete unnecessary variable and member of strcuture // ok
+// int -> float as much as possible
+// use floor() and ceil() to convert float to int
 // 
 // search
 // support parse file
@@ -178,6 +179,7 @@ void	render_field_of_view(t_vars *vars)
 // 	render_ray
 // 	renga.xpm
 // 	grass.xpm
+// mlx Error handling
 // memory leak
 // fd leak
 // support norm

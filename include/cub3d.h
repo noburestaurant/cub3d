@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 18:32:27 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 22:31:38 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,6 @@ typedef struct s_vars
 	void			*win;
 	void			*img_renga;
 	void			*img_grass;
-	void			*img_goal;
-	void			*img_coin;
 	t_img_player	*img_player;
 	t_texture_list	*textures;
 	int				img_width;

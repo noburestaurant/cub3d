@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 12:01:06 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 12:13:06 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,10 @@ void	render_field_of_view(t_vars *vars)
 // 
 // name of functions and variables sould be easy to understand
 // formula should be intuitive
+// delete unnecessary part
+// 	render_ray
+// 	renga.xpm
+// 	grass.xpm
 // memory leak
 // fd leak
 // support norm

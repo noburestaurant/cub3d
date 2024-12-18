@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 03:04:31 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:00:19 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,28 +94,28 @@ void	get_img(t_vars *vars)
 		&(vars->textures->texture_north.bits_per_pixel),
 		&(vars->textures->texture_north.line_length),
 		&(vars->textures->texture_north.endian));
-	if (vars->textures->texture_north.addr == NULL) // search what is retured when mlx_get_data_addr occurs Error
+	if (vars->textures->texture_north.addr == NULL)
 		exit(1);
 	vars->textures->texture_south.addr = mlx_get_data_addr(
 		vars->img_player->south,
 		&(vars->textures->texture_south.bits_per_pixel),
 		&(vars->textures->texture_south.line_length),
 		&(vars->textures->texture_south.endian));
-	if (vars->textures->texture_south.addr == NULL) // search what is retured when mlx_get_data_addr occurs Error
+	if (vars->textures->texture_south.addr == NULL)
 		exit(1);
 	vars->textures->texture_east.addr = mlx_get_data_addr(
 		vars->img_player->east,
 		&(vars->textures->texture_east.bits_per_pixel),
 		&(vars->textures->texture_east.line_length),
 		&(vars->textures->texture_east.endian));
-	if (vars->textures->texture_east.addr == NULL) // search what is retured when mlx_get_data_addr occurs Error
+	if (vars->textures->texture_east.addr == NULL)
 		exit(1);
 	vars->textures->texture_west.addr = mlx_get_data_addr(
 		vars->img_player->west,
 		&(vars->textures->texture_west.bits_per_pixel),
 		&(vars->textures->texture_west.line_length),
 		&(vars->textures->texture_west.endian));
-	if (vars->textures->texture_west.addr == NULL) // search what is retured when mlx_get_data_addr occurs Error
+	if (vars->textures->texture_west.addr == NULL)
 		exit(1);
 }
 

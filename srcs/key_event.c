@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:04:04 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 03:04:10 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:05:29 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	key_hook(int keycode, t_vars *vars)
 	y_before = vars->player.y;
 	if (keycode == ESC)
 		error_message_and_free(vars, "", 0);
-	if (keycode == W || keycode == S || keycode == D || keycode == A)
+	if (keycode == W || keycode == S || keycode == D || keycode == A) // key_move
 	{
 		if (keycode == W)
 			vars->player.walk_direction = vars->player.rotation_angle;
@@ -74,14 +74,14 @@ int	key_hook(int keycode, t_vars *vars)
 		else if (is_equal(normalize_angle(vars->player.walk_direction), (PI * 3 / 2)))
 			vars->player.y++;
 	}
-	else if (keycode == RIGHT)
+	else if (keycode == RIGHT) // arrow_key
 		vars->player.rotation_angle -= (PI / 2);
 	else if (keycode == LEFT)
 		vars->player.rotation_angle += (PI / 2);
 	if (check_possible_to_move(vars))
-		update_map(vars, x_before, y_before);
+		update_map(vars, x_before, y_before); // new_pos
 	else
-		reset_player(vars, x_before, y_before);
+		reset_player(vars, x_before, y_before); // nakuso !
 	return (0);
 }
 

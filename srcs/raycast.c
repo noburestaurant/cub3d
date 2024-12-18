@@ -6,26 +6,20 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 09:09:31 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 09:18:11 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
+void	calc_step_and_intercept_horizontal(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer)
 {
-	// float	xstep;
-	// float	ystep;
-	// float	xintercept;
-	// float	yintercept;
-	int		next_horizontal_touch_x;
-	int		next_horizontal_touch_y;
-
 	vars->ray.yintercept = (yplayer / TILE_SIZE) * TILE_SIZE;
 	if (is_ray_facing_down(ray_angle))
 		vars->ray.yintercept += TILE_SIZE;
-	vars->ray.xintercept = xplayer + ((yplayer - vars->ray.yintercept) / tan(ray_angle));
+	vars->ray.xintercept = xplayer + ((yplayer - vars->ray.yintercept)
+			/ tan(ray_angle));
 	vars->ray.ystep = TILE_SIZE;
 	if (is_ray_facing_up(ray_angle))
 		vars->ray.ystep *= -1;
@@ -34,6 +28,15 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 		vars->ray.xstep *= -1;
 	if (is_ray_facing_right(ray_angle) && vars->ray.xstep < 0)
 		vars->ray.xstep *= -1;
+}
+
+float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
+	int xplayer, int yplayer)
+{
+	int		next_horizontal_touch_x;
+	int		next_horizontal_touch_y;
+
+	calc_step_and_intercept_horizontal(vars, ray_angle, xplayer, yplayer);
 	next_horizontal_touch_x = vars->ray.xintercept;
 	next_horizontal_touch_y = vars->ray.yintercept;
 	vars->ray.horz_wall_hit_x = 0;
@@ -62,16 +65,14 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 		vars->ray.horz_wall_hit_x, vars->ray.horz_wall_hit_y));
 }
 
-float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
+void	calc_step_and_intercept_vertical(t_vars *vars, float ray_angle,
 	int xplayer, int yplayer)
 {
-	int		next_vertical_touch_x;
-	int		next_vertical_touch_y;
-
 	vars->ray.xintercept = xplayer / TILE_SIZE * TILE_SIZE;
 	if (is_ray_facing_right(ray_angle))
 		vars->ray.xintercept += TILE_SIZE;
-	vars->ray.yintercept = yplayer - ((vars->ray.xintercept - xplayer) * tan(ray_angle));
+	vars->ray.yintercept = yplayer - ((vars->ray.xintercept - xplayer)
+			* tan(ray_angle));
 	vars->ray.xstep = TILE_SIZE;
 	if (is_ray_facing_left(ray_angle) && vars->ray.xstep > 0)
 		vars->ray.xstep *= -1;
@@ -80,6 +81,15 @@ float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 		vars->ray.ystep *= -1;
 	if (is_ray_facing_down(ray_angle) && vars->ray.ystep < 0)
 		vars->ray.ystep *= -1;
+}
+
+float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
+	int xplayer, int yplayer)
+{
+	int		next_vertical_touch_x;
+	int		next_vertical_touch_y;
+
+	calc_step_and_intercept_vertical(vars, ray_angle, xplayer, yplayer);
 	next_vertical_touch_x = vars->ray.xintercept;
 	next_vertical_touch_y = vars->ray.yintercept;
 	vars->ray.vert_wall_hit_x = 0;

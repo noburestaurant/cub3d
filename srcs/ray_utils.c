@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:15 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 11:04:18 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 11:07:39 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,18 @@ double	calculate_distance_between_two_points(int a_x, int a_y,
 	delta_x = b_x - a_x;
 	delta_y = b_y - a_y;
 	return (sqrt((delta_x) * (delta_x) + (delta_y) * (delta_y)));
+}
+
+float	distance_vert_is_smallest(t_vars *vars, float distance_vert)
+{
+	vars->ray.wall_hit_x = vars->ray.vert_wall_hit_x;
+	vars->ray.wall_hit_y = vars->ray.vert_wall_hit_y;
+	return (distance_vert);
+}
+
+float	distance_horz_is_smallest(t_vars *vars, float distance_horz)
+{
+	vars->ray.wall_hit_x = vars->ray.horz_wall_hit_x;
+	vars->ray.wall_hit_y = vars->ray.horz_wall_hit_y;
+	return (distance_horz);
 }

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 10:55:08 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 11:07:54 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ int		is_ray_facing_right(float ray_angle);
 int		is_ray_facing_left(float ray_angle);
 double	calculate_distance_between_two_points(int a_x, int a_y, int b_x, int b_y);
 int		has_wall_at(t_vars *vars, int next_horizontal_touch_x, int next_horizontal_touch_y);
+float	distance_vert_is_smallest(t_vars *vars, float distance_vert);
+float	distance_horz_is_smallest(t_vars *vars, float distance_horz);
 int		key_hook(int keycode, t_vars *vars);
 void	reset_player(t_vars *vars, int x_before, int y_before);
 void	update_map(t_vars *vars, int x_before, int y_before);

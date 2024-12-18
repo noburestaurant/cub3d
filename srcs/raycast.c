@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 10:59:58 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 11:06:50 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,20 +106,6 @@ float	calculate_wall_hit_distance_vertical(t_vars *vars, float ray_angle,
 		return (0);
 	return (calculate_distance_between_two_points(xplayer, yplayer,
 			vars->ray.vert_wall_hit_x, vars->ray.vert_wall_hit_y));
-}
-
-float	distance_vert_is_smallest(t_vars *vars, float distance_vert)
-{
-	vars->ray.wall_hit_x = vars->ray.vert_wall_hit_x;
-	vars->ray.wall_hit_y = vars->ray.vert_wall_hit_y;
-	return (distance_vert);
-}
-
-float	distance_horz_is_smallest(t_vars *vars, float distance_horz)
-{
-	vars->ray.wall_hit_x = vars->ray.horz_wall_hit_x;
-	vars->ray.wall_hit_y = vars->ray.horz_wall_hit_y;
-	return (distance_horz);
 }
 
 float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)

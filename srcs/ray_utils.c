@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:15 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 11:07:39 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 18:31:57 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	has_wall_at(t_vars *vars, int next_horizontal_touch_x,
 	return (vars->map[coordinate_y_in_map][coordinate_x_in_map] == '1');
 }
 
-double	calculate_distance_between_two_points(int a_x, int a_y,
+float	calculate_distance_between_two_points(int a_x, int a_y,
 	int b_x, int b_y)
 {
 	int	delta_x;
@@ -31,7 +31,7 @@ double	calculate_distance_between_two_points(int a_x, int a_y,
 
 	delta_x = b_x - a_x;
 	delta_y = b_y - a_y;
-	return (sqrt((delta_x) * (delta_x) + (delta_y) * (delta_y)));
+	return (sqrtf((delta_x) * (delta_x) + (delta_y) * (delta_y)));
 }
 
 float	distance_vert_is_smallest(t_vars *vars, float distance_vert)

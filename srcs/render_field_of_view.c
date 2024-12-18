@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 14:54:02 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 21:32:05 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ float	calc_projected_wall_height(t_vars *vars)
 
 	distance_to_wall = raycast(vars, vars->ray.ray_angle,
 			vars->player.xplayer, vars->player.yplayer);
+	if (distance_to_wall == 0.0)
+		return (0);
 	correct_distance_to_wall = distance_to_wall
 		* cos(vars->ray.ray_angle - vars->player.rotation_angle);
 	distance_from_player_to_projected_plane = (float)(WINDOW_WIDTH / 2)
@@ -56,25 +58,34 @@ void	choose_rendering_wall_texture(t_vars *vars)
 {
 	if (vars->render_info.wall_direction == 1)
 	{
+		// printf("north wall\n");
 		vars->render_info.texture_x = vars->ray.wall_hit_x % TILE_SIZE;
 		vars->render_info.rendering_wall = &(vars->textures->texture_north);
 	}
 	else if (vars->render_info.wall_direction == 2)
 	{
+		// printf("south wall\n");
 		vars->render_info.texture_x = TILE_SIZE
 			- (vars->ray.wall_hit_x % TILE_SIZE);
 		vars->render_info.rendering_wall = &(vars->textures->texture_south);
 	}
 	else if (vars->render_info.wall_direction == 3)
 	{
+		// printf("east wall\n");
 		vars->render_info.texture_x = vars->ray.wall_hit_y % TILE_SIZE;
 		vars->render_info.rendering_wall = &(vars->textures->texture_east);
 	}
 	else if (vars->render_info.wall_direction == 4)
 	{
+		// printf("west wall\n");
 		vars->render_info.texture_x = TILE_SIZE
 			- (vars->ray.wall_hit_y % TILE_SIZE);
 		vars->render_info.rendering_wall = &(vars->textures->texture_west);
+	}
+	else if (vars->render_info.wall_direction == 0)
+	{
+		write(2, "Unexpected Error\n", 17);
+		exit(11);
 	}
 }
 
@@ -111,9 +122,19 @@ void	render_field_of_view(t_vars *vars)
 	while (i < WINDOW_WIDTH)
 	{
 		projected_wall_height = calc_projected_wall_height(vars);
+		// printf("projected_wall_height = %.2f\n", projected_wall_height);
+		// printf("wall_hit_y = %d, wall_hit_x == %d\n",
+		// 	vars->ray.wall_hit_y, vars->ray.wall_hit_x);
+		if (projected_wall_height == 0)
+		{
+			vars->ray.ray_angle += vars->ray.delta_angle;
+			i++;
+			continue ;
+		}
 		init_render_info(vars, projected_wall_height);
 		j = 0;
 		get_rendering_wall_direction(vars);
+		// printf("vars->render_info.wall_direction = %d\n", vars->render_info.wall_direction);
 		choose_rendering_wall_texture(vars);
 		while (j < projected_wall_height)
 		{

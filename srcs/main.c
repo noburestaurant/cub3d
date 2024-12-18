@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 22:25:53 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 22:32:39 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	main(int argc, char **argv)
 	if (vars.map == NULL)
 		error_message_and_free(&vars, "Unexpected Error\n", 1);
 	parse_map(&vars);
-	vars.move_count = 0;
 	vars.mlx = mlx_init();
 	if (vars.mlx == NULL)
 		error_message_and_free(&vars, "Unexpected Error: mlx\n", 1);

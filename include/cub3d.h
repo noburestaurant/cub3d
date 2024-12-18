@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 22:31:38 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 22:32:52 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ typedef struct s_vars
 	t_player		player;
 	t_ray			ray;
 	t_render_wall	render_info;
-	int				move_count;
 }	t_vars;
 
 int		check_player(char c);

@@ -43,6 +43,8 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	while (0 <= next_horz_touch_x && next_horz_touch_x < WINDOW_WIDTH
 		&& 0 <= next_horz_touch_y && next_horz_touch_y < WINDOW_HEIGHT)
 	{
+		printf("next_horz_touch_x = %d\n", next_horz_touch_x);
+		printf("next_horz_touch_y = %d\n", next_horz_touch_y);
 		if (has_wall_at(vars, next_horz_touch_x, next_horz_touch_y
 				- (is_ray_facing_up(ray_angle))))
 		{
@@ -113,10 +115,22 @@ float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 	float	distance_horz;
 	float	distance_vert;
 
+	vars->ray.wall_hit_x = 0;
+	vars->ray.wall_hit_y = 0;
+	distance_horz = 0;
+	distance_vert = 0;
 	distance_horz = calculate_wall_hit_distance_horizontal
 		(vars, ray_angle, xplayer, yplayer);
 	distance_vert = calculate_wall_hit_distance_vertical
 		(vars, ray_angle, xplayer, yplayer);
+	if (distance_horz == 0 && distance_vert == 0)
+	{
+		// write(2, "Unknown error in raycast func\n", 31);
+		// exit (2);
+		return (0);
+	}
+	// printf("distance_horz = %.2f\n", distance_horz);
+	// printf("distance_vert = %.2f\n", distance_vert);
 	if (distance_horz == 0)
 		return (distance_vert_is_smallest(vars, distance_vert));
 	else if (distance_vert == 0)

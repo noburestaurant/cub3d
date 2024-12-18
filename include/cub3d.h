@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 22:32:52 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 22:34:13 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,18 +109,18 @@ typedef struct s_vars
 {
 	void			*mlx;
 	void			*win;
+	t_img_player	*img_player;
 	void			*img_renga;
 	void			*img_grass;
-	t_img_player	*img_player;
 	t_texture_list	*textures;
-	int				img_width;
-	int				img_height;
 	char			**map;
-	int				width;
-	int				height;
 	t_player		player;
 	t_ray			ray;
 	t_render_wall	render_info;
+	int				img_width;
+	int				img_height;
+	int				width; // necessary ?
+	int				height; // necessary ?
 }	t_vars;
 
 int		check_player(char c);

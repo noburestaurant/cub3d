@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 14:43:32 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 14:54:02 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,13 @@ void	get_pixel_color_and_render_it(t_vars *vars, float projected_wall_height,
 		* (vars->render_info.texture_height / projected_wall_height);
 	vars->render_info.color_offset = vars->render_info.texture_y
 		* vars->render_info.rendering_wall->line_length
-		+ (vars->render_info.rendering_wall->line_length
-			- (vars->render_info.texture_x
-				* (vars->render_info.rendering_wall->bits_per_pixel / 8)));
+		+ (vars->render_info.texture_x
+			* (vars->render_info.rendering_wall->bits_per_pixel / 8));
 	vars->render_info.color = *(int *)(vars->render_info.rendering_wall->addr
 			+ vars->render_info.color_offset);
 	mlx_pixel_put(vars->mlx,
 		vars->win,
-		i,
+		WINDOW_WIDTH - i - 1,
 		vars->render_info.start_y + j,
 		vars->render_info.color);
 }

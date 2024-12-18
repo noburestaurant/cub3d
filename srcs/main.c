@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 08:00:19 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/18 11:52:33 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,17 +153,20 @@ int	main(int argc, char **argv)
 		error_message_and_free(&vars, "Unexpected Error: mlx\n", 1);
 	get_img(&vars);
 
-	// // render map, player position, and rays
-	// render_map(&vars);
-	// print_player(&vars);
-	// render_rays(&vars);
+	// render map, player position, and rays
+	render_map(&vars);
+	print_player(&vars);
+	render_rays(&vars);
+	print_orientation(&vars);
+	render_field_of_view(&vars);
+	// 
+
+	// // render ceiling
 	// print_orientation(&vars);
+	// render_floor_and_ceiling(&vars);
+	// render_field_of_view(&vars);
 	// // 
 
-	render_floor_and_ceiling(&vars);
-	print_orientation(&vars);
-
-	render_field_of_view(&vars);
 	mlx_key_hook(vars.win, key_hook, &vars);
 	mlx_hook(vars.win, 17, 0, window_close, &vars);
 	mlx_loop(vars.mlx);

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/19 20:40:52 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/19 20:43:41 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,6 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-typedef struct s_player
-{
-	char	ort;
-	float	rotation_angle;
-	float	walk_direction;
-	int		xplayer; // window coordinate
-	int		yplayer; // window coordinate
-	int		x; // map index
-	int		y; // map index
-}	t_player;
-
 typedef struct s_texture
 {
 	char	*addr;
@@ -74,6 +63,17 @@ typedef struct s_img_player
 	void	*east;
 	void	*west;
 }	t_img_player;
+
+typedef struct s_player
+{
+	char	ort;
+	float	rotation_angle;
+	float	walk_direction;
+	int		xplayer; // window coordinate
+	int		yplayer; // window coordinate
+	int		x; // map index
+	int		y; // map index
+}	t_player;
 
 typedef struct s_ray
 {

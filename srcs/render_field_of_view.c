@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 23:07:11 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 22:55:57 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/19 22:21:48 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ float	calc_projected_wall_height(t_vars *vars)
 
 	distance_to_wall = raycast(vars, vars->ray.ray_angle,
 			vars->player.xplayer, vars->player.yplayer);
+	printf("wall_hit_x = %d\n", vars->ray.wall_hit_x);
+	printf("wall_hit_y = %d\n", vars->ray.wall_hit_y);
 	if (distance_to_wall == 0.0)
 		return (0);
 	correct_distance_to_wall = distance_to_wall
@@ -36,7 +38,7 @@ float	calc_projected_wall_height(t_vars *vars)
 
 void	get_rendering_wall_direction(t_vars *vars)
 {
-	if (vars->ray.wall_hit_y % TILE_SIZE == 0)
+	if (vars->render_info.horizontal_plane == 1)
 	{
 		if (vars->player.y * TILE_SIZE + (TILE_SIZE / 2)
 			> (int)vars->ray.wall_hit_y)
@@ -44,7 +46,7 @@ void	get_rendering_wall_direction(t_vars *vars)
 		else
 			vars->render_info.wall_direction = 2;
 	}
-	if (vars->ray.wall_hit_x % TILE_SIZE == 0)
+	if (vars->render_info.horizontal_plane == 0)
 	{
 		if (vars->player.x * TILE_SIZE + (TILE_SIZE / 2)
 			< (int)vars->ray.wall_hit_x)
@@ -122,7 +124,7 @@ void	render_field_of_view(t_vars *vars)
 	while (i < WINDOW_WIDTH)
 	{
 		projected_wall_height = calc_projected_wall_height(vars);
-		// printf("projected_wall_height = %.2f\n", projected_wall_height);
+		printf("projected_wall_height = %.2f\n", projected_wall_height);
 		// printf("wall_hit_y = %d, wall_hit_x == %d\n",
 		// 	vars->ray.wall_hit_y, vars->ray.wall_hit_x);
 		if (projected_wall_height == 0)
@@ -134,13 +136,14 @@ void	render_field_of_view(t_vars *vars)
 		init_render_info(vars, projected_wall_height);
 		j = 0;
 		get_rendering_wall_direction(vars);
-		// printf("vars->render_info.wall_direction = %d\n", vars->render_info.wall_direction);
+		printf("vars->render_info.wall_direction = %d\n", vars->render_info.wall_direction);
 		choose_rendering_wall_texture(vars);
 		while (j < projected_wall_height)
 		{
 			get_pixel_color_and_render_it(vars, projected_wall_height, i, j);
 			j++;
 		}
+		printf("\n");
 		vars->ray.ray_angle += vars->ray.delta_angle;
 		i++;
 	}

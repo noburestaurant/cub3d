@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/19 20:43:41 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/19 22:14:25 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_ray
 
 typedef struct s_render_wall
 {
+	int			horizontal_plane;
 	int			texture_x;
 	int			texture_y;
 	int			texture_height;

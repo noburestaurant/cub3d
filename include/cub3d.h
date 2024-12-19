@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 22:34:13 by hnakayam         ###   ########.fr       */
+/*   Updated: 2024/12/19 20:40:52 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,6 @@ typedef struct s_player
 	int		y; // map index
 }	t_player;
 
-typedef struct s_ray
-{
-	float	ray_angle;
-	float	delta_angle;
-	float	xstep;
-	float	ystep;
-	float	xintercept;
-	float	yintercept;
-	int		found_horz_wall;
-	int		found_vert_wall;
-	int		horz_wall_hit_x;
-	int		horz_wall_hit_y;
-	int		vert_wall_hit_x;
-	int		vert_wall_hit_y;
-	int		wall_hit_x;
-	int		wall_hit_y;
-}	t_ray;
-
 typedef struct s_texture
 {
 	char	*addr;
@@ -92,6 +74,24 @@ typedef struct s_img_player
 	void	*east;
 	void	*west;
 }	t_img_player;
+
+typedef struct s_ray
+{
+	float	ray_angle;
+	float	delta_angle;
+	float	xstep;
+	float	ystep;
+	float	xintercept;
+	float	yintercept;
+	int		found_horz_wall;
+	int		found_vert_wall;
+	int		horz_wall_hit_x;
+	int		horz_wall_hit_y;
+	int		vert_wall_hit_x;
+	int		vert_wall_hit_y;
+	int		wall_hit_x;
+	int		wall_hit_y;
+}	t_ray;
 
 typedef struct s_render_wall
 {

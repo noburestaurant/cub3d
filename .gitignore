@@ -1,4 +1,5 @@
+.gitignore
+.vscode/
 *.a
 *.o
-*/out
 cub3d

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/22 20:09:54 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:12:43 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,15 @@ int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
-	if (argc != 2)
-		error_message_and_free(NULL, "Invalid args\n", 1);
+	// if (argc != 2)
+	// 	error_message_and_free(NULL, "Invalid args\n", 1);
 	init_vars(&vars);
-	// check_args(argv[1]);
-	vars.map = get_map(argv[1]);
-	if (vars.map == NULL)
-		error_message_and_free(&vars, "Unexpected Error\n", 1);
-	parse_map(&vars);
+	validation_and_parse(argc, argv, &vars);
+	// // check_args(argv[1]);
+	// vars.map = get_map(argv[1]);
+	// if (vars.map == NULL)
+	// 	error_message_and_free(&vars, "Unexpected Error\n", 1);
+	// parse_map(&vars);
 	vars.mlx = mlx_init();
 	if (vars.mlx == NULL)
 		error_message_and_free(&vars, "Unexpected Error: mlx\n", 1);

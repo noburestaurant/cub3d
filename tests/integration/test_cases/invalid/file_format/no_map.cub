@@ -1,0 +1,6 @@
+NO ./tests/textures/valid/north.xpm
+SO ./tests/textures/valid/south.xpm
+WE ./tests/textures/valid/west.xpm
+EA ./tests/textures/valid/east.xpm
+F 220,100,0
+C 225,30,0

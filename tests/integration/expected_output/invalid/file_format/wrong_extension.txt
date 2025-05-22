@@ -1,2 +1,1 @@
-Error
-Invalid file name
+Error: Invalid file name

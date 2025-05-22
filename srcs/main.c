@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 22:32:39 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:36:55 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,15 @@ int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
-	if (argc != 2)
-		error_message_and_free(NULL, "Invalid args\n", 1);
+	// if (argc != 2)
+	// 	error_message_and_free(NULL, "Invalid args\n", 1);
 	init_vars(&vars);
-	check_args(argv[1]);
-	vars.map = get_map(argv[1]);
-	if (vars.map == NULL)
-		error_message_and_free(&vars, "Unexpected Error\n", 1);
-	parse_map(&vars);
+	validation_and_parsing(argc, argv, &vars); // TODO: start from here
+	// check_args(argv[1]);
+	// vars.map = get_map(argv[1]);
+	// if (vars.map == NULL)
+	// 	error_message_and_free(&vars, "Unexpected Error\n", 1);
+	// parse_map(&vars);
 	vars.mlx = mlx_init();
 	if (vars.mlx == NULL)
 		error_message_and_free(&vars, "Unexpected Error: mlx\n", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/16 22:24:51 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/25 00:59:15 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,15 +178,15 @@ int	is_equal(float a, float b)
 	return (fabs(a - b) < 0.001);
 }
 
-void	print_orientation(t_vars *vars)
+void	print_orientation(t_vars *vars) // test code
 {
 	vars->player.rotation_angle = normalize_angle(vars->player.rotation_angle);
-	if (is_equal(vars->player.rotation_angle, 0))
-		printf("orientation: east\n");
-	else if (is_equal(vars->player.rotation_angle, (PI / 2)))
-		printf("orientation: north\n");
-	else if (is_equal(vars->player.rotation_angle, PI))
-		printf("orientation: west\n");
-	else if (is_equal(vars->player.rotation_angle, (PI * 3 / 2)))
-		printf("orientation: south\n");
+	// if (is_equal(vars->player.rotation_angle, 0))
+	// 	printf("orientation: east\n");
+	// else if (is_equal(vars->player.rotation_angle, (PI / 2)))
+	// 	printf("orientation: north\n");
+	// else if (is_equal(vars->player.rotation_angle, PI))
+	// 	printf("orientation: west\n");
+	// else if (is_equal(vars->player.rotation_angle, (PI * 3 / 2)))
+	// 	printf("orientation: south\n");
 }

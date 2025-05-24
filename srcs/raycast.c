@@ -130,10 +130,8 @@ float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 		// exit (2);
 		return (0);
 	}
-	printf("distance_horz = %f\n", distance_horz);
-	printf("distance_vert = %f\n", distance_vert);
-	// printf("distance_horz = %.2f\n", distance_horz);
-	// printf("distance_vert = %.2f\n", distance_vert);
+	// printf("distance_horz = %f\n", distance_horz); // test code
+	// printf("distance_vert = %f\n", distance_vert); // test code
 	vars->render_info.horizontal_plane = 0;
 	if (distance_horz == 0)
 		return (distance_vert_is_smallest(vars, distance_vert));

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/25 01:57:55 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/25 02:46:59 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,23 @@ static int is_valid_color_format(char *color_str, int color[3], char **error_msg
 			*error_msg = ft_strjoin(*error_msg, color_str);
 			break;
 		}
+		
+		// 数値以外の文字がないかチェック
+		int j = 0;
+		while (parts[i][j])
+		{
+			if (!ft_isdigit(parts[i][j]))
+			{
+				valid = 0;
+				*error_msg = ft_strdup("Invalid color format: ");
+				*error_msg = ft_strjoin(*error_msg, color_str);
+				break;
+			}
+			j++;
+		}
+		if (!valid)
+			break;
+			
 		color[i] = ft_atoi(parts[i]);
 		if (color[i] < 0 || color[i] > 255)
 		{
@@ -430,7 +447,10 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		{
 			free(line);
 			if (in_map_section) // マップセクション内の空行はエラー
-				error_message_and_free(vars, "Map contains empty line", 1);
+			{
+				if (height > 0) // マップの最初の行より後の空行
+					error_message_and_free(vars, "Map contains empty line", 1);
+			}
 			continue;
 		}
 		
@@ -499,29 +519,69 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 			// マップ行の処理
 			char invalid_char;
 			int invalid_pos;
-			if (is_valid_map_line(line, &invalid_char, &invalid_pos))
+			
+			// マップ行の妥当性チェック
+			if (ft_strlen(line) == 0 || is_valid_map_line(line, &invalid_char, &invalid_pos))
 			{
-				raw_map[height] = ft_strdup(line);
-				if (ft_strlen(line) > (size_t)max_width)
-					max_width = ft_strlen(line);
-				height++;
+				// 空行がマップの途中に現れた場合
+				if (ft_strlen(line) == 0 && height > 0)
+				{
+					free(line);
+					close(fd);
+					int i = 0;
+					while (i < height)
+					{
+						free(raw_map[i]);
+						i++;
+					}
+					free(raw_map);
+					error_message_and_free(vars, "Map contains empty line", 1);
+					return (0);
+				}
+				
+				// 有効なマップ行を追加
+				if (ft_strlen(line) > 0)
+				{
+					raw_map[height] = ft_strdup(line);
+					if (ft_strlen(line) > (size_t)max_width)
+						max_width = ft_strlen(line);
+					height++;
+				}
 			}
 			else
 			{
-				char error_msg[100];
-				snprintf(error_msg, sizeof(error_msg), "Invalid character in map: %c at position (%d,%d)", invalid_char, invalid_pos, height);
-				free(line);
-				close(fd);
-				// マップ行の解放
-				int i = 0;
-				while (i < height)
+				// マップデータ後の追加の設定行や無効な文字をチェック
+				if (get_identifier_type(line) != -1)
 				{
-					free(raw_map[i]);
-					i++;
+					free(line);
+					close(fd);
+					int i = 0;
+					while (i < height)
+					{
+						free(raw_map[i]);
+						i++;
+					}
+					free(raw_map);
+					error_message_and_free(vars, "Content after map", 1);
+					return (0);
 				}
-				free(raw_map);
-				error_message_and_free(vars, error_msg, 1);
-				return (0); // マップに無効な文字
+				else
+				{
+					char error_msg[100];
+					snprintf(error_msg, sizeof(error_msg), "Invalid character in map: %c at position (%d,%d)", invalid_char, invalid_pos, height);
+					free(line);
+					close(fd);
+					// マップ行の解放
+					int i = 0;
+					while (i < height)
+					{
+						free(raw_map[i]);
+						i++;
+					}
+					free(raw_map);
+					error_message_and_free(vars, error_msg, 1);
+					return (0); // マップに無効な文字
+				}
 			}
 		}
 		
@@ -551,23 +611,6 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		return (0);
 	
 	// マップのバリデーション
-	int error_pos[2] = {0, 0};
-	if (!is_map_enclosed(vars->map, height, max_width, error_pos))
-	{
-		i = 0;
-		while (vars->map[i])
-		{
-			free(vars->map[i]);
-			i++;
-		}
-		free(vars->map);
-		vars->map = NULL;
-		char error_msg[100];
-		snprintf(error_msg, sizeof(error_msg), "Map is not surrounded by walls at position (%d,%d)", error_pos[0], error_pos[1]);
-		error_message_and_free(vars, error_msg, 1);
-		return (0); // マップが壁で囲まれていない
-	}
-	
 	int player_count = 0;
 	if (!validate_player_position(vars->map, height, max_width, &player_count))
 	{
@@ -584,6 +627,23 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		else
 			error_message_and_free(vars, "Multiple player starting positions", 1);
 		return (0); // プレイヤー位置が不正
+	}
+
+	int error_pos[2] = {0, 0};
+	if (!is_map_enclosed(vars->map, height, max_width, error_pos))
+	{
+		i = 0;
+		while (vars->map[i])
+		{
+			free(vars->map[i]);
+			i++;
+		}
+		free(vars->map);
+		vars->map = NULL;
+		char error_msg[100];
+		snprintf(error_msg, sizeof(error_msg), "Map is not surrounded by walls at position (%d,%d)", error_pos[0], error_pos[1]);
+		error_message_and_free(vars, error_msg, 1);
+		return (0); // マップが壁で囲まれていない
 	}
 	
 	vars->height = height;

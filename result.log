@@ -75,13 +75,7 @@ Running test: map_with_empty_line.cub
 [0;32m✓ PASSED[0m: map_with_empty_line.cub
 ---------------------------------
 Running test: multiple_players.cub
-[0;31m✗ FAILED[0m: multiple_players.cub
-Expected output:
-Error: Multiple player starting positions
-Actual output:
-Error: Map is not surrounded by walls at position (1,2)
-Expected exit code: 1
-Actual exit code: 1
+[0;32m✓ PASSED[0m: multiple_players.cub
 ---------------------------------
 Running test: no_player.cub
 [0;32m✓ PASSED[0m: no_player.cub
@@ -90,5 +84,5 @@ Running test: unwalled_map.cub
 [0;32m✓ PASSED[0m: unwalled_map.cub
 ---------------------------------
 ===================================
-Test results: 13/18 passed
-[0;31m5 tests failed.[0m
+Test results: 14/18 passed
+[0;31m4 tests failed.[0m

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/19 22:14:25 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/24 23:55:29 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,22 @@ typedef struct s_texture
 	int		line_length;
 	int		endian;
 }	t_texture;
+
+typedef struct s_config
+{
+	char	*no_path;
+	char	*so_path;
+	char	*we_path;
+	char	*ea_path;
+	int		floor_color[3];
+	int		ceil_color[3];
+	int		has_no;
+	int		has_so;
+	int		has_we;
+	int		has_ea;
+	int		has_floor;
+	int		has_ceil;
+}	t_config;
 
 typedef struct s_texture_list
 {
@@ -114,6 +130,7 @@ typedef struct s_vars
 	void			*img_renga;
 	void			*img_grass;
 	t_texture_list	*textures;
+	t_config		config;  // 設定情報
 	char			**map;
 	t_player		player;
 	t_ray			ray;
@@ -135,6 +152,7 @@ void	check_rectangular(t_vars *vars);
 void	get_pos_p(t_vars *vars);
 int		flood_fill(t_vars *vars, char **map, int col, int row);
 void	surrounded_by_wall(t_vars *vars);
+void    validation_and_parse(int argc, char **argv, t_vars *vars);
 void	measure(t_vars *vars);
 void	check_components(t_vars *vars);
 char	**duplicate_map(t_vars *vars);

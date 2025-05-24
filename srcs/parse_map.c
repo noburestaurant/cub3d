@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: retanaka <retanaka@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:44:12 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/08 16:30:23 by retanaka         ###   ########.fr       */
+/*   Updated: 2025/05/24 23:55:24 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	check_args(char *file)
 	size_t	len;
 
 	len = ft_strlen(file);
-	if (!ft_strnstr(&file[len - 4], ".ber", 4))
-		error_message_and_free(NULL, "Invalid args\n", 1);
+	if (!ft_strnstr(&file[len - 4], ".cub", 4))
+		error_message_and_free(NULL, "Invalid file name", 1);
 }
 
 void	check_rectangular(t_vars *vars)

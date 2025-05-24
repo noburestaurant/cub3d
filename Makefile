@@ -40,6 +40,7 @@ $(addsuffix .c, \
 		raycast \
 		utils \
 		valid_path \
+		file_parse \
 	) \
 ) \
 

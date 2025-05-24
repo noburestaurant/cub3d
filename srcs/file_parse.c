@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/24 23:55:36 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/25 01:57:55 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int is_valid_extension(char *filename)
 }
 
 // 色表記（R,G,B）が有効かチェック
-static int is_valid_color_format(char *color_str, int color[3])
+static int is_valid_color_format(char *color_str, int color[3], char **error_msg)
 {
 	char	**parts;
 	int		i;
@@ -44,19 +44,32 @@ static int is_valid_color_format(char *color_str, int color[3])
 		if (!parts[i] || !ft_isdigit(parts[i][0]))
 		{
 			valid = 0;
+			*error_msg = ft_strdup("Invalid color format: ");
+			*error_msg = ft_strjoin(*error_msg, color_str);
 			break;
 		}
 		color[i] = ft_atoi(parts[i]);
 		if (color[i] < 0 || color[i] > 255)
 		{
 			valid = 0;
+			*error_msg = ft_strdup("Color value out of range: ");
+			char num_str[4];
+			snprintf(num_str, sizeof(num_str), "%d", color[i]);
+			*error_msg = ft_strjoin(*error_msg, num_str);
 			break;
 		}
 		i++;
 	}
 
 	if (i != 3 || parts[3] != NULL)
+	{
 		valid = 0;
+		if (!*error_msg)
+		{
+			*error_msg = ft_strdup("Invalid color format: ");
+			*error_msg = ft_strjoin(*error_msg, color_str);
+		}
+	}
 
 	// 分割した文字列の解放
 	i = 0;
@@ -70,7 +83,7 @@ static int is_valid_color_format(char *color_str, int color[3])
 }
 
 // テクスチャファイルが存在し、XPM形式かチェック
-static int is_valid_texture_path(char *path)
+static int is_valid_texture_path(char *path, char **error_msg)
 {
 	size_t	len;
 	int		fd;
@@ -84,12 +97,20 @@ static int is_valid_texture_path(char *path)
 	
 	// .xpm 拡張子チェック
 	if (ft_strnstr(&path[len - 4], ".xpm", 4) == NULL)
+	{
+		*error_msg = ft_strdup("Invalid texture file format (must be .xpm): ");
+		*error_msg = ft_strjoin(*error_msg, path);
 		return (0);
+	}
 	
 	// ファイルの存在チェック
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
+	{
+		*error_msg = ft_strdup("Texture file not found: ");
+		*error_msg = ft_strjoin(*error_msg, path);
 		return (0);
+	}
 	close(fd);
 	
 	return (1);
@@ -118,7 +139,7 @@ static int get_identifier_type(char *line)
 }
 
 // 設定項目の解析処理
-static int parse_config_line(char *line, t_config *config)
+static int parse_config_line(char *line, t_config *config, char **error_msg)
 {
 	int		type;
 	char	*value;
@@ -139,7 +160,13 @@ static int parse_config_line(char *line, t_config *config)
 	// 識別子ごとの処理
 	if (type == 0) // NO
 	{
-		if (config->has_no || !is_valid_texture_path(value))
+		if (config->has_no)
+		{
+			*error_msg = ft_strdup("Duplicate identifier: NO");
+			free(value);
+			return (-1);
+		}
+		if (!is_valid_texture_path(value, error_msg))
 		{
 			free(value);
 			return (-1);
@@ -149,7 +176,13 @@ static int parse_config_line(char *line, t_config *config)
 	}
 	else if (type == 1) // SO
 	{
-		if (config->has_so || !is_valid_texture_path(value))
+		if (config->has_so)
+		{
+			*error_msg = ft_strdup("Duplicate identifier: SO");
+			free(value);
+			return (-1);
+		}
+		if (!is_valid_texture_path(value, error_msg))
 		{
 			free(value);
 			return (-1);
@@ -159,7 +192,13 @@ static int parse_config_line(char *line, t_config *config)
 	}
 	else if (type == 2) // WE
 	{
-		if (config->has_we || !is_valid_texture_path(value))
+		if (config->has_we)
+		{
+			*error_msg = ft_strdup("Duplicate identifier: WE");
+			free(value);
+			return (-1);
+		}
+		if (!is_valid_texture_path(value, error_msg))
 		{
 			free(value);
 			return (-1);
@@ -169,7 +208,13 @@ static int parse_config_line(char *line, t_config *config)
 	}
 	else if (type == 3) // EA
 	{
-		if (config->has_ea || !is_valid_texture_path(value))
+		if (config->has_ea)
+		{
+			*error_msg = ft_strdup("Duplicate identifier: EA");
+			free(value);
+			return (-1);
+		}
+		if (!is_valid_texture_path(value, error_msg))
 		{
 			free(value);
 			return (-1);
@@ -179,7 +224,13 @@ static int parse_config_line(char *line, t_config *config)
 	}
 	else if (type == 4) // F
 	{
-		if (config->has_floor || !is_valid_color_format(value, config->floor_color))
+		if (config->has_floor)
+		{
+			*error_msg = ft_strdup("Duplicate identifier: F");
+			free(value);
+			return (-1);
+		}
+		if (!is_valid_color_format(value, config->floor_color, error_msg))
 		{
 			free(value);
 			return (-1);
@@ -189,7 +240,13 @@ static int parse_config_line(char *line, t_config *config)
 	}
 	else if (type == 5) // C
 	{
-		if (config->has_ceil || !is_valid_color_format(value, config->ceil_color))
+		if (config->has_ceil)
+		{
+			*error_msg = ft_strdup("Duplicate identifier: C");
+			free(value);
+			return (-1);
+		}
+		if (!is_valid_color_format(value, config->ceil_color, error_msg))
 		{
 			free(value);
 			return (-1);
@@ -202,7 +259,7 @@ static int parse_config_line(char *line, t_config *config)
 }
 
 // マップの一行が有効かチェック
-static int is_valid_map_line(char *line)
+static int is_valid_map_line(char *line, char *invalid_char, int *pos)
 {
 	int i;
 
@@ -214,7 +271,11 @@ static int is_valid_map_line(char *line)
 	{
 		if (line[i] != '0' && line[i] != '1' && line[i] != ' ' &&
 			line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
+		{
+			*invalid_char = line[i];
+			*pos = i;
 			return (0);
+		}
 		i++;
 	}
 	return (1);
@@ -268,7 +329,7 @@ static char **adjust_map_data(char **raw_map, int height, int width)
 }
 
 // マップが壁で完全に囲まれているかチェック
-static int is_map_enclosed(char **map, int height, int width)
+static int is_map_enclosed(char **map, int height, int width, int error_pos[2])
 {
 	int i;
 	int j;
@@ -282,7 +343,11 @@ static int is_map_enclosed(char **map, int height, int width)
 			{
 				// 上下左右の境界チェック
 				if (i == 0 || i == height - 1 || j == 0 || j == width - 1)
+				{
+					error_pos[0] = j;
+					error_pos[1] = i;
 					return (0); // 境界に接していれば囲まれていない
+				}
 				
 				// 上下左右のマスが壁または有効なマスかチェック
 				if ((map[i-1][j] != '0' && map[i-1][j] != '1' && 
@@ -298,6 +363,8 @@ static int is_map_enclosed(char **map, int height, int width)
 					map[i][j+1] != 'N' && map[i][j+1] != 'S' &&
 					map[i][j+1] != 'E' && map[i][j+1] != 'W'))
 				{
+					error_pos[0] = j;
+					error_pos[1] = i;
 					return (0);
 				}
 			}
@@ -307,11 +374,11 @@ static int is_map_enclosed(char **map, int height, int width)
 }
 
 // プレイヤーの位置を特定し、有効性をチェック
-static int validate_player_position(char **map, int height, int width)
+static int validate_player_position(char **map, int height, int width, int *player_count)
 {
 	int i;
 	int j;
-	int player_count = 0;
+	*player_count = 0;
 	
 	for (i = 0; i < height; i++)
 	{
@@ -319,11 +386,11 @@ static int validate_player_position(char **map, int height, int width)
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'S' || 
 				map[i][j] == 'E' || map[i][j] == 'W')
-				player_count++;
+				(*player_count)++;
 		}
 	}
 	
-	return (player_count == 1);
+	return (*player_count == 1);
 }
 
 // .cubファイルを解析し、設定とマップデータを取得する
@@ -336,6 +403,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 	int		height = 0;
 	int		max_width = 0;
 	char	**raw_map = NULL;
+	char	*error_msg = NULL;
 	
 	// 初期化
 	vars->config.has_no = 0;
@@ -373,11 +441,16 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		// マップセクション以外での処理
 		if (!in_map_section)
 		{
-			ret = parse_config_line(line, &vars->config);
+			ret = parse_config_line(line, &vars->config, &error_msg);
 			if (ret == -1) // 設定エラー
 			{
 				free(line);
 				close(fd);
+				if (error_msg)
+				{
+					error_message_and_free(vars, error_msg, 1);
+					free(error_msg);
+				}
 				return (0);
 			}
 			else if (ret == 0) // マップセクションの開始
@@ -394,7 +467,9 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 				in_map_section = 1;
 				
 				// マップの最初の行を処理
-				if (is_valid_map_line(line))
+				char invalid_char;
+				int invalid_pos;
+				if (is_valid_map_line(line, &invalid_char, &invalid_pos))
 				{
 					raw_map = (char **)malloc(sizeof(char *) * 1000); // 仮に1000行とする
 					if (!raw_map)
@@ -410,8 +485,11 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 				}
 				else
 				{
+					char error_msg[100];
+					snprintf(error_msg, sizeof(error_msg), "Invalid character in map: %c at position (%d,%d)", invalid_char, invalid_pos, height);
 					free(line);
 					close(fd);
+					error_message_and_free(vars, error_msg, 1);
 					return (0); // マップに無効な文字
 				}
 			}
@@ -419,7 +497,9 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		else // マップセクション内
 		{
 			// マップ行の処理
-			if (is_valid_map_line(line))
+			char invalid_char;
+			int invalid_pos;
+			if (is_valid_map_line(line, &invalid_char, &invalid_pos))
 			{
 				raw_map[height] = ft_strdup(line);
 				if (ft_strlen(line) > (size_t)max_width)
@@ -428,6 +508,8 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 			}
 			else
 			{
+				char error_msg[100];
+				snprintf(error_msg, sizeof(error_msg), "Invalid character in map: %c at position (%d,%d)", invalid_char, invalid_pos, height);
 				free(line);
 				close(fd);
 				// マップ行の解放
@@ -438,6 +520,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 					i++;
 				}
 				free(raw_map);
+				error_message_and_free(vars, error_msg, 1);
 				return (0); // マップに無効な文字
 			}
 		}
@@ -468,7 +551,8 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		return (0);
 	
 	// マップのバリデーション
-	if (!is_map_enclosed(vars->map, height, max_width))
+	int error_pos[2] = {0, 0};
+	if (!is_map_enclosed(vars->map, height, max_width, error_pos))
 	{
 		i = 0;
 		while (vars->map[i])
@@ -478,10 +562,14 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		}
 		free(vars->map);
 		vars->map = NULL;
+		char error_msg[100];
+		snprintf(error_msg, sizeof(error_msg), "Map is not surrounded by walls at position (%d,%d)", error_pos[0], error_pos[1]);
+		error_message_and_free(vars, error_msg, 1);
 		return (0); // マップが壁で囲まれていない
 	}
 	
-	if (!validate_player_position(vars->map, height, max_width))
+	int player_count = 0;
+	if (!validate_player_position(vars->map, height, max_width, &player_count))
 	{
 		i = 0;
 		while (vars->map[i])
@@ -491,6 +579,10 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		}
 		free(vars->map);
 		vars->map = NULL;
+		if (player_count == 0)
+			error_message_and_free(vars, "No player starting position", 1);
+		else
+			error_message_and_free(vars, "Multiple player starting positions", 1);
 		return (0); // プレイヤー位置が不正
 	}
 	
@@ -528,7 +620,7 @@ void validation_and_parse(int argc, char **argv, t_vars *vars)
 		else if (!vars->config.has_ceil)
 			error_message_and_free(vars, "Missing required element: C", 1);
 		else if (!vars->map)
-			error_message_and_free(vars, "Invalid map", 1);
+			error_message_and_free(vars, "No map in file", 1);
 		else
 			error_message_and_free(vars, "Unknown error during file parsing", 1);
 	}

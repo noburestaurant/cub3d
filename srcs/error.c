@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:01:16 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/25 00:14:18 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/25 01:57:55 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	error_message_and_free(t_vars *vars, char *msg, int status)
 			mlx_destroy_display(vars->mlx);
 		free(vars->mlx);
 	}
-	ft_printf("%s\n", msg);
+	if (status != 0)
+		ft_printf("Error: %s\n", msg);
+	else
+		ft_printf("%s\n", msg);
 	exit(status);
 }
 

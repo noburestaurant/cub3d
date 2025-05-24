@@ -1,5 +1,5 @@
 .PHONY: all clean fclean re val norm
-NAME = cub3d
+NAME = cub3D
 
 LIBFT_DIR = libft
 LIBFT_A = libft.a

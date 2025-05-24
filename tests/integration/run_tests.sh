@@ -4,7 +4,7 @@
 TEST_DIR="$(dirname "$0")"
 TEST_CASES_DIR="$TEST_DIR/test_cases"
 EXPECTED_OUTPUT_DIR="$TEST_DIR/expected_output"
-PROGRAM="../../cub3D"
+PROGRAM="./cub3D"
 
 # 色の設定
 GREEN="\033[0;32m"

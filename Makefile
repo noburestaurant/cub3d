@@ -1,4 +1,4 @@
-.PHONY: all clean fclean re val norm
+.PHONY: all clean fclean re val norm test
 NAME = cub3D
 
 LIBFT_DIR = libft
@@ -112,3 +112,8 @@ define check_norminette
 		$(call ok, $1": "); \
 	fi
 endef
+
+test: $(NAME)
+	@echo "$(CYAN)Running integration tests...$(RESET)"
+	@chmod +x tests/integration/run_tests.sh
+	@./tests/integration/run_tests.sh

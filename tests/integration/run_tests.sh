@@ -58,6 +58,61 @@ run_test() {
 # テスト実行開始
 echo "Starting integration tests..."
 
+# 引数の数エラーテスト
+echo "== Running argument count test cases =="
+echo "Testing with no arguments..."
+TOTAL=$((TOTAL+1))
+output=$($PROGRAM 2>&1)
+exit_code=$?
+expected_output="Error: Invalid number of arguments"
+if [ "$output" = "$expected_output" ] && [ "$exit_code" -eq 1 ]; then
+    echo -e "${GREEN}✓ PASSED${RESET}: no arguments"
+    PASSED=$((PASSED+1))
+else
+    echo -e "${RED}✗ FAILED${RESET}: no arguments"
+    echo "Expected output: $expected_output"
+    echo "Actual output: $output"
+    echo "Expected exit code: 1"
+    echo "Actual exit code: $exit_code"
+    FAILED=$((FAILED+1))
+fi
+
+echo "Testing with too many arguments..."
+TOTAL=$((TOTAL+1))
+output=$($PROGRAM arg1 arg2 arg3 2>&1)
+exit_code=$?
+if [ "$output" = "$expected_output" ] && [ "$exit_code" -eq 1 ]; then
+    echo -e "${GREEN}✓ PASSED${RESET}: too many arguments"
+    PASSED=$((PASSED+1))
+else
+    echo -e "${RED}✗ FAILED${RESET}: too many arguments"
+    echo "Expected output: $expected_output"
+    echo "Actual output: $output"
+    echo "Expected exit code: 1"
+    echo "Actual exit code: $exit_code"
+    FAILED=$((FAILED+1))
+fi
+echo "---------------------------------"
+
+# ファイルが存在しないテスト
+echo "Testing with nonexistent file..."
+TOTAL=$((TOTAL+1))
+output=$($PROGRAM "nonexistent_file.cub" 2>&1)
+exit_code=$?
+expected_output="Error: Cannot open file"
+if [ "$output" = "$expected_output" ] && [ "$exit_code" -eq 1 ]; then
+    echo -e "${GREEN}✓ PASSED${RESET}: nonexistent file"
+    PASSED=$((PASSED+1))
+else
+    echo -e "${RED}✗ FAILED${RESET}: nonexistent file"
+    echo "Expected output: $expected_output"
+    echo "Actual output: $output"
+    echo "Expected exit code: 1"
+    echo "Actual exit code: $exit_code"
+    FAILED=$((FAILED+1))
+fi
+echo "---------------------------------"
+
 # 正常系テスト
 echo "== Running valid test cases =="
 for test_file in "$TEST_CASES_DIR/valid"/*.cub; do

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/31 15:50:27 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:03:06 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	get_map_handle_error(char *crr_line, char *linked_lines)
 	{
 		free(linked_lines);
 		free(crr_line);
-		error_message_and_free(NULL, "Invalid map\n", 1);
+		error_message_and_free(NULL, "Invalid character in map", 1);
 	}
 	if (linked_lines[0] == '\0')
 	{
 		free(linked_lines);
 		free(crr_line);
-		error_message_and_free(NULL, "Invalid args or map\n", 1);
+		error_message_and_free(NULL, "Missing required element", 1);
 	}
 }
 

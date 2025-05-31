@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/22 20:12:43 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:50:27 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**get_map(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		error_message_and_free(NULL, "Invalid args\n", 1);
+		error_message_and_free(NULL, "Cannot open file", 1);
 	linked_lines = ft_strdup("");
 	while (1)
 	{

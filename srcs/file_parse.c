@@ -44,8 +44,7 @@ static int is_valid_color_format(char *color_str, int color[3], char **error_msg
 		if (!parts[i] || !ft_isdigit(parts[i][0]))
 		{
 			valid = 0;
-			*error_msg = ft_strdup("Invalid color format: ");
-			*error_msg = ft_strjoin(*error_msg, color_str);
+			*error_msg = ft_strdup("Invalid color format");
 			break;
 		}
 		
@@ -56,8 +55,7 @@ static int is_valid_color_format(char *color_str, int color[3], char **error_msg
 			if (!ft_isdigit(parts[i][j]))
 			{
 				valid = 0;
-				*error_msg = ft_strdup("Invalid color format: ");
-				*error_msg = ft_strjoin(*error_msg, color_str);
+				*error_msg = ft_strdup("Invalid color format");
 				break;
 			}
 			j++;
@@ -69,10 +67,7 @@ static int is_valid_color_format(char *color_str, int color[3], char **error_msg
 		if (color[i] < 0 || color[i] > 255)
 		{
 			valid = 0;
-			*error_msg = ft_strdup("Color value out of range: ");
-			char num_str[4];
-			snprintf(num_str, sizeof(num_str), "%d", color[i]);
-			*error_msg = ft_strjoin(*error_msg, num_str);
+			*error_msg = ft_strdup("Color value out of range");
 			break;
 		}
 		i++;
@@ -83,8 +78,7 @@ static int is_valid_color_format(char *color_str, int color[3], char **error_msg
 		valid = 0;
 		if (!*error_msg)
 		{
-			*error_msg = ft_strdup("Invalid color format: ");
-			*error_msg = ft_strjoin(*error_msg, color_str);
+			*error_msg = ft_strdup("Invalid color format");
 		}
 	}
 
@@ -115,8 +109,7 @@ static int is_valid_texture_path(char *path, char **error_msg)
 	// .xpm 拡張子チェック
 	if (ft_strnstr(&path[len - 4], ".xpm", 4) == NULL)
 	{
-		*error_msg = ft_strdup("Invalid texture file format (must be .xpm): ");
-		*error_msg = ft_strjoin(*error_msg, path);
+		*error_msg = ft_strdup("Invalid texture file format");
 		return (0);
 	}
 	
@@ -124,8 +117,7 @@ static int is_valid_texture_path(char *path, char **error_msg)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
-		*error_msg = ft_strdup("Texture file not found: ");
-		*error_msg = ft_strjoin(*error_msg, path);
+		*error_msg = ft_strdup("Texture file not found");
 		return (0);
 	}
 	close(fd);
@@ -179,7 +171,7 @@ static int parse_config_line(char *line, t_config *config, char **error_msg)
 	{
 		if (config->has_no)
 		{
-			*error_msg = ft_strdup("Duplicate identifier: NO");
+			*error_msg = ft_strdup("Duplicate identifier");
 			free(value);
 			return (-1);
 		}
@@ -195,7 +187,7 @@ static int parse_config_line(char *line, t_config *config, char **error_msg)
 	{
 		if (config->has_so)
 		{
-			*error_msg = ft_strdup("Duplicate identifier: SO");
+			*error_msg = ft_strdup("Duplicate identifier");
 			free(value);
 			return (-1);
 		}
@@ -211,7 +203,7 @@ static int parse_config_line(char *line, t_config *config, char **error_msg)
 	{
 		if (config->has_we)
 		{
-			*error_msg = ft_strdup("Duplicate identifier: WE");
+			*error_msg = ft_strdup("Duplicate identifier");
 			free(value);
 			return (-1);
 		}
@@ -227,7 +219,7 @@ static int parse_config_line(char *line, t_config *config, char **error_msg)
 	{
 		if (config->has_ea)
 		{
-			*error_msg = ft_strdup("Duplicate identifier: EA");
+			*error_msg = ft_strdup("Duplicate identifier");
 			free(value);
 			return (-1);
 		}
@@ -243,7 +235,7 @@ static int parse_config_line(char *line, t_config *config, char **error_msg)
 	{
 		if (config->has_floor)
 		{
-			*error_msg = ft_strdup("Duplicate identifier: F");
+			*error_msg = ft_strdup("Duplicate identifier");
 			free(value);
 			return (-1);
 		}
@@ -259,7 +251,7 @@ static int parse_config_line(char *line, t_config *config, char **error_msg)
 	{
 		if (config->has_ceil)
 		{
-			*error_msg = ft_strdup("Duplicate identifier: C");
+			*error_msg = ft_strdup("Duplicate identifier");
 			free(value);
 			return (-1);
 		}
@@ -429,7 +421,10 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 	// ファイルオープン
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
+	{
+		error_message_and_free(vars, "Cannot open file", 1);
 		return (0);
+	}
 	
 	// 一行ずつ読み込み
 	while ((line = get_next_line(fd)))
@@ -441,7 +436,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 			if (in_map_section) // マップセクション内の空行はエラー
 			{
 				if (height > 0) // マップの最初の行より後の空行
-					error_message_and_free(vars, "Map contains empty line", 1);
+					error_message_and_free(vars, "Invalid character in map", 1);
 			}
 			continue;
 		}
@@ -498,7 +493,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 				else
 				{
 					char error_msg[100];
-					snprintf(error_msg, sizeof(error_msg), "Invalid character in map: %c at position (%d,%d)", invalid_char, invalid_pos, height);
+					snprintf(error_msg, sizeof(error_msg), "Invalid character in map");
 					free(line);
 					close(fd);
 					error_message_and_free(vars, error_msg, 1);
@@ -527,7 +522,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 						i++;
 					}
 					free(raw_map);
-					error_message_and_free(vars, "Map contains empty line", 1);
+					error_message_and_free(vars, "Invalid character in map", 1);
 					return (0);
 				}
 				
@@ -554,13 +549,13 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 						i++;
 					}
 					free(raw_map);
-					error_message_and_free(vars, "Content after map", 1);
+					error_message_and_free(vars, "Invalid character in map", 1);
 					return (0);
 				}
 				else
 				{
 					char error_msg[100];
-					snprintf(error_msg, sizeof(error_msg), "Invalid character in map: %c at position (%d,%d)", invalid_char, invalid_pos, height);
+					snprintf(error_msg, sizeof(error_msg), "Invalid character in map");
 					free(line);
 					close(fd);
 					// マップ行の解放
@@ -632,9 +627,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		}
 		free(vars->map);
 		vars->map = NULL;
-		char error_msg[100];
-		snprintf(error_msg, sizeof(error_msg), "Map is not surrounded by walls at position (%d,%d)", error_pos[0], error_pos[1]);
-		error_message_and_free(vars, error_msg, 1);
+		error_message_and_free(vars, "Map is not surrounded by walls", 1);
 		return (0); // マップが壁で囲まれていない
 	}
 	
@@ -660,21 +653,21 @@ void validation_and_parse(int argc, char **argv, t_vars *vars)
 	{
 		// エラーメッセージ
 		if (!vars->config.has_no)
-			error_message_and_free(vars, "Missing required element: NO", 1);
+			error_message_and_free(vars, "Missing required element", 1);
 		else if (!vars->config.has_so)
-			error_message_and_free(vars, "Missing required element: SO", 1);
+			error_message_and_free(vars, "Missing required element", 1);
 		else if (!vars->config.has_we)
-			error_message_and_free(vars, "Missing required element: WE", 1);
+			error_message_and_free(vars, "Missing required element", 1);
 		else if (!vars->config.has_ea)
-			error_message_and_free(vars, "Missing required element: EA", 1);
+			error_message_and_free(vars, "Missing required element", 1);
 		else if (!vars->config.has_floor)
-			error_message_and_free(vars, "Missing required element: F", 1);
+			error_message_and_free(vars, "Missing required element", 1);
 		else if (!vars->config.has_ceil)
-			error_message_and_free(vars, "Missing required element: C", 1);
+			error_message_and_free(vars, "Missing required element", 1);
 		else if (!vars->map)
-			error_message_and_free(vars, "No map in file", 1);
+			error_message_and_free(vars, "Missing required element", 1);
 		else
-			error_message_and_free(vars, "Unknown error during file parsing", 1);
+			error_message_and_free(vars, "Cannot open file", 1);
 	}
 	
 	// プレイヤーの向きと位置を取得

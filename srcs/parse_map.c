@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:44:12 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/24 23:55:24 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/31 14:31:02 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,4 @@ void	check_components(t_vars *vars)
 
 void	parse_map(t_vars *vars)
 {
-	check_rectangular(vars);
-	measure(vars);
-	surrounded_by_wall(vars);
-	check_components(vars);
-	get_pos_p(vars);
-	check_valid_path(vars);
 }

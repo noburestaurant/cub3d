@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/25 02:46:59 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/31 14:38:27 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,7 +298,7 @@ static int is_valid_map_line(char *line, char *invalid_char, int *pos)
 	return (1);
 }
 
-// マップデータを調整（各行の長さを最大幅に合わせて空白で埋める）
+// マップデータを調整（各行の長さを最大幅に合わせて'*'で埋める）
 static char **adjust_map_data(char **raw_map, int height, int width)
 {
 	char	**adjusted_map;
@@ -331,10 +331,10 @@ static char **adjust_map_data(char **raw_map, int height, int width)
 			j++;
 		}
 		
-		// 余った部分をスペースで埋める
+		// 余った部分を'*'で埋める
 		while (j < width)
 		{
-			adjusted_map[i][j] = ' ';
+			adjusted_map[i][j] = '*';
 			j++;
 		}
 		adjusted_map[i][width] = '\0';
@@ -366,19 +366,11 @@ static int is_map_enclosed(char **map, int height, int width, int error_pos[2])
 					return (0); // 境界に接していれば囲まれていない
 				}
 				
-				// 上下左右のマスが壁または有効なマスかチェック
-				if ((map[i-1][j] != '0' && map[i-1][j] != '1' && 
-					map[i-1][j] != 'N' && map[i-1][j] != 'S' &&
-					map[i-1][j] != 'E' && map[i-1][j] != 'W') ||
-					(map[i+1][j] != '0' && map[i+1][j] != '1' &&
-					map[i+1][j] != 'N' && map[i+1][j] != 'S' &&
-					map[i+1][j] != 'E' && map[i+1][j] != 'W') ||
-					(map[i][j-1] != '0' && map[i][j-1] != '1' &&
-					map[i][j-1] != 'N' && map[i][j-1] != 'S' &&
-					map[i][j-1] != 'E' && map[i][j-1] != 'W') ||
-					(map[i][j+1] != '0' && map[i][j+1] != '1' &&
-					map[i][j+1] != 'N' && map[i][j+1] != 'S' &&
-					map[i][j+1] != 'E' && map[i][j+1] != 'W'))
+				// 上下左右のマスが壁または有効なマスかチェック (スペースまたは '*' は無効)
+				if (map[i-1][j] == ' ' || map[i-1][j] == '*' ||
+					map[i+1][j] == ' ' || map[i+1][j] == '*' ||
+					map[i][j-1] == ' ' || map[i][j-1] == '*' ||
+					map[i][j+1] == ' ' || map[i][j+1] == '*')
 				{
 					error_pos[0] = j;
 					error_pos[1] = i;

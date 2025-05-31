@@ -80,20 +80,20 @@
 
 | エラーケース | 表示メッセージ |
 | ----------- | ------------ |
-| 引数の数が誤り | "Error: Invalid number of arguments" |
-| ファイル名が不正 | "Error: Invalid file name" |
-| ファイルが開けない | "Error: Cannot open file" |
-| テクスチャファイルが存在しない | "Error: Texture file not found: [パス]" |
-| テクスチャファイルの拡張子が不正 | "Error: Invalid texture file format (must be .xpm): [パス]" |
-| テクスチャが読み込めない | "Error: Cannot load texture: [パス]" |
-| 識別子が重複して出現 | "Error: Duplicate identifier: [識別子]" |
-| 色指定のフォーマットが不正 | "Error: Invalid color format: [指定値]" |
-| 色の値が範囲外 | "Error: Color value out of range: [指定値]" |
-| マップが壁で囲まれていない | "Error: Map is not surrounded by walls at position (x,y)" |
-| プレイヤーの開始位置が存在しない | "Error: No player starting position" |
-| プレイヤーの開始位置が複数ある | "Error: Multiple player starting positions" |
-| マップに無効な文字がある | "Error: Invalid character in map: [文字] at position (x,y)" |
-| 必須要素が不足している | "Error: Missing required element: [識別子]" |
+| 引数の数が誤り | "Error: Invalid number of arguments\n" |
+| ファイル名が不正 | "Error: Invalid file name\n" |
+| ファイルが開けない | "Error: Cannot open file\n" |
+| テクスチャファイルが存在しない | "Error: Texture file not found\n" |
+| テクスチャファイルの拡張子が不正 | "Error: Invalid texture file format\n" |
+| テクスチャが読み込めない | "Error: Cannot load texture\n" |
+| 識別子が重複して出現 | "Error: Duplicate identifier\n" |
+| 色指定のフォーマットが不正 | "Error: Invalid color format\n" |
+| 色の値が範囲外 | "Error: Color value out of range\n" |
+| マップが壁で囲まれていない | "Error: Map is not surrounded by walls\n" |
+| プレイヤーの開始位置が存在しない | "Error: No player starting position\n" |
+| プレイヤーの開始位置が複数ある | "Error: Multiple player starting positions\n" |
+| マップに無効な文字がある | "Error: Invalid character in map\n" |
+| 必須要素が不足している | "Error: Missing required element\n" |
 
 ### エラー検出時のプログラム終了方法
 

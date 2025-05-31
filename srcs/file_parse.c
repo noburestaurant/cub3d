@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/31 14:38:27 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:29:08 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -465,7 +465,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 				if (!vars->config.has_no || !vars->config.has_so ||
 					!vars->config.has_we || !vars->config.has_ea ||
 					!vars->config.has_floor || !vars->config.has_ceil)
-				{
+				{ // TODO: 仕様の変更により、ここにerror_message_and_free()でよさそう
 					free(line);
 					close(fd);
 					return (0); // 必須要素の不足
@@ -477,7 +477,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 				char invalid_char;
 				int invalid_pos;
 				if (is_valid_map_line(line, &invalid_char, &invalid_pos))
-				{
+				{ // TODO: specify maximam height and width of map
 					raw_map = (char **)malloc(sizeof(char *) * 1000); // 仮に1000行とする
 					if (!raw_map)
 					{
@@ -522,7 +522,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 						i++;
 					}
 					free(raw_map);
-					error_message_and_free(vars, "Invalid character in map", 1);
+					error_message_and_free(vars, "Invalid character in map", 1); // TODO: message better be "Map sould not have an empty line"
 					return (0);
 				}
 				
@@ -577,7 +577,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 	
 	close(fd);
 	
-	if (!in_map_section || height == 0)
+	if (!in_map_section || height == 0) // TODO: 仕様の変更により、ここにerror_message_and_free()でよさそう
 		return (0); // マップなし
 	
 	raw_map[height] = NULL;

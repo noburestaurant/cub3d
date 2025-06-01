@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/31 16:29:08 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/01 14:36:33 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,7 +395,7 @@ static int validate_player_position(char **map, int height, int width, int *play
 }
 
 // .cubファイルを解析し、設定とマップデータを取得する
-static int parse_cub_file(char *file_path, t_vars *vars)
+static void parse_cub_file(char *file_path, t_vars *vars)
 {
 	int		fd;
 	char	*line;
@@ -421,10 +421,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 	// ファイルオープン
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
-	{
 		error_message_and_free(vars, "Cannot open file", 1);
-		return (0);
-	}
 	
 	// 一行ずつ読み込み
 	while ((line = get_next_line(fd)))
@@ -465,10 +462,10 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 				if (!vars->config.has_no || !vars->config.has_so ||
 					!vars->config.has_we || !vars->config.has_ea ||
 					!vars->config.has_floor || !vars->config.has_ceil)
-				{ // TODO: 仕様の変更により、ここにerror_message_and_free()でよさそう
+				{
 					free(line);
 					close(fd);
-					return (0); // 必須要素の不足
+					error_message_and_free(vars, "Missing required element", 1);
 				}
 				
 				in_map_section = 1;
@@ -483,7 +480,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 					{
 						free(line);
 						close(fd);
-						return (0);
+						error_message_and_free(vars, "Missing required element", 1);
 					}
 					raw_map[height] = ft_strdup(line);
 					if (ft_strlen(line) > (size_t)max_width)
@@ -567,7 +564,6 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 					}
 					free(raw_map);
 					error_message_and_free(vars, error_msg, 1);
-					return (0); // マップに無効な文字
 				}
 			}
 		}
@@ -577,8 +573,8 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 	
 	close(fd);
 	
-	if (!in_map_section || height == 0) // TODO: 仕様の変更により、ここにerror_message_and_free()でよさそう
-		return (0); // マップなし
+	if (!in_map_section || height == 0)
+		error_message_and_free(vars, "Missing required element", 1);
 	
 	raw_map[height] = NULL;
 	
@@ -595,7 +591,7 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 	free(raw_map);
 	
 	if (!vars->map)
-		return (0);
+		error_message_and_free(vars, "Missing required element", 1);
 	
 	// マップのバリデーション
 	int player_count = 0;
@@ -613,7 +609,6 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 			error_message_and_free(vars, "No player starting position", 1);
 		else
 			error_message_and_free(vars, "Multiple player starting positions", 1);
-		return (0); // プレイヤー位置が不正
 	}
 
 	int error_pos[2] = {0, 0};
@@ -628,13 +623,10 @@ static int parse_cub_file(char *file_path, t_vars *vars)
 		free(vars->map);
 		vars->map = NULL;
 		error_message_and_free(vars, "Map is not surrounded by walls", 1);
-		return (0); // マップが壁で囲まれていない
 	}
 	
 	vars->height = height;
 	vars->width = max_width;
-	
-	return (1);
 }
 
 // メイン検証・解析関数
@@ -649,26 +641,7 @@ void validation_and_parse(int argc, char **argv, t_vars *vars)
 		error_message_and_free(vars, "Invalid file name", 1);
 	
 	// ファイルの解析
-	if (!parse_cub_file(argv[1], vars))
-	{
-		// エラーメッセージ
-		if (!vars->config.has_no)
-			error_message_and_free(vars, "Missing required element", 1);
-		else if (!vars->config.has_so)
-			error_message_and_free(vars, "Missing required element", 1);
-		else if (!vars->config.has_we)
-			error_message_and_free(vars, "Missing required element", 1);
-		else if (!vars->config.has_ea)
-			error_message_and_free(vars, "Missing required element", 1);
-		else if (!vars->config.has_floor)
-			error_message_and_free(vars, "Missing required element", 1);
-		else if (!vars->config.has_ceil)
-			error_message_and_free(vars, "Missing required element", 1);
-		else if (!vars->map)
-			error_message_and_free(vars, "Missing required element", 1);
-		else
-			error_message_and_free(vars, "Cannot open file", 1);
-	}
+	parse_cub_file(argv[1], vars);
 	
 	// プレイヤーの向きと位置を取得
 	parse_map(vars);

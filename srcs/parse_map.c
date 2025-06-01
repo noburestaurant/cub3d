@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:44:12 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/31 14:32:10 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:44:46 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ void	check_args(char *file)
 
 void	parse_map(t_vars *vars)
 {
+	(void)vars;
 }

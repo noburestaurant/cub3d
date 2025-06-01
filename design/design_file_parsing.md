@@ -93,6 +93,7 @@
 | プレイヤーの開始位置が存在しない | "Error: No player starting position\n" |
 | プレイヤーの開始位置が複数ある | "Error: Multiple player starting positions\n" |
 | マップに無効な文字がある | "Error: Invalid character in map\n" |
+| マップ内に空行がある | "Error: Map should not have an empty line\n" |
 | 必須要素が不足している | "Error: Missing required element\n" |
 
 ### エラー検出時のプログラム終了方法

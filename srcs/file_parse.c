@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/01 14:42:52 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/01 16:33:10 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -433,7 +433,7 @@ static void parse_cub_file(char *file_path, t_vars *vars)
 			if (in_map_section) // マップセクション内の空行はエラー
 			{
 				if (height > 0) // マップの最初の行より後の空行
-					error_message_and_free(vars, "Invalid character in map", 1);
+					error_message_and_free(vars, "Map should not have an empty line", 1);
 			}
 			continue;
 		}
@@ -517,7 +517,7 @@ static void parse_cub_file(char *file_path, t_vars *vars)
 						i++;
 					}
 					free(raw_map);
-					error_message_and_free(vars, "Invalid character in map", 1); // TODO: message better be "Map sould not have an empty line"
+					error_message_and_free(vars, "Map should not have an empty line", 1);
 				}
 				
 				// 有効なマップ行を追加

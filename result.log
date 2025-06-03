@@ -1,16 +1,581 @@
 Starting integration tests...
+== Running argument count test cases ==
+Testing with no arguments...
+[0;32m✓ PASSED[0m: no arguments
+Testing with too many arguments...
+[0;32m✓ PASSED[0m: too many arguments
+---------------------------------
+Testing with nonexistent file...
+[0;32m✓ PASSED[0m: nonexistent file
+---------------------------------
 == Running valid test cases ==
 Running test: complex.cub
 [0;31m✗ FAILED[0m: complex.cub
 Expected output:
 
 Actual output:
-Error: Invalid map
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both dista
+nce variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
+both distance variable is zero!
 Expected exit code: 0
-Actual exit code: 1
+Actual exit code: 0
 ---------------------------------
 Running test: minimal.cub
-[0;32m✓ PASSED[0m: minimal.cub
+[0;31m✗ FAILED[0m: minimal.cub
+Expected output:
+
+Actual output:
+
+Expected exit code: 0
+Actual exit code: 139
 ---------------------------------
 == Running invalid file format test cases ==
 Running test: missing_element.cub
@@ -40,36 +605,17 @@ Running test: invalid_color_format.cub
 [0;32m✓ PASSED[0m: invalid_color_format.cub
 ---------------------------------
 Running test: invalid_color_value_type.cub
-[0;31m✗ FAILED[0m: invalid_color_value_type.cub
-Expected output:
-Error
-Invalid color format: 220,100,abc
-Actual output:
-Error: Invalid color format: 220,100,abc
-Expected exit code: 1
-Actual exit code: 1
+[0;32m✓ PASSED[0m: invalid_color_value_type.cub
 ---------------------------------
 Running test: spaces_in_color.cub
 [0;32m✓ PASSED[0m: spaces_in_color.cub
 ---------------------------------
 == Running invalid map test cases ==
 Running test: content_after_map.cub
-[0;31m✗ FAILED[0m: content_after_map.cub
-Expected output:
-Error: Content after map
-Actual output:
-Error: Map contains empty line
-Expected exit code: 1
-Actual exit code: 1
+[0;32m✓ PASSED[0m: content_after_map.cub
 ---------------------------------
 Running test: invalid_map_char.cub
-[0;31m✗ FAILED[0m: invalid_map_char.cub
-Expected output:
-Error: Invalid character in map: X at position (2,2)
-Actual output:
-Error: Invalid character in map: 2 at position (1,2)
-Expected exit code: 1
-Actual exit code: 1
+[0;32m✓ PASSED[0m: invalid_map_char.cub
 ---------------------------------
 Running test: map_with_empty_line.cub
 [0;32m✓ PASSED[0m: map_with_empty_line.cub
@@ -84,5 +630,5 @@ Running test: unwalled_map.cub
 [0;32m✓ PASSED[0m: unwalled_map.cub
 ---------------------------------
 ===================================
-Test results: 14/18 passed
-[0;31m4 tests failed.[0m
+Test results: 19/21 passed
+[0;31m2 tests failed.[0m

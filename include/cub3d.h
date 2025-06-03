@@ -143,6 +143,22 @@ typedef struct s_vars
 
 int		check_player(char c);
 
+/* File parsing utility functions */
+int		is_valid_extension(char *filename);
+int		is_valid_color_format(char *color_str, int color[3], char **error_msg);
+int		is_valid_texture_path(char *path, char **error_msg);
+int		get_identifier_type(char *line);
+int		parse_config_line(char *line, t_config *config, char **error_msg);
+int		validate_config(t_config *config, char **error_msg);
+int		is_valid_map_line(char *line);
+int		adjust_map_data(t_config *config, char **error_msg);
+int		is_map_enclosed(char **map, char **error_msg);
+int		read_map_section(int fd, t_config *config, char **error_msg);
+int		validate_player_position(t_config *config, char **error_msg);
+void	init_config(t_config *config);
+void	cleanup_config(t_config *config);
+int		parse_file(char *filename, t_config *config, char **error_msg);
+
 char	*ft_join_and_free(char *s1, char *s2);
 char	**get_map(char *file);
 void	get_map_handle_error(char *crr_line, char *linked_lines);

@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/05 13:42:01 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:01:23 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,24 +121,5 @@ float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 		(vars, ray_angle, xplayer, yplayer);
 	distance_vert = calculate_wall_hit_distance_vertical
 		(vars, ray_angle, xplayer, yplayer);
-	if (distance_horz == 0 && distance_vert == 0)
-	{
-		printf("both distance variable is zero!\n");
-		return (0);
-	}
-	vars->render_info.horizontal_plane = 0;
-	if (distance_horz == 0)
-		return (distance_vert_is_smallest(vars, distance_vert));
-	else if (distance_vert == 0)
-	{
-		vars->render_info.horizontal_plane = 1;
-		return (distance_horz_is_smallest(vars, distance_horz));
-	}
-	if (distance_horz > distance_vert)
-		return (distance_vert_is_smallest(vars, distance_vert));
-	else
-	{
-		vars->render_info.horizontal_plane = 1;
-		return (distance_horz_is_smallest(vars, distance_horz));
-	}
+	return (handle_distance_comparison(vars, distance_horz, distance_vert));
 }

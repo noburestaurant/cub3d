@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 00:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/05 05:03:35 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:11:07 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ void	measure(t_vars *vars)
 		(vars->height)++;
 	while (vars->map[0][vars->width])
 		(vars->width)++;
+}
+
+int	has_wall_at(t_vars *vars, int next_horizontal_touch_x,
+	int next_horizontal_touch_y)
+{
+	int	coordinate_x_in_map;
+	int	coordinate_y_in_map;
+
+	coordinate_x_in_map = next_horizontal_touch_x / TILE_SIZE;
+	coordinate_y_in_map = next_horizontal_touch_y / TILE_SIZE;
+	return (vars->map[coordinate_y_in_map][coordinate_x_in_map] == '1');
 }
 
 char	**duplicate_map(t_vars *vars)

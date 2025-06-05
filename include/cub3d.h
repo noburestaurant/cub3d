@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/05 13:33:09 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:11:07 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 # define WINDOW_WIDTH 550 // MAP_NUM_COLS * TILE_SIZE
 # define WINDOW_HEIGHT 500 // MAP_NUM_ROWS * TILE_SIZE
 # define FOV 60
-// # define MINIMAP_SCALE_FACTOR // when rendering any number, all value have to maltiply by the number
+// # define MINIMAP_SCALE_FACTOR
+// when rendering any number, all value have to multiply by the number
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -167,7 +168,7 @@ typedef struct s_vars
 	void			*img_renga;
 	void			*img_grass;
 	t_texture_list	*textures;
-	t_config		config;  // 設定情報
+	t_config		config; // 設定情報
 	char			**map;
 	t_player		player;
 	t_ray			ray;
@@ -205,7 +206,7 @@ void	check_rectangular(t_vars *vars);
 void	get_pos_p(t_vars *vars);
 int		flood_fill(t_vars *vars, char **map, int col, int row);
 void	surrounded_by_wall(t_vars *vars);
-void    validation_and_parse(int argc, char **argv, t_vars *vars);
+void	validation_and_parse(int argc, char **argv, t_vars *vars);
 void	measure(t_vars *vars);
 void	check_components(t_vars *vars);
 char	**duplicate_map(t_vars *vars);
@@ -221,6 +222,10 @@ void	load_basic_images(t_vars *vars);
 void	load_player_images(t_vars *vars);
 void	print_player(t_vars *vars);
 void	render_field_of_view(t_vars *vars);
+void	get_rendering_wall_direction(t_vars *vars);
+void	choose_rendering_wall_texture(t_vars *vars);
+void	get_pixel_color_and_render_it(t_vars *vars, float projected_wall_height,
+			int i, int j);
 int		is_ray_facing_up(float ray_angle);
 int		is_ray_facing_down(float ray_angle);
 int		is_ray_facing_right(float ray_angle);
@@ -245,7 +250,8 @@ void	render_floor(t_vars *vars, int floor_color);
 void	render_ceiling(t_vars *vars, int ceiling_color);
 void	render_floor_and_ceiling(t_vars *vars);
 float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer);
-float	compare_distances(t_vars *vars, float distance_horz, float distance_vert);
+float	handle_distance_comparison(t_vars *vars, float distance_horz,
+			float distance_vert);
 void	init_render_info(t_vars *vars, float projected_wall_height);
 
 // will be deleted

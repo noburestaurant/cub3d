@@ -24,37 +24,43 @@ SRCS = \
 $(addsuffix .c, \
 	$(addprefix $(SRCS_DIR)/, \
 		check_player \
+		config_parser \
 		error \
+		file_parse \
+		file_parse_cleanup \
+		file_parse_config \
+		file_parse_identifiers \
+		file_parse_map \
+		file_parse_map_bounds \
+		file_parse_utils \
+		file_parse_validation \
+		file_validation \
 		key_event \
 		main \
+		map_utils \
+		map_validation \
 		parse_map \
-		texture_get \
-		texture_load \
-		update_map \
+		ray_facing \
+		ray_utils \
+		raycast \
+		render_field_of_view \
+		render_field_of_view_utils \
+		render_texture_utils \
+		render_floor_and_ceiling \
 		render_map \
 		render_ray \
 		render_ray_horizontal \
 		render_ray_vertical \
-		render_field_of_view \
-		render_field_of_view_utils \
-		render_floor_and_ceiling \
-		ray_utils \
-		ray_facing \
-		raycast \
-		utils_player \
-		utils_map \
+		texture_get \
+		texture_load \
+		update_map \
 		utils_geometry \
+		utils_map \
+		utils_player \
 		utils_string \
-		window_utils \
 		valid_path \
-		file_parse \
-		file_parse_utils \
-		file_parse_config \
-		file_parse_map \
-		file_parse_map_bounds \
-		file_parse_validation \
-		file_parse_identifiers \
 		validation_parse \
+		window_utils \
 	) \
 ) \
 

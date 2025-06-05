@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update_map.c                                       :+:      :+:    :+:   */
+/*   utils_string.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 12:16:49 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/05 13:33:09 by hnakayam         ###   ########.fr       */
+/*   Created: 2025/01/27 00:00:00 by hnakayam          #+#    #+#             */
+/*   Updated: 2025/06/05 05:03:35 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	update_map(t_vars *vars, int x_before, int y_before)
+char	*ft_join_and_free(char *s1, char *s2)
 {
-	vars->map[y_before][x_before] = '0';
-	vars->map[vars->player.y][vars->player.x] = vars->player.ort;
-	mlx_clear_window(vars->mlx, vars->win);
-	render_map(vars);
-	print_player(vars);
-	render_rays(vars);
-	print_orientation(vars);
-	render_field_of_view(vars);
+	char	*ans;
+	int		i;
+	int		j;
+
+	if (s1 == NULL)
+		return (NULL);
+	ans = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (ans == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		ans[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+		ans[i++] = s2[j++];
+	ans[i] = '\0';
+	free(s1);
+	free(s2);
+	return (ans);
 }

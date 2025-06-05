@@ -29,18 +29,32 @@ $(addsuffix .c, \
 		main \
 		parse_map \
 		texture_get \
+		texture_load \
 		update_map \
 		render_map \
 		render_ray \
+		render_ray_horizontal \
+		render_ray_vertical \
 		render_field_of_view \
 		render_field_of_view_utils \
 		render_floor_and_ceiling \
 		ray_utils \
 		ray_facing \
 		raycast \
-		utils \
+		utils_player \
+		utils_map \
+		utils_geometry \
+		utils_string \
+		window_utils \
 		valid_path \
 		file_parse \
+		file_parse_utils \
+		file_parse_config \
+		file_parse_map \
+		file_parse_map_bounds \
+		file_parse_validation \
+		file_parse_identifiers \
+		validation_parse \
 	) \
 ) \
 

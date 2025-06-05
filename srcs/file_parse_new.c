@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_parse.c                                       :+:      :+:    :+:   */
+/*   file_parse_new.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/01 16:33:10 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/05 04:27:56 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static int	read_config_section(int fd, t_config *config, char **error_msg)
 	char	*line;
 	int		result;
 
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		result = process_config_line(line, config, error_msg);
 		free(line);
@@ -62,6 +63,7 @@ static int	read_config_section(int fd, t_config *config, char **error_msg)
 			return (0);
 		if (result == 2)
 			break ;
+		line = get_next_line(fd);
 	}
 	return (validate_config(config, error_msg));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:15 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 18:31:57 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:33:09 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,10 @@ float	distance_horz_is_smallest(t_vars *vars, float distance_horz)
 	vars->ray.wall_hit_x = vars->ray.horz_wall_hit_x;
 	vars->ray.wall_hit_y = vars->ray.horz_wall_hit_y;
 	return (distance_horz);
+}
+
+int	is_in_bounds(t_ray_calc *calc)
+{
+	return (0 <= calc->vals[0] && calc->vals[0] <= WINDOW_WIDTH
+		&& 0 <= calc->vals[1] && calc->vals[1] <= WINDOW_HEIGHT);
 }

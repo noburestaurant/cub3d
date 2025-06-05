@@ -131,9 +131,9 @@ int	parse_config_line(char *line, t_config *config, char **error_msg)
 
 int	validate_config(t_config *config, char **error_msg)
 {
-	if (!config->has_no || !config->has_so ||
-		!config->has_we || !config->has_ea ||
-		!config->has_floor || !config->has_ceil)
+	if (!config->has_no || !config->has_so
+		|| !config->has_we || !config->has_ea
+		|| !config->has_floor || !config->has_ceil)
 	{
 		*error_msg = ft_strdup("Missing required configuration elements");
 		return (0);

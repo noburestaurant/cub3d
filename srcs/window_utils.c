@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update_map.c                                       :+:      :+:    :+:   */
+/*   window_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 12:16:49 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/05 13:33:09 by hnakayam         ###   ########.fr       */
+/*   Created: 2025/06/05 13:40:00 by hnakayam          #+#    #+#             */
+/*   Updated: 2025/06/05 13:37:42 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	update_map(t_vars *vars, int x_before, int y_before)
+int	window_close(t_vars *vars)
 {
-	vars->map[y_before][x_before] = '0';
-	vars->map[vars->player.y][vars->player.x] = vars->player.ort;
-	mlx_clear_window(vars->mlx, vars->win);
-	render_map(vars);
-	print_player(vars);
-	render_rays(vars);
-	print_orientation(vars);
-	render_field_of_view(vars);
+	error_message_and_free(vars, "", 0);
+	return (1);
 }

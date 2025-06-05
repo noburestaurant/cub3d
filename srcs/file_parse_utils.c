@@ -1,5 +1,5 @@
 /* ************************************************************************** */
-/*                                                                            */
+/*                                                         */
 /*                                                        :::      ::::::::   */
 /*   file_parse_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -25,35 +25,43 @@ int	is_valid_extension(char *filename)
 	return (ft_strnstr(&filename[len - 4], ".cub", 4) != NULL);
 }
 
-static int	check_color_parts(char **parts, int color[3], char **error_msg)
+static int	validate_color_value(char *part, int *color_val, char **error_msg)
 {
-	int	i;
 	int	j;
 
-	i = 0;
-	while (parts[i] && i < 3)
+	if (!part || !ft_isdigit(part[0]))
 	{
-		if (!parts[i] || !ft_isdigit(parts[i][0]))
+		*error_msg = ft_strdup("Invalid color format");
+		return (0);
+	}
+	j = 0;
+	while (part[j])
+	{
+		if (!ft_isdigit(part[j]))
 		{
 			*error_msg = ft_strdup("Invalid color format");
 			return (0);
 		}
-		j = 0;
-		while (parts[i][j])
-		{
-			if (!ft_isdigit(parts[i][j]))
-			{
-				*error_msg = ft_strdup("Invalid color format");
-				return (0);
-			}
-			j++;
-		}
-		color[i] = ft_atoi(parts[i]);
-		if (color[i] < 0 || color[i] > 255)
-		{
-			*error_msg = ft_strdup("Color value out of range");
+		j++;
+	}
+	*color_val = ft_atoi(part);
+	if (*color_val < 0 || *color_val > 255)
+	{
+		*error_msg = ft_strdup("Color value out of range");
+		return (0);
+	}
+	return (1);
+}
+
+static int	check_color_parts(char **parts, int color[3], char **error_msg)
+{
+	int	i;
+
+	i = 0;
+	while (parts[i] && i < 3)
+	{
+		if (!validate_color_value(parts[i], &color[i], error_msg))
 			return (0);
-		}
 		i++;
 	}
 	return (1);
@@ -70,6 +78,9 @@ int	is_valid_color_format(char *color_str, int color[3], char **error_msg)
 	if (!parts)
 		return (0);
 	valid = check_color_parts(parts, color, error_msg);
+	i = 0;
+	while (parts[i])
+		i++;
 	if (valid && (parts[3] != NULL || i != 3))
 	{
 		valid = 0;
@@ -110,24 +121,4 @@ int	is_valid_texture_path(char *path, char **error_msg)
 	}
 	close(fd);
 	return (1);
-}
-
-// 識別子の種類を特定する（NO, SO, WE, EA, F, C）
-int	get_identifier_type(char *line)
-{
-	if (!line || ft_strlen(line) < 3)
-		return (-1);
-	if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
-		return (0);
-	else if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
-		return (1);
-	else if (line[0] == 'W' && line[1] == 'E' && line[2] == ' ')
-		return (2);
-	else if (line[0] == 'E' && line[1] == 'A' && line[2] == ' ')
-		return (3);
-	else if (line[0] == 'F' && line[1] == ' ')
-		return (4);
-	else if (line[0] == 'C' && line[1] == ' ')
-		return (5);
-	return (-1);
 }

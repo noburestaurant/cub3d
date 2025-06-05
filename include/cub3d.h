@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/24 23:55:29 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:33:09 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,43 @@ typedef struct s_texture_list
 	t_texture	texture_east;
 	t_texture	texture_west;
 }	t_texture_list;
+
+typedef struct s_map_info
+{
+	char	**map;
+	int		height;
+	int		width;
+}	t_map_info;
+
+typedef struct s_line_data
+{
+	int	x_a;
+	int	y_a;
+	int	x_b;
+	int	y_b;
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	done;
+}	t_line_data;
+
+typedef struct s_ray_calc
+{
+	float	ray_angle;
+	int		xplayer;
+	int		yplayer;
+	float	vals[2];
+}	t_ray_calc;
+
+typedef struct s_line_params
+{
+	int	x_a;
+	int	y_a;
+	int	x_b;
+	int	y_b;
+}	t_line_params;
 
 typedef struct s_img_player
 {
@@ -179,6 +216,9 @@ void	choose_image(t_vars *vars, int x, int y);
 void	render_map(t_vars *vars);
 void	get_img(t_vars *vars);
 void	convert_img_to_data_addr(t_vars *vars);
+void	load_xpm_image(t_vars *vars, void **img, char *path);
+void	load_basic_images(t_vars *vars);
+void	load_player_images(t_vars *vars);
 void	print_player(t_vars *vars);
 void	render_field_of_view(t_vars *vars);
 int		is_ray_facing_up(float ray_angle);
@@ -192,6 +232,8 @@ int		has_wall_at(t_vars *vars,
 float	distance_vert_is_smallest(t_vars *vars, float distance_vert);
 float	distance_horz_is_smallest(t_vars *vars, float distance_horz);
 int		key_hook(int keycode, t_vars *vars);
+void	handle_movement_keys(int keycode, t_vars *vars);
+void	update_player_position(t_vars *vars);
 void	reset_player(t_vars *vars, int x_before, int y_before);
 void	update_map(t_vars *vars, int x_before, int y_before);
 int		check_possible_to_move(t_vars *vars);
@@ -203,15 +245,24 @@ void	render_floor(t_vars *vars, int floor_color);
 void	render_ceiling(t_vars *vars, int ceiling_color);
 void	render_floor_and_ceiling(t_vars *vars);
 float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer);
+float	compare_distances(t_vars *vars, float distance_horz, float distance_vert);
 void	init_render_info(t_vars *vars, float projected_wall_height);
 
 // will be deleted
-void	line(t_vars *vars, int x_a, int y_a, int x_b, int y_b);
+void	line(t_vars *vars, t_line_params params);
 void	circle(t_vars *vars, int cx, int cy);
 float	normalize_angle(float angle);
 int		is_equal(float a, float b);
+int		is_in_bounds(t_ray_calc *calc);
 void	print_orientation(t_vars *vars);
 void	render_rays(t_vars *vars);
 void	render_ray(t_vars *vars, float ray_angle, int xplayer, int yplayer);
+float	calculate_wall_hit_distance_horizontal_delete(t_vars *vars,
+			t_ray_calc *calc);
+float	calculate_wall_hit_distance_vertical_delete(t_vars *vars,
+			t_ray_calc *calc);
+void	draw_line_with_params(t_vars *vars, t_ray_calc *calc);
+void	handle_missing_distance(t_vars *vars, float distance_horz,
+			float distance_vert, t_ray_calc calc[2]);
 
 #endif

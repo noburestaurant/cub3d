@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/03 14:00:00 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/05 04:49:44 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,37 +36,11 @@ void	init_config(t_config *config)
 
 int	check_all_config_present(t_config *config)
 {
-	if (!config->has_no || !config->has_so ||
-		!config->has_we || !config->has_ea ||
-		!config->has_floor || !config->has_ceil)
+	if (!config->has_no || !config->has_so
+		|| !config->has_we || !config->has_ea
+		|| !config->has_floor || !config->has_ceil)
 		return (0);
 	return (1);
-}
-
-void	free_raw_map(char **raw_map, int height)
-{
-	int	i;
-
-	i = 0;
-	while (i < height)
-	{
-		free(raw_map[i]);
-		i++;
-	}
-	free(raw_map);
-}
-
-void	free_adjusted_map(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-	{
-		free(map[i]);
-		i++;
-	}
-	free(map);
 }
 
 void	cleanup_config(t_config *config)
@@ -79,8 +53,4 @@ void	cleanup_config(t_config *config)
 		free(config->we_path);
 	if (config->ea_path)
 		free(config->ea_path);
-	config->no_path = NULL;
-	config->so_path = NULL;
-	config->we_path = NULL;
-	config->ea_path = NULL;
 }

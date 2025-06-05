@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnakayam <hnakayam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 03:13:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2024/12/18 16:57:57by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:42:01 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,8 @@ float	calculate_wall_hit_distance_horizontal(t_vars *vars, float ray_angle,
 	while (0 <= next_horz_touch_x && next_horz_touch_x < WINDOW_WIDTH
 		&& 0 <= next_horz_touch_y && next_horz_touch_y < WINDOW_HEIGHT)
 	{
-		// printf("next_horz_touch_x = %f\n", next_horz_touch_x);
-		// printf("next_horz_touch_y = %f\n", next_horz_touch_y);
-		if (has_wall_at(vars, floorf(next_horz_touch_x), floorf(next_horz_touch_y)
-				- (is_ray_facing_up(ray_angle))))
+		if (has_wall_at(vars, floorf(next_horz_touch_x),
+				floorf(next_horz_touch_y) - (is_ray_facing_up(ray_angle))))
 		{
 			vars->ray.found_horz_wall = 1;
 			vars->ray.horz_wall_hit_x = next_horz_touch_x;
@@ -126,12 +124,8 @@ float	raycast(t_vars *vars, float ray_angle, int xplayer, int yplayer)
 	if (distance_horz == 0 && distance_vert == 0)
 	{
 		printf("both distance variable is zero!\n");
-		// write(2, "Unknown error in raycast func\n", 31);
-		// exit (2);
 		return (0);
 	}
-	// printf("distance_horz = %f\n", distance_horz); // test code
-	// printf("distance_vert = %f\n", distance_vert); // test code
 	vars->render_info.horizontal_plane = 0;
 	if (distance_horz == 0)
 		return (distance_vert_is_smallest(vars, distance_vert));

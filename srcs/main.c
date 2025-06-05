@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/31 16:03:06 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:33:09 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	init_vars(t_vars *vars)
 	vars->img_grass = NULL;
 	vars->img_player = calloc(1, sizeof(t_vars) * 1);
 	if (vars->img_player == NULL)
-		exit (1); // error
+		exit (1);
 	vars->map = NULL;
 }
 
@@ -71,15 +71,8 @@ int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
-	// if (argc != 2)
-	// 	error_message_and_free(NULL, "Invalid args\n", 1);
 	init_vars(&vars);
 	validation_and_parse(argc, argv, &vars);
-	// // check_args(argv[1]);
-	// vars.map = get_map(argv[1]);
-	// if (vars.map == NULL)
-	// 	error_message_and_free(&vars, "Unexpected Error\n", 1);
-	// parse_map(&vars);
 	vars.mlx = mlx_init();
 	if (vars.mlx == NULL)
 		error_message_and_free(&vars, "Unexpected Error: mlx\n", 1);
@@ -88,21 +81,11 @@ int	main(int argc, char **argv)
 	if (vars.win == NULL)
 		error_message_and_free(&vars, "Unexpected Error: mlx\n", 1);
 	get_img(&vars);
-
-	// render map, player position, and rays
 	render_map(&vars);
 	print_player(&vars);
 	render_rays(&vars);
 	print_orientation(&vars);
 	render_field_of_view(&vars);
-	// 
-
-	// // render ceiling
-	// print_orientation(&vars);
-	// render_floor_and_ceiling(&vars);
-	// render_field_of_view(&vars);
-	// // 
-
 	mlx_key_hook(vars.win, key_hook, &vars);
 	mlx_hook(vars.win, 17, 0, window_close, &vars);
 	mlx_loop(vars.mlx);

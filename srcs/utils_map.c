@@ -1,55 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_parse_map.c                                   :+:      :+:    :+:   */
+/*   utils_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 14:00:00 by hnakayam          #+#    #+#             */
+/*   Created: 2025/01/27 00:00:00 by hnakayam          #+#    #+#             */
 /*   Updated: 2025/06/05 05:03:35 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	is_valid_map_line(char *line)
+void	measure(t_vars *vars)
 {
-	int	i;
+	vars->width = 0;
+	vars->height = 0;
+	while (vars->map[vars->height])
+		(vars->height)++;
+	while (vars->map[0][vars->width])
+		(vars->width)++;
+}
 
-	if (!line)
-		return (0);
+char	**duplicate_map(t_vars *vars)
+{
+	char	**map;
+	int		i;
+	int		j;
+
+	map = (char **)malloc(sizeof(char *) * (vars->height + 1));
+	if (map == NULL)
+		return (NULL);
 	i = 0;
-	while (line[i])
+	while (i < vars->height)
 	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != ' '
-			&& line[i] != 'N' && line[i] != 'S'
-			&& line[i] != 'E' && line[i] != 'W')
+		map[i] = (char *)malloc(sizeof(char ) * (vars->width + 1));
+		if (map[i] == NULL)
+			return (NULL);
+		j = 0;
+		while (j < vars->width)
 		{
-			return (0);
+			map[i][j] = vars->map[i][j];
+			j++;
 		}
+		map[i][j] = '\0';
 		i++;
 	}
-	return (1);
-}
-
-int	adjust_map_data(t_config *config, char **error_msg)
-{
-	(void)config;
-	(void)error_msg;
-	return (1);
-}
-
-int	read_map_section(int fd, t_config *config, char **error_msg)
-{
-	char	*line;
-
-	(void)config;
-	line = get_next_line(fd);
-	while (line != NULL)
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	*error_msg = NULL;
-	return (1);
+	map[i] = NULL;
+	return (map);
 }

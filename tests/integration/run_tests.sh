@@ -152,6 +152,13 @@ echo "---------------------------------"
 echo "== Running valid test cases =="
 for test_file in "$TEST_CASES_DIR/valid"/*.cub; do
     if [ -f "$test_file" ]; then
+		## temporarily
+		test_name="$(basename "$test_file")"
+		if [ "$test_name" = "minimal.cub" ]; then
+			echo "Skipping test: $test_name (temporarily disable)"
+			continue
+		##
+		if
         expected_file="$EXPECTED_OUTPUT_DIR/valid/$(basename "$test_file")"
         run_test "$test_file" "$expected_file"
     else

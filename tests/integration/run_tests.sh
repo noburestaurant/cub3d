@@ -158,7 +158,7 @@ for test_file in "$TEST_CASES_DIR/valid"/*.cub; do
 			echo "Skipping test: $test_name (temporarily disable)"
 			continue
 		##
-		if
+		fi
         expected_file="$EXPECTED_OUTPUT_DIR/valid/$(basename "$test_file")"
         run_test "$test_file" "$expected_file"
     else

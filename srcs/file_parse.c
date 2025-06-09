@@ -6,23 +6,11 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/01 16:33:10 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/10 04:41:04 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// static int is_valid_extension(char *filename)
-// {
-// 	size_t len;
-// 
-// 	if (!filename)
-// 		return (0);
-// 	len = ft_strlen(filename);
-// 	if (len < 5)
-// 		return (0);
-// 	return (ft_strnstr(&filename[len - 4], ".cub", 4) != NULL);
-// }
 
 // 色表記（R,G,B）が有効かチェック
 static int is_valid_color_format(char *color_str, int color[3], char **error_msg)

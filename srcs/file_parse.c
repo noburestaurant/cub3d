@@ -12,18 +12,17 @@
 
 #include "cub3d.h"
 
-// ファイル拡張子が.cubかどうかをチェック
-static int is_valid_extension(char *filename)
-{
-	size_t len;
-
-	if (!filename)
-		return (0);
-	len = ft_strlen(filename);
-	if (len < 5) // .cub で最低4文字必要
-		return (0);
-	return (ft_strnstr(&filename[len - 4], ".cub", 4) != NULL);
-}
+// static int is_valid_extension(char *filename)
+// {
+// 	size_t len;
+// 
+// 	if (!filename)
+// 		return (0);
+// 	len = ft_strlen(filename);
+// 	if (len < 5)
+// 		return (0);
+// 	return (ft_strnstr(&filename[len - 4], ".cub", 4) != NULL);
+// }
 
 // 色表記（R,G,B）が有効かチェック
 static int is_valid_color_format(char *color_str, int color[3], char **error_msg)
@@ -374,7 +373,6 @@ static int is_map_enclosed(char **map, int height, int width, int error_pos[2])
 	return (1);
 }
 
-// プレイヤーの位置を特定し、有効性をチェック
 static int validate_player_position(char **map, int height, int width, int *player_count)
 {
 	int i;
@@ -390,11 +388,9 @@ static int validate_player_position(char **map, int height, int width, int *play
 				(*player_count)++;
 		}
 	}
-	
 	return (*player_count == 1);
 }
 
-// .cubファイルを解析し、設定とマップデータを取得する
 static void parse_cub_file(char *file_path, t_vars *vars)
 {
 	int		fd;
@@ -625,20 +621,19 @@ static void parse_cub_file(char *file_path, t_vars *vars)
 	vars->width = max_width;
 }
 
-// メイン検証・解析関数
 void validation_and_parse(int argc, char **argv, t_vars *vars)
 {
-	// 引数の数をチェック
 	if (argc != 2)
 		error_message_and_free(vars, "Invalid number of arguments", 1);
-	
-	// ファイル拡張子のチェック
 	if (!is_valid_extension(argv[1]))
 		error_message_and_free(vars, "Invalid file name", 1);
-	
-	// ファイルの解析
 	parse_cub_file(argv[1], vars);
-	
-	// プレイヤーの向きと位置を取得
 	parse_map(vars);
 }
+
+// validation_and_parse()
+	// メイン検証・解析関数
+	// 引数の数をチェック
+	// ファイル拡張子のチェック
+	// ファイルの解析
+	// プレイヤーの向きと位置を取得

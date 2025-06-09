@@ -23,10 +23,12 @@ WHITE = \033[37m
 SRCS = \
 $(addsuffix .c, \
 	$(addprefix $(SRCS_DIR)/, \
+		main \
+		file_parse \
+		is_valid_extension \
 		check_player \
 		error \
 		key_event \
-		main \
 		parse_map \
 		texture_get \
 		update_map \
@@ -40,7 +42,6 @@ $(addsuffix .c, \
 		raycast \
 		utils \
 		valid_path \
-		file_parse \
 	) \
 ) \
 

@@ -142,7 +142,7 @@ typedef struct s_vars
 }	t_vars;
 
 int		check_player(char c);
-
+int	is_valid_extension(char *filename);
 char	*ft_join_and_free(char *s1, char *s2);
 char	**get_map(char *file);
 void	get_map_handle_error(char *crr_line, char *linked_lines);

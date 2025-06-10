@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/11 04:42:38 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 05:46:46by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,27 +80,21 @@ static int is_valid_color_format(char *color_str, int color[3], char **error_msg
 	return (valid);
 }
 
-// テクスチャファイルが存在し、XPM形式かチェック
-static int is_valid_texture_path(char *path, char **error_msg)
+static int	is_valid_texture_path(char *path, char **error_msg)
 {
 	size_t	len;
 	int		fd;
 
 	if (!path)
 		return (0);
-	
 	len = ft_strlen(path);
-	if (len < 5) // 最低でも .xpm で4文字必要
+	if (len < 5)
 		return (0);
-	
-	// .xpm 拡張子チェック
 	if (ft_strnstr(&path[len - 4], ".xpm", 4) == NULL)
 	{
 		*error_msg = ft_strdup("Invalid texture file format");
 		return (0);
 	}
-	
-	// ファイルの存在チェック
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
@@ -108,30 +102,26 @@ static int is_valid_texture_path(char *path, char **error_msg)
 		return (0);
 	}
 	close(fd);
-	
 	return (1);
 }
 
-// 識別子の種類を特定する（NO, SO, WE, EA, F, C）
-static int get_identifier_type(char *line)
+static int	get_identifier_type(char *line)
 {
 	if (!line || ft_strlen(line) < 3)
 		return (-1);
-	
 	if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
-		return (0); // NO
+		return (0);
 	else if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
-		return (1); // SO
+		return (1);
 	else if (line[0] == 'W' && line[1] == 'E' && line[2] == ' ')
-		return (2); // WE
+		return (2);
 	else if (line[0] == 'E' && line[1] == 'A' && line[2] == ' ')
-		return (3); // EA
+		return (3);
 	else if (line[0] == 'F' && line[1] == ' ')
-		return (4); // F
+		return (4);
 	else if (line[0] == 'C' && line[1] == ' ')
-		return (5); // C
-	
-	return (-1); // 不明な識別子
+		return (5);
+	return (-1);
 }
 
 // 設定項目の解析処理
@@ -254,124 +244,132 @@ static int parse_config_line(char *line, t_config *config, char **error_msg)
 	return (1);
 }
 
-// マップの一行が有効かチェック
-static int is_valid_map_line(char *line, char *invalid_char, int *pos)
+static int	is_valid_map_line(char *line)
 {
-	int i;
+	int	i;
 
 	if (!line)
 		return (0);
-
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != ' ' &&
-			line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
-		{
-			*invalid_char = line[i]; // necessary ?
-			*pos = i; // necessary ?
+		if (line[i] != '0' && line[i] != '1' && line[i] != ' '
+			&& line[i] != 'N' && line[i] != 'S' && line[i] != 'E'
+			&& line[i] != 'W')
 			return (0);
-		}
 		i++;
 	}
 	return (1);
 }
 
-// マップデータを調整（各行の長さを最大幅に合わせて'*'で埋める）
-static char **adjust_map_data(char **raw_map, int height, int width)
+char	**alloc_two_dimensional_array(int height, int width)
+{
+	char	**arrays;
+	int		i;
+
+	i = 0;
+	arrays = (char **)malloc(sizeof(char *) * (height + 1));
+	if (!arrays)
+		return (NULL);
+	i = 0;
+	while (i < height)
+	{
+		arrays[i] = (char *)malloc(sizeof(char) * (width + 1));
+		if (!arrays[i])
+		{
+			while (--i >= 0)
+				free(arrays[i]);
+			free(arrays);
+			return (NULL);
+		}
+		arrays[i][width] = '\0';
+		i++;
+	}
+	arrays[height] = NULL;
+	return (arrays);
+}
+
+static char	**adjust_map_data(char **raw_map, int height, int width)
 {
 	char	**adjusted_map;
 	int		i;
 	int		j;
 	int		len;
 
-	adjusted_map = (char **)malloc(sizeof(char *) * (height + 1));
+	adjusted_map = alloc_two_dimensional_array(height, width);
 	if (!adjusted_map)
 		return (NULL);
-	
-	i = 0;
-	while (i < height)
+	i = -1;
+	while (++i < height)
 	{
-		adjusted_map[i] = (char *)malloc(sizeof(char) * (width + 1));
-		if (!adjusted_map[i])
-		{
-			while (--i >= 0)
-				free(adjusted_map[i]);
-			free(adjusted_map);
-			return (NULL);
-		}
-		
-		// 元のマップデータをコピー
-		j = 0;
+		j = -1;
 		len = ft_strlen(raw_map[i]);
-		while (j < len)
+		while (++j < len)
 		{
-			adjusted_map[i][j] = raw_map[i][j];
-			j++;
+			if (raw_map[i][j] != ' ')
+				adjusted_map[i][j] = raw_map[i][j];
+			else
+				adjusted_map[i][j] = '*';
 		}
-		
-		// 余った部分を'*'で埋める
-		while (j < width)
-		{
+		while (++j < width)
 			adjusted_map[i][j] = '*';
-			j++;
-		}
-		adjusted_map[i][width] = '\0';
-		i++;
 	}
-	adjusted_map[height] = NULL;
-	
 	return (adjusted_map);
 }
 
-// マップが壁で完全に囲まれているかチェック
-static int is_map_enclosed(char **map, int height, int width)
+static int	is_map_enclosed(char **map, int height, int width)
 {
-	int i;
-	int j;
-	
-	for (i = 0; i < height; i++)
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < height)
 	{
-		for (j = 0; j < width; j++)
+		j = 0;
+		while (j < width)
 		{
-			if (map[i][j] == '0' || map[i][j] == 'N' || 
-				map[i][j] == 'S' || map[i][j] == 'E' || map[i][j] == 'W')
+			if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
+				|| map[i][j] == 'E' || map[i][j] == 'W')
 			{
-				// 上下左右の境界チェック
 				if (i == 0 || i == height - 1 || j == 0 || j == width - 1)
-					return (0); // 境界に接していれば囲まれていない
-				
-				// 上下左右のマスが壁または有効なマスかチェック (スペースまたは '*' は無効)
-				if (map[i-1][j] == ' ' || map[i-1][j] == '*' ||
-					map[i+1][j] == ' ' || map[i+1][j] == '*' ||
-					map[i][j-1] == ' ' || map[i][j-1] == '*' ||
-					map[i][j+1] == ' ' || map[i][j+1] == '*')
+					return (0);
+				if (map[i - 1][j] == ' ' || map[i - 1][j] == '*'
+					|| map[i + 1][j] == ' ' || map[i + 1][j] == '*'
+					|| map[i][j - 1] == ' ' || map[i][j - 1] == '*'
+					|| map[i][j + 1] == ' ' || map[i][j + 1] == '*')
 					return (0);
 			}
+			j++;
 		}
+		i++;
 	}
 	return (1);
 }
 
-static int validate_player_position(char **map, int height, int width, int *player_count)
+static int	validate_player_position(char **map, int height,
+		int width, int *player_count)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
+
 	*player_count = 0;
-	
-	for (i = 0; i < height; i++)
+	i = 0;
+	while (i < height)
 	{
-		for (j = 0; j < width; j++)
+		j = 0;
+		while (j < width)
 		{
-			if (map[i][j] == 'N' || map[i][j] == 'S' || 
-				map[i][j] == 'E' || map[i][j] == 'W')
+			if (map[i][j] == 'N' || map[i][j] == 'S'
+				|| map[i][j] == 'E' || map[i][j] == 'W')
 				(*player_count)++;
+			j++;
 		}
+		i++;
 	}
 	return (*player_count == 1);
 }
 
-static void initialize_config(t_vars *vars)
+static void	initialize_config(t_vars *vars)
 {
 	vars->config.has_no = 0;
 	vars->config.has_so = 0;
@@ -387,38 +385,36 @@ static void initialize_config(t_vars *vars)
 
 static int	validate_all_configs(t_vars *vars)
 {
-	if (!vars->config.has_no || !vars->config.has_so ||
-		!vars->config.has_we || !vars->config.has_ea ||
-		!vars->config.has_floor || !vars->config.has_ceil)
+	if (!vars->config.has_no || !vars->config.has_so
+		|| !vars->config.has_we || !vars->config.has_ea
+		|| !vars->config.has_floor || !vars->config.has_ceil)
 		return (0);
 	return (1);
 }
 
-static char **allocate_raw_map(void)
+static char	**allocate_raw_map(void)
 {
-	char **raw_map;
+	char	**raw_map;
 
 	raw_map = (char **)malloc(sizeof(char *) * 1000);
 	return (raw_map);
 }
 
-static void process_first_map_line(t_vars *vars, char *line, t_parse_data *data)
+static void	process_first_map_line(t_vars *vars, char *line,
+		t_parse_data *data)
 {
-	char	invalid_char;
-	int		invalid_pos;
-	
-	if (is_valid_map_line(line, &invalid_char, &invalid_pos))
+	if (is_valid_map_line(line))
 	{
 		data->raw_map[data->height] = ft_strdup(line);
 		if (ft_strlen(line) > (size_t)data->max_width)
 			data->max_width = ft_strlen(line);
 		data->height++;
 	}
-    else
-        error_message_and_free(vars, "Invalid character in map", 1); 
+	else
+		error_message_and_free(vars, "Invalid character in map", 1);
 }
 
-static void start_map_section(char *line, t_parse_data *data, t_vars *vars)
+static void	start_map_section(char *line, t_parse_data *data, t_vars *vars)
 {
 	if (!validate_all_configs(vars))
 		error_message_and_free(vars, "Missing required element", 1);
@@ -428,25 +424,27 @@ static void start_map_section(char *line, t_parse_data *data, t_vars *vars)
 	process_first_map_line(vars, line, data);
 }
 
-static void handle_config_error(char *line, int fd, t_vars *vars, char *error_msg)
+static void	handle_config_error(char *line, int fd, t_vars *vars,
+		char *error_msg)
 {
 	free(line);
 	close(fd);
 	error_message_and_free(vars, error_msg, 1);
 }
 
-void process_not_map_line(t_vars *vars, char *line, t_parse_data *data, int fd)
+void	process_not_map_line(t_vars *vars, char *line, t_parse_data *data,
+		int fd)
 {
 	if (parse_config_line(line, &vars->config, &data->error_msg) == 0)
 	{
-		start_map_section(line, data , vars);
+		start_map_section(line, data, vars);
 		data->in_map_section = 1;
 	}
 	else if (data->error_msg)
 		handle_config_error(line, fd, vars, data->error_msg);
 }
 
-static void handle_map_line(char *line, t_parse_data *data)
+static void	handle_map_line(char *line, t_parse_data *data)
 {
 	if (ft_strlen(line) > 0)
 	{
@@ -457,23 +455,21 @@ static void handle_map_line(char *line, t_parse_data *data)
 	}
 }
 
-void process_map_line(t_vars *vars, char *line, t_parse_data *data)
+void	process_map_line(t_vars *vars, char *line, t_parse_data *data)
 {
-	char    invalid_char;
-    int     invalid_pos;
-                                                                               
-    if (ft_strlen(line) == 0 || is_valid_map_line(line, &invalid_char, &invalid_pos))
-    {   
-        if (ft_strlen(line) == 0 && data->height > 0)
-            error_message_and_free(vars, "Map should not have an empty line", 1);
-        if (ft_strlen(line) > 0)
-            handle_map_line(line, data);
-    }   
-    else
-        error_message_and_free(vars, "Invalid character in map", 1); 
+	if (ft_strlen(line) == 0 || is_valid_map_line(line))
+	{
+		if (ft_strlen(line) == 0 && data->height > 0)
+			error_message_and_free(vars,
+				"Map should not have an empty line", 1);
+		if (ft_strlen(line) > 0)
+			handle_map_line(line, data);
+	}
+	else
+		error_message_and_free(vars, "Invalid character in map", 1);
 }
 
-static void handle_empty_line(char *line, int in_map_section, t_vars *vars)
+static void	handle_empty_line(char *line, int in_map_section, t_vars *vars)
 {
 	free(line);
 	if (in_map_section)
@@ -488,7 +484,7 @@ static void	parse_file_content(int fd, t_vars *vars, t_parse_data *data)
 	data->height = 0;
 	data->max_width = 0;
 	line = get_next_line(fd);
-	while(line)
+	while (line)
 	{
 		if (line[0] == '\n')
 			handle_empty_line(line, data->in_map_section, vars);
@@ -506,7 +502,7 @@ static void	parse_file_content(int fd, t_vars *vars, t_parse_data *data)
 	}
 }
 
-static void cleanup_raw_map(char **raw_map, int height)
+static void	cleanup_raw_map(char **raw_map, int height)
 {
 	int	i;
 
@@ -519,36 +515,25 @@ static void cleanup_raw_map(char **raw_map, int height)
 	free(raw_map);
 }
 
-static void validate_final_map(t_vars *vars, t_parse_data *data)
+static void	validate_final_map(t_vars *vars, t_parse_data *data)
 {
 	int	player_count;
-	int	i;
 
 	player_count = 0;
-	if (!validate_player_position(vars->map, data->height, data->max_width, &player_count))
+	if (!validate_player_position(vars->map, data->height,
+			data->max_width, &player_count))
 	{
-		i = 0;
-		while (vars->map[i])
-			free(vars->map[i++]);
-		free(vars->map);
-		vars->map = NULL;
 		if (player_count == 0)
 			error_message_and_free(vars, "No player starting position", 1);
 		else
-			error_message_and_free(vars, "Multiple player starting positions", 1);
+			error_message_and_free(vars,
+				"Multiple player starting positions", 1);
 	}
 	if (!is_map_enclosed(vars->map, data->height, data->max_width))
-	{
-		i = 0;
-		while (vars->map[i])
-			free(vars->map[i++]);
-		free(vars->map);
-		vars->map = NULL;
 		error_message_and_free(vars, "Map is not surrounded by walls", 1);
-	}
 }
 
-static void finalize_parsing(t_vars *vars, t_parse_data *data)
+static void	finalize_parsing(t_vars *vars, t_parse_data *data)
 {
 	if (data->height == 0)
 		error_message_and_free(vars, "Missing required element", 1);
@@ -562,7 +547,7 @@ static void finalize_parsing(t_vars *vars, t_parse_data *data)
 	vars->width = data->max_width;
 }
 
-static void parse_cub_file(char *file_path, t_vars *vars)
+static void	parse_cub_file(char *file_path, t_vars *vars)
 {
 	int				fd;
 	t_parse_data	data;
@@ -576,7 +561,7 @@ static void parse_cub_file(char *file_path, t_vars *vars)
 	finalize_parsing(vars, &data);
 }
 
-void validation_and_parse(int argc, char **argv, t_vars *vars)
+void	validation_and_parse(int argc, char **argv, t_vars *vars)
 {
 	if (argc != 2)
 		error_message_and_free(vars, "Invalid number of arguments", 1);

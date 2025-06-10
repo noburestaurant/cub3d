@@ -6,11 +6,20 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/10 04:41:04 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 04:17:22 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+typedef struct s_parse_data
+{
+	int		height;
+	int		max_width;
+	int		in_map_section;;
+	char	**raw_map;
+	char	*error_msg;
+}	t_parse_data;
 
 // 色表記（R,G,B）が有効かチェック
 static int is_valid_color_format(char *color_str, int color[3], char **error_msg)
@@ -325,7 +334,7 @@ static char **adjust_map_data(char **raw_map, int height, int width)
 }
 
 // マップが壁で完全に囲まれているかチェック
-static int is_map_enclosed(char **map, int height, int width, int error_pos[2])
+static int is_map_enclosed(char **map, int height, int width)
 {
 	int i;
 	int j;
@@ -339,22 +348,14 @@ static int is_map_enclosed(char **map, int height, int width, int error_pos[2])
 			{
 				// 上下左右の境界チェック
 				if (i == 0 || i == height - 1 || j == 0 || j == width - 1)
-				{
-					error_pos[0] = j;
-					error_pos[1] = i;
 					return (0); // 境界に接していれば囲まれていない
-				}
 				
 				// 上下左右のマスが壁または有効なマスかチェック (スペースまたは '*' は無効)
 				if (map[i-1][j] == ' ' || map[i-1][j] == '*' ||
 					map[i+1][j] == ' ' || map[i+1][j] == '*' ||
 					map[i][j-1] == ' ' || map[i][j-1] == '*' ||
 					map[i][j+1] == ' ' || map[i][j+1] == '*')
-				{
-					error_pos[0] = j;
-					error_pos[1] = i;
 					return (0);
-				}
 			}
 		}
 	}
@@ -379,18 +380,8 @@ static int validate_player_position(char **map, int height, int width, int *play
 	return (*player_count == 1);
 }
 
-static void parse_cub_file(char *file_path, t_vars *vars)
+static void initialize_config(t_vars *vars)
 {
-	int		fd;
-	char	*line;
-	int		ret;
-	int		in_map_section = 0;
-	int		height = 0;
-	int		max_width = 0;
-	char	**raw_map = NULL;
-	char	*error_msg = NULL;
-	
-	// 初期化
 	vars->config.has_no = 0;
 	vars->config.has_so = 0;
 	vars->config.has_we = 0;
@@ -401,212 +392,401 @@ static void parse_cub_file(char *file_path, t_vars *vars)
 	vars->config.so_path = NULL;
 	vars->config.we_path = NULL;
 	vars->config.ea_path = NULL;
+}
+
+static int	validate_all_configs(t_vars *vars)
+{
+	if (!vars->config.has_no || !vars->config.has_so ||
+		!vars->config.has_we || !vars->config.has_ea ||
+		!vars->config.has_floor || !vars->config.has_ceil)
+		return (0);
+	return (1);
+}
+
+static char **allocate_raw_map(void)
+{
+	char **raw_map;
+
+	raw_map = (char **)malloc(sizeof(char *) * 1000);
+	return (raw_map);
+}
+
+static void process_first_map_line(char *line, t_parse_data *data)
+{
+	char	invalid_char;
+	int		invalid_pos;
 	
-	// ファイルオープン
-	fd = open(file_path, O_RDONLY);
-	if (fd < 0)
-		error_message_and_free(vars, "Cannot open file", 1);
-	
-	// 一行ずつ読み込み
-	while ((line = get_next_line(fd)))
+	if (is_valid_map_line(line, &invalid_char, &invalid_pos))
 	{
-		// 空行のスキップ
-		if (line[0] == '\n')
-		{
-			free(line);
-			if (in_map_section) // マップセクション内の空行はエラー
-			{
-				if (height > 0) // マップの最初の行より後の空行
-					error_message_and_free(vars, "Map should not have an empty line", 1);
-			}
-			continue;
-		}
-		
-		// 改行を除去
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		
-		// マップセクション以外での処理
-		if (!in_map_section)
-		{
-			ret = parse_config_line(line, &vars->config, &error_msg);
-			if (ret == -1) // 設定エラー
-			{
-				free(line);
-				close(fd);
-				if (error_msg)
-				{
-					error_message_and_free(vars, error_msg, 1);
-					free(error_msg);
-				}
-			}
-			else if (ret == 0) // マップセクションの開始
-			{
-				if (!vars->config.has_no || !vars->config.has_so ||
-					!vars->config.has_we || !vars->config.has_ea ||
-					!vars->config.has_floor || !vars->config.has_ceil)
-				{
-					free(line);
-					close(fd);
-					error_message_and_free(vars, "Missing required element", 1);
-				}
-				
-				in_map_section = 1;
-				
-				// マップの最初の行を処理
-				char invalid_char;
-				int invalid_pos;
-				if (is_valid_map_line(line, &invalid_char, &invalid_pos))
-				{ // TODO: specify maximam height and width of map
-					raw_map = (char **)malloc(sizeof(char *) * 1000); // 仮に1000行とする
-					if (!raw_map)
-					{
-						free(line);
-						close(fd);
-						error_message_and_free(vars, "Missing required element", 1);
-					}
-					raw_map[height] = ft_strdup(line);
-					if (ft_strlen(line) > (size_t)max_width)
-						max_width = ft_strlen(line);
-					height++;
-				}
-				else
-				{
-					char error_msg[100];
-					snprintf(error_msg, sizeof(error_msg), "Invalid character in map");
-					free(line);
-					close(fd);
-					error_message_and_free(vars, error_msg, 1);
-				}
-			}
-		}
-		else // マップセクション内
-		{
-			// マップ行の処理
-			char invalid_char;
-			int invalid_pos;
-			
-			// マップ行の妥当性チェック
-			if (ft_strlen(line) == 0 || is_valid_map_line(line, &invalid_char, &invalid_pos))
-			{
-				// 空行がマップの途中に現れた場合
-				if (ft_strlen(line) == 0 && height > 0)
-				{
-					free(line);
-					close(fd);
-					int i = 0;
-					while (i < height)
-					{
-						free(raw_map[i]);
-						i++;
-					}
-					free(raw_map);
-					error_message_and_free(vars, "Map should not have an empty line", 1);
-				}
-				
-				// 有効なマップ行を追加
-				if (ft_strlen(line) > 0)
-				{
-					raw_map[height] = ft_strdup(line);
-					if (ft_strlen(line) > (size_t)max_width)
-						max_width = ft_strlen(line);
-					height++;
-				}
-			}
-			else
-			{
-				// マップデータ後の追加の設定行や無効な文字をチェック
-				if (get_identifier_type(line) != -1)
-				{
-					free(line);
-					close(fd);
-					int i = 0;
-					while (i < height)
-					{
-						free(raw_map[i]);
-						i++;
-					}
-					free(raw_map);
-					error_message_and_free(vars, "Invalid character in map", 1);
-				}
-				else
-				{
-					char error_msg[100];
-					snprintf(error_msg, sizeof(error_msg), "Invalid character in map");
-					free(line);
-					close(fd);
-					// マップ行の解放
-					int i = 0;
-					while (i < height)
-					{
-						free(raw_map[i]);
-						i++;
-					}
-					free(raw_map);
-					error_message_and_free(vars, error_msg, 1);
-				}
-			}
-		}
-		
-		free(line);
+		data->raw_map[data->height] = ft_strdup(line);
+		if (ft_strlen(line) > (size_t)data->max_width)
+			data->max_width = ft_strlen(line);
+		data->height++;
 	}
-	
-	close(fd);
-	
-	if (!in_map_section || height == 0)
+	// TODO: why not to handle invalid map line here?
+}
+
+static void start_map_section(char *line, t_parse_data *data, t_vars *vars)
+{
+	if (!validate_all_configs(vars))
 		error_message_and_free(vars, "Missing required element", 1);
-	
-	raw_map[height] = NULL;
-	
-	// マップの調整
-	vars->map = adjust_map_data(raw_map, height, max_width);
-	
-	// raw_map の解放
-	int i = 0;
+	data->raw_map = allocate_raw_map();
+	if (!data->raw_map)
+		error_message_and_free(vars, "Memory allocation failed", 1);
+	process_first_map_line(line, data);
+}
+
+static void handle_config_error(char *line, int fd, t_vars *vars, char *error_msg)
+{
+	free(line);
+	close(fd);
+	error_message_and_free(vars, error_msg, 1); // concern mem leak: data->error_msg
+}
+
+// fix parse_config_line() later
+void process_not_map_line(t_vars *vars, char *line, t_parse_data *data, int fd)
+{
+	if (parse_config_line(line, &vars->config, &data->error_msg) == 0)
+	{
+		start_map_section(line, data , vars);
+		data->in_map_section = 1;
+	}
+	else if (data->error_msg)
+		handle_config_error(line, fd, vars, data->error_msg);
+}
+
+static void handle_map_line(char *line, t_parse_data *data)
+{
+	if (ft_strlen(line) > 0)
+	{
+		data->raw_map[data->height] = ft_strdup(line);
+		if (ft_strlen(line) > (size_t)data->max_width)
+			data->max_width = ft_strlen(line);
+		data->height++;
+	}
+}
+
+void process_map_line(t_vars *vars, char *line, t_parse_data *data) // originally process_line() // delete this comment
+{
+	char    invalid_char;
+    int     invalid_pos;
+                                                                               
+    if (ft_strlen(line) == 0 || is_valid_map_line(line, &invalid_char, &invalid_pos))
+    {   
+        if (ft_strlen(line) == 0 && data->height > 0)
+            error_message_and_free(vars, "Map should not have an empty line", 1);
+        if (ft_strlen(line) > 0)
+            handle_map_line(line, data); // TODO: implement this function // originally process_map_line() // delete this comment
+            // process_map_line(line, data);
+    }   
+    else
+        error_message_and_free(vars, "Invalid character in map", 1); 
+}
+
+static void handle_empty_line(char *line, int in_map_section, t_vars *vars)
+{
+	free(line);
+	if (in_map_section)
+		error_message_and_free(vars, "Map should not have an empty line", 1);
+}
+
+static void	parse_file_content(int fd, t_vars *vars, t_parse_data *data)
+{
+	char	*line;
+
+	data->in_map_section = 0;
+	data->height = 0;
+	data->max_width = 0;
+	line = get_next_line(fd);
+	while(line)
+	{
+		if (line[0] == '\n')
+			handle_empty_line(line, data->in_map_section, vars);
+		else
+		{
+			if (line[ft_strlen(line) - 1] == '\n')
+				line[ft_strlen(line) - 1] = '\0';
+			if (!data->in_map_section)
+				process_not_map_line(vars, line, data, fd);
+			else
+				process_map_line(vars, line, data);
+			free(line);
+		}
+		line = get_next_line(fd);
+	}
+}
+
+static void cleanup_raw_map(char **raw_map, int height)
+{
+	int	i;
+
+	i = 0;
 	while (i < height)
 	{
 		free(raw_map[i]);
 		i++;
 	}
 	free(raw_map);
-	
-	if (!vars->map)
-		error_message_and_free(vars, "Missing required element", 1);
-	
-	// マップのバリデーション
-	int player_count = 0;
-	if (!validate_player_position(vars->map, height, max_width, &player_count))
+}
+
+static void validate_final_map(t_vars *vars, t_parse_data *data)
+{
+	int	player_count;
+	int	i;
+
+	player_count = 0;
+	if (!validate_player_position(vars->map, data->height, data->max_width, &player_count))
 	{
 		i = 0;
 		while (vars->map[i])
-		{
-			free(vars->map[i]);
-			i++;
-		}
+			free(vars->map[i++]);
 		free(vars->map);
-		vars->map = NULL;
+		vars->map = NULL; // necessary ?
 		if (player_count == 0)
 			error_message_and_free(vars, "No player starting position", 1);
 		else
 			error_message_and_free(vars, "Multiple player starting positions", 1);
 	}
-
-	int error_pos[2] = {0, 0};
-	if (!is_map_enclosed(vars->map, height, max_width, error_pos))
+	if (!is_map_enclosed(vars->map, data->height, data->max_width))
 	{
 		i = 0;
 		while (vars->map[i])
-		{
-			free(vars->map[i]);
-			i++;
-		}
+			free(vars->map[i++]);
 		free(vars->map);
-		vars->map = NULL;
+		vars->map = NULL; // necessary ?
 		error_message_and_free(vars, "Map is not surrounded by walls", 1);
 	}
+}
+
+static void finalize_parsing(t_vars *vars, t_parse_data *data)
+{
+	if (data->height == 0)
+		error_message_and_free(vars, "Missing required element", 1);
+	data->raw_map[data->height] = NULL;
+	vars->map = adjust_map_data(data->raw_map, data->height, data->max_width); // fix adjust_map_data() later
+	cleanup_raw_map(data->raw_map, data->height);
+	if (!vars->map)
+		error_message_and_free(vars, "Momory allocation failed", 1);
+	validate_final_map(vars, data);
+	vars->height = data->height;
+	vars->width = data->max_width;
+}
+
+static void parse_cub_file(char *file_path, t_vars *vars)
+{
+	int				fd;
+	t_parse_data	data;
+
+	initialize_config(vars);
+	fd = open(file_path, O_RDONLY);
+	if (fd < 0)
+		error_message_and_free(vars, "Cannot open file", 1);
+	parse_file_content(fd, vars, &data);
+	close(fd);
+	finalize_parsing(vars, &data); // TODO: implement this function
 	
-	vars->height = height;
-	vars->width = max_width;
+
+
+// 	// 一行ずつ読み込み
+// 	while ((line = get_next_line(fd)))
+// 	{
+// 		// 空行のスキップ
+// 		if (line[0] == '\n')
+// 		{
+// 			free(line);
+// 			if (in_map_section) // マップセクション内の空行はエラー
+// 			{
+// 				if (height > 0) // マップの最初の行より後の空行
+// 					error_message_and_free(vars, "Map should not have an empty line", 1);
+// 			}
+// 			continue;
+// 		}
+		
+// 		// 改行を除去
+// 		if (line[ft_strlen(line) - 1] == '\n')
+// 			line[ft_strlen(line) - 1] = '\0';
+		
+// 		// マップセクション以外での処理
+// 		if (!in_map_section)
+// 		{
+// 			ret = parse_config_line(line, &vars->config, &error_msg);
+// 			if (ret == -1) // 設定エラー
+// 			{
+// 				free(line);
+// 				close(fd);
+// 				if (error_msg)
+// 				{
+// 					error_message_and_free(vars, error_msg, 1);
+// 					free(error_msg);
+// 				}
+// 			}
+// 			else if (ret == 0) // マップセクションの開始
+// 			{
+// 				if (!vars->config.has_no || !vars->config.has_so ||
+// 					!vars->config.has_we || !vars->config.has_ea ||
+// 					!vars->config.has_floor || !vars->config.has_ceil)
+// 				{
+// 					free(line);
+// 					close(fd);
+// 					error_message_and_free(vars, "Missing required element", 1);
+// 				}
+				
+// 				in_map_section = 1;
+				
+// 				// マップの最初の行を処理
+// 				char invalid_char;
+// 				int invalid_pos;
+// 				if (is_valid_map_line(line, &invalid_char, &invalid_pos))
+// 				{ // TODO: specify maximam height and width of map
+// 					raw_map = (char **)malloc(sizeof(char *) * 1000); // 仮に1000行とする
+// 					if (!raw_map)
+// 					{
+// 						free(line);
+// 						close(fd);
+// 						error_message_and_free(vars, "Missing required element", 1);
+// 					}
+// 					raw_map[height] = ft_strdup(line);
+// 					if (ft_strlen(line) > (size_t)max_width)
+// 						max_width = ft_strlen(line);
+// 					height++;
+// 				}
+// 				else
+// 				{
+// 					char error_msg[100];
+// 					snprintf(error_msg, sizeof(error_msg), "Invalid character in map");
+// 					free(line);
+// 					close(fd);
+// 					error_message_and_free(vars, error_msg, 1);
+// 				}
+// 			}
+// 		}
+// 		else // マップセクション内
+// 		{
+// 			// マップ行の処理
+// 			char invalid_char;
+// 			int invalid_pos;
+			
+// 			// マップ行の妥当性チェック
+// 			if (ft_strlen(line) == 0 || is_valid_map_line(line, &invalid_char, &invalid_pos))
+// 			{
+// 				// 空行がマップの途中に現れた場合
+// 				if (ft_strlen(line) == 0 && height > 0)
+// 				{
+// 					free(line);
+// 					close(fd);
+// 					int i = 0;
+// 					while (i < height)
+// 					{
+// 						free(raw_map[i]);
+// 						i++;
+// 					}
+// 					free(raw_map);
+// 					error_message_and_free(vars, "Map should not have an empty line", 1);
+// 				}
+				
+// 				// 有効なマップ行を追加
+// 				if (ft_strlen(line) > 0)
+// 				{
+// 					raw_map[height] = ft_strdup(line);
+// 					if (ft_strlen(line) > (size_t)max_width)
+// 						max_width = ft_strlen(line);
+// 					height++;
+// 				}
+// 			}
+// 			else
+// 			{
+// 				// マップデータ後の追加の設定行や無効な文字をチェック
+// 				if (get_identifier_type(line) != -1)
+// 				{
+// 					free(line);
+// 					close(fd);
+// 					int i = 0;
+// 					while (i < height)
+// 					{
+// 						free(raw_map[i]);
+// 						i++;
+// 					}
+// 					free(raw_map);
+// 					error_message_and_free(vars, "Invalid character in map", 1);
+// 				}
+// 				else
+// 				{
+// 					char error_msg[100];
+// 					snprintf(error_msg, sizeof(error_msg), "Invalid character in map");
+// 					free(line);
+// 					close(fd);
+// 					// マップ行の解放
+// 					int i = 0;
+// 					while (i < height)
+// 					{
+// 						free(raw_map[i]);
+// 						i++;
+// 					}
+// 					free(raw_map);
+// 					error_message_and_free(vars, error_msg, 1);
+// 				}
+// 			}
+// 		}
+		
+// 		free(line);
+// 	}
+	
+// 	close(fd);
+	
+// 	if (!in_map_section || height == 0)
+// 		error_message_and_free(vars, "Missing required element", 1);
+	
+// 	raw_map[height] = NULL;
+	
+// 	// マップの調整
+// 	vars->map = adjust_map_data(raw_map, height, max_width);
+	
+// 	// raw_map の解放
+// 	int i = 0;
+// 	while (i < height)
+// 	{
+// 		free(raw_map[i]);
+// 		i++;
+// 	}
+// 	free(raw_map);
+	
+// 	if (!vars->map)
+// 		error_message_and_free(vars, "Missing required element", 1);
+	
+// 	// マップのバリデーション
+// 	int player_count = 0;
+// 	if (!validate_player_position(vars->map, height, max_width, &player_count))
+// 	{
+// 		i = 0;
+// 		while (vars->map[i])
+// 		{
+// 			free(vars->map[i]);
+// 			i++;
+// 		}
+// 		free(vars->map);
+// 		vars->map = NULL;
+// 		if (player_count == 0)
+// 			error_message_and_free(vars, "No player starting position", 1);
+// 		else
+// 			error_message_and_free(vars, "Multiple player starting positions", 1);
+// 	}
+
+// 	int error_pos[2] = {0, 0};
+// 	if (!is_map_enclosed(vars->map, height, max_width, error_pos))
+// 	{
+// 		i = 0;
+// 		while (vars->map[i])
+// 		{
+// 			free(vars->map[i]);
+// 			i++;
+// 		}
+// 		free(vars->map);
+// 		vars->map = NULL;
+// 		error_message_and_free(vars, "Map is not surrounded by walls", 1);
+// 	}
+	
+// 	vars->height = height;
+// 	vars->width = max_width;
 }
 
 void validation_and_parse(int argc, char **argv, t_vars *vars)

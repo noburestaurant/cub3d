@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/24 23:55:29 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 04:42:54 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include "ft_printf.h"
+
+typedef struct s_parse_data
+{
+	int		height;
+	int		max_width;
+	int		in_map_section;;
+	char	**raw_map;
+	char	*error_msg;
+}	t_parse_data;
 
 typedef struct s_texture
 {

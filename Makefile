@@ -24,7 +24,7 @@ SRCS = \
 $(addsuffix .c, \
 	$(addprefix $(SRCS_DIR)/, \
 		main \
-		file_parse \
+		parse_file \
 		is_valid_extension \
 		check_player \
 		error \

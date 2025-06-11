@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/11 12:58:47 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:16:07 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -610,7 +610,6 @@ void	validation_and_parse(int argc, char **argv, t_vars *vars)
 	if (!is_valid_extension(argv[1]))
 		error_message_and_free(vars, "Invalid file name", 1);
 	parse_cub_file(argv[1], vars);
-	parse_map(vars);
 }
 
 // validation_and_parse()

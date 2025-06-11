@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/25 00:59:15 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:49:49 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,64 +22,6 @@ float	get_rotation_angle(char c)
 		return (PI);
 	else
 		return ((PI * 3) / 2);
-}
-
-void	get_pos_p(t_vars *vars)
-{
-	vars->player.y = 0;
-	while (vars->map[vars->player.y])
-	{
-		vars->player.x = 0;
-		while (*((vars->map[vars->player.y]) + vars->player.x))
-		{
-			if (check_player(vars->map[vars->player.y][vars->player.x]))
-			{
-				vars->player.ort = vars->map[vars->player.y][vars->player.x];
-				vars->player.rotation_angle = get_rotation_angle(vars->map[vars->player.y][vars->player.x]);
-				return ;
-			}
-			(vars->player.x)++;
-		}
-		(vars->player.y)++;
-	}
-}
-
-void	measure(t_vars *vars)
-{
-	vars->width = 0;
-	vars->height = 0;
-	while (vars->map[vars->height])
-		(vars->height)++;
-	while (vars->map[0][vars->width])
-		(vars->width)++;
-}
-
-char	**duplicate_map(t_vars *vars)
-{
-	char	**map;
-	int		i;
-	int		j;
-
-	map = (char **)malloc(sizeof(char *) * (vars->height + 1));
-	if (map == NULL)
-		return (NULL);
-	i = 0;
-	while (i < vars->height)
-	{
-		map[i] = (char *)malloc(sizeof(char ) * (vars->width + 1));
-		if (map[i] == NULL)
-			return (NULL);
-		j = 0;
-		while (j < vars->width)
-		{
-			map[i][j] = vars->map[i][j];
-			j++;
-		}
-		map[i][j] = '\0';
-		i++;
-	}
-	map[i] = NULL;
-	return (map);
 }
 
 char	*ft_join_and_free(char *s1, char *s2)

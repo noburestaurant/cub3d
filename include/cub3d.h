@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/11 14:46:41 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:50:56 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,19 +197,11 @@ void	validation_and_parse(int argc, char **argv, t_vars *vars);
 
 
 int		check_player(char c);
-int	is_valid_extension(char *filename);
+int		is_valid_extension(char *filename);
 char	*ft_join_and_free(char *s1, char *s2);
 char	**get_map(char *file);
 void	get_map_handle_error(char *crr_line, char *linked_lines);
 void	init_vars(t_vars *vars);
-void	check_args(char *file);
-void	check_rectangular(t_vars *vars);
-void	get_pos_p(t_vars *vars);
-void	surrounded_by_wall(t_vars *vars);
-void	measure(t_vars *vars);
-void	check_components(t_vars *vars);
-char	**duplicate_map(t_vars *vars);
-void	parse_map(t_vars *vars);
 void	choose_image(t_vars *vars, int x, int y);
 void	render_map(t_vars *vars);
 void	get_img(t_vars *vars);

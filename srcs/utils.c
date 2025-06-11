@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:22:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/11 14:49:49 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:56:40 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,6 @@ float	get_rotation_angle(char c)
 		return (PI);
 	else
 		return ((PI * 3) / 2);
-}
-
-char	*ft_join_and_free(char *s1, char *s2)
-{
-	char	*ans;
-	int		i;
-	int		j;
-
-	if (s1 == NULL)
-		return (NULL);
-	ans = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (ans == NULL)
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		ans[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-		ans[i++] = s2[j++];
-	ans[i] = '\0';
-	free(s1);
-	free(s2);
-	return (ans);
 }
 
 void	line(t_vars *vars, int x_a, int y_a, int x_b, int y_b)

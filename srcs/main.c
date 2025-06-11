@@ -6,54 +6,11 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:00:37 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/05/31 16:03:06 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:56:51 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	get_map_handle_error(char *crr_line, char *linked_lines)
-{
-	if (crr_line != NULL && crr_line[0] == '\n')
-	{
-		free(linked_lines);
-		free(crr_line);
-		error_message_and_free(NULL, "Invalid character in map", 1);
-	}
-	if (linked_lines[0] == '\0')
-	{
-		free(linked_lines);
-		free(crr_line);
-		error_message_and_free(NULL, "Missing required element", 1);
-	}
-}
-
-char	**get_map(char *file)
-{
-	int		fd;
-	char	*crr_line;
-	char	*linked_lines;
-	char	**map;
-
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		error_message_and_free(NULL, "Cannot open file", 1);
-	linked_lines = ft_strdup("");
-	while (1)
-	{
-		crr_line = get_next_line(fd);
-		if (crr_line == NULL || crr_line[0] == '\n')
-			break ;
-		linked_lines = ft_join_and_free(linked_lines, crr_line);
-		if (linked_lines == NULL)
-			error_message_and_free(NULL, "Unxpected error\n", 1);
-	}
-	get_map_handle_error(crr_line, linked_lines);
-	free(crr_line);
-	map = ft_split(linked_lines, '\n');
-	free(linked_lines);
-	return (map);
-}
 
 void	init_vars(t_vars *vars)
 {

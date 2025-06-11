@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/11 04:42:54 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:31:02 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,52 @@ typedef struct s_vars
 	int				height; // necessary ?
 }	t_vars;
 
+/* parsing section*/
+int		validate_color_count(char **parts, char **error_msg);
+int		check_digit_only(char *str);
+int		validate_color_value(char *part, int *color_val, char **error_msg);
+void	free_color_parts(char **parts);
+int		is_valid_color_format(char *color_str, int color[3], char **error_msg);
+int		is_valid_texture_path(char *path, char **error_msg);
+int		handle_duplicate_config(int has_config, char **error_msg, char *value);
+int		process_texture_config(char *value, char **path, char **error_msg);
+int		process_color_config(char *value, int *color, char **error_msg);
+int		handle_no_config(t_config *config, char *value, char **error_msg);
+int		handle_so_config(t_config *config, char *value, char **error_msg);
+int		handle_we_config(t_config *config, char *value, char **error_msg);
+int		handle_ea_config(t_config *config, char *value, char **error_msg);
+int		handle_floor_config(t_config *config, char *value, char **error_msg);
+int		handle_ceil_config(t_config *config, char *value, char **error_msg);
+int		get_identifier_type(char *line);
+char	*get_config_value(char *line, int type);
+int		process_config_by_type(t_config *config, int type, char *value,
+		char **error_msg);
+int		parse_config_line(char *line, t_config *config, char **error_msg);
+int		is_valid_map_line(char *line);
+char	**alloc_two_dimensional_array(int height, int width);
+char	**adjust_map_data(char **raw_map, int height, int width);
+int		is_map_enclosed(char **map, int height, int width);
+int		validate_player_position(char **map, int height, int width,
+		int *player_count);
+void	initialize_config(t_vars *vars);
+int		validate_all_configs(t_vars *vars);
+char	**allocate_raw_map(void);
+void	process_first_map_line(t_vars *vars, char *line, t_parse_data *data);
+void	start_map_section(char *line, t_parse_data *data, t_vars *vars);
+void	handle_config_error(char *line, int fd, t_vars *vars, char *error_msg);
+void	process_not_map_line(t_vars *vars, char *line, t_parse_data *data,
+		int fd);
+void	handle_map_line(char *line, t_parse_data *data);
+void	process_map_line(t_vars *vars, char *line, t_parse_data *data);
+void	handle_empty_line(char *line, int in_map_section, t_vars *vars);
+void	parse_file_content(int fd, t_vars *vars, t_parse_data *data);
+void	cleanup_raw_map(char **raw_map, int height);
+void	validate_final_map(t_vars *vars, t_parse_data *data);
+void	finalize_parsing(t_vars *vars, t_parse_data *data);
+void	parse_cub_file(char *file_path, t_vars *vars);
+void	validation_and_parse(int argc, char **argv, t_vars *vars);
+
+
 int		check_player(char c);
 int	is_valid_extension(char *filename);
 char	*ft_join_and_free(char *s1, char *s2);
@@ -161,7 +207,6 @@ void	check_rectangular(t_vars *vars);
 void	get_pos_p(t_vars *vars);
 int		flood_fill(t_vars *vars, char **map, int col, int row);
 void	surrounded_by_wall(t_vars *vars);
-void    validation_and_parse(int argc, char **argv, t_vars *vars);
 void	measure(t_vars *vars);
 void	check_components(t_vars *vars);
 char	**duplicate_map(t_vars *vars);

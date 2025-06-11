@@ -24,12 +24,22 @@ SRCS = \
 $(addsuffix .c, \
 	$(addprefix $(SRCS_DIR)/, \
 		main \
+		parse_config \
+		parse_config_color \
+		parse_config_direction \
+		parse_config_utils \
+		parse_config_validation \
 		parse_file \
+		parse_file_read \
+		parse_file_utils \
+		parse_finalize \
+		parse_map \
+		parse_map_utils \
+		parse_map_validation \
 		is_valid_extension \
 		check_player \
 		error \
 		key_event \
-		parse_map \
 		texture_get \
 		update_map \
 		render_map \

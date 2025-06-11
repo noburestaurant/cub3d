@@ -51,7 +51,6 @@ $(addsuffix .c, \
 		ray_facing \
 		raycast \
 		utils \
-		valid_path \
 	) \
 ) \
 

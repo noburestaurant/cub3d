@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/11 14:31:02 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:46:41 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,13 +205,10 @@ void	init_vars(t_vars *vars);
 void	check_args(char *file);
 void	check_rectangular(t_vars *vars);
 void	get_pos_p(t_vars *vars);
-int		flood_fill(t_vars *vars, char **map, int col, int row);
 void	surrounded_by_wall(t_vars *vars);
 void	measure(t_vars *vars);
 void	check_components(t_vars *vars);
 char	**duplicate_map(t_vars *vars);
-void	check_no_c_in_map(char **duplicated_map, t_vars *vars);
-void	check_valid_path(t_vars *vars);
 void	parse_map(t_vars *vars);
 void	choose_image(t_vars *vars, int x, int y);
 void	render_map(t_vars *vars);

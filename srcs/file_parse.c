@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:00:00 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/11 09:22:16 hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:58:47 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	validate_color_count(char **parts, char **error_msg)
 {
 	int	count;
-	
+
 	count = 0;
 	while (parts[count])
 		count++;
@@ -43,7 +43,7 @@ static int	check_digit_only(char *str)
 	return (1);
 }
 
-static int validate_color_value(char *part, int *color_val, char **error_msg)
+static int	validate_color_value(char *part, int *color_val, char **error_msg)
 {
 	if (!check_digit_only(part))
 	{
@@ -59,7 +59,7 @@ static int validate_color_value(char *part, int *color_val, char **error_msg)
 	return (1);
 }
 
-static void free_color_parts(char **parts)
+static void	free_color_parts(char **parts)
 {
 	int	i;
 
@@ -74,7 +74,7 @@ static void free_color_parts(char **parts)
 	free(parts);
 }
 
-static int is_valid_color_format(char *color_str, int color[3],
+static int	is_valid_color_format(char *color_str, int color[3],
 		char **error_msg)
 {
 	char	**parts;
@@ -82,11 +82,11 @@ static int is_valid_color_format(char *color_str, int color[3],
 
 	parts = ft_split(color_str, ',');
 	if (!parts)
-		return (0); // enough to indicate an error ?
+		return (0);
 	if (!validate_color_count(parts, error_msg))
 	{
 		free_color_parts(parts);
-		return (0); // enough to indicate an error ?
+		return (0);
 	}
 	i = 0;
 	while (i < 3)
@@ -100,62 +100,6 @@ static int is_valid_color_format(char *color_str, int color[3],
 	}
 	free_color_parts(parts);
 	return (1);
-
-	// i = 0;
-	// valid = 1;
-	// while (parts[i] && i < 3)
-	// {
-	// 	// 各色値が数値であり、0～255の範囲内かチェック
-	// 	if (!parts[i] || !ft_isdigit(parts[i][0]))
-	// 	{
-	// 		valid = 0;
-	// 		*error_msg = ft_strdup("Invalid color format");
-	// 		break;
-	// 	}
-		
-	// 	// 数値以外の文字がないかチェック
-	// 	int j = 0;
-	// 	while (parts[i][j])
-	// 	{
-	// 		if (!ft_isdigit(parts[i][j]))
-	// 		{
-	// 			valid = 0;
-	// 			*error_msg = ft_strdup("Invalid color format");
-	// 			break;
-	// 		}
-	// 		j++;
-	// 	}
-	// 	if (!valid)
-	// 		break;
-			
-	// 	color[i] = ft_atoi(parts[i]);
-	// 	if (color[i] < 0 || color[i] > 255)
-	// 	{
-	// 		valid = 0;
-	// 		*error_msg = ft_strdup("Color value out of range");
-	// 		break;
-	// 	}
-	// 	i++;
-	// }
-
-	// if (i != 3 || parts[3] != NULL)
-	// {
-	// 	valid = 0;
-	// 	if (!*error_msg)
-	// 	{
-	// 		*error_msg = ft_strdup("Invalid color format");
-	// 	}
-	// }
-
-	// // 分割した文字列の解放
-	// i = 0;
-	// while (parts[i])
-	// {
-	// 	free(parts[i]);
-	// 	i++;
-	// }
-	// free(parts);
-	// return (valid);
 }
 
 static int	is_valid_texture_path(char *path, char **error_msg)
@@ -183,7 +127,8 @@ static int	is_valid_texture_path(char *path, char **error_msg)
 	return (1);
 }
 
-static int	handle_duplicate_config(int has_config, char **error_msg, char *value)
+static int	handle_duplicate_config(int has_config, char **error_msg,
+		char *value)
 {
 	if (has_config)
 	{
@@ -199,7 +144,7 @@ static int	process_texture_config(char *value, char **path, char **error_msg)
 	if (!is_valid_texture_path(value, error_msg))
 	{
 		free(value);
-			return (-1);
+		return (-1);
 	}
 	*path = value;
 	return (1);
@@ -228,52 +173,52 @@ static int	handle_no_config(t_config *config, char *value, char **error_msg)
 
 static int	handle_so_config(t_config *config, char *value, char **error_msg)
 {
-    if (handle_duplicate_config(config->has_so, error_msg, value) == -1)
-        return (-1);
-    if (process_texture_config(value, &config->so_path, error_msg) == -1)
-        return (-1);
-    config->has_so = 1;
-    return (1);
+	if (handle_duplicate_config(config->has_so, error_msg, value) == -1)
+		return (-1);
+	if (process_texture_config(value, &config->so_path, error_msg) == -1)
+		return (-1);
+	config->has_so = 1;
+	return (1);
 }
 
 static int	handle_we_config(t_config *config, char *value, char **error_msg)
 {
-    if (handle_duplicate_config(config->has_we, error_msg, value) == -1)
-        return (-1);
-    if (process_texture_config(value, &config->we_path, error_msg) == -1)
-        return (-1);
-    config->has_we = 1;
-    return (1);
+	if (handle_duplicate_config(config->has_we, error_msg, value) == -1)
+		return (-1);
+	if (process_texture_config(value, &config->we_path, error_msg) == -1)
+		return (-1);
+	config->has_we = 1;
+	return (1);
 }
 
 static int	handle_ea_config(t_config *config, char *value, char **error_msg)
 {
-    if (handle_duplicate_config(config->has_ea, error_msg, value) == -1)
-        return (-1);
-    if (process_texture_config(value, &config->ea_path, error_msg) == -1)
-        return (-1);
-    config->has_ea = 1;
-    return (1);
+	if (handle_duplicate_config(config->has_ea, error_msg, value) == -1)
+		return (-1);
+	if (process_texture_config(value, &config->ea_path, error_msg) == -1)
+		return (-1);
+	config->has_ea = 1;
+	return (1);
 }
 
 static int	handle_floor_config(t_config *config, char *value, char **error_msg)
 {
-    if (handle_duplicate_config(config->has_floor, error_msg, value) == -1)
-        return (-1);
-    if (process_color_config(value, config->floor_color, error_msg) == -1)
-        return (-1);
-    config->has_floor = 1;
-    return (1);
+	if (handle_duplicate_config(config->has_floor, error_msg, value) == -1)
+		return (-1);
+	if (process_color_config(value, config->floor_color, error_msg) == -1)
+		return (-1);
+	config->has_floor = 1;
+	return (1);
 }
 
 static int	handle_ceil_config(t_config *config, char *value, char **error_msg)
 {
-    if (handle_duplicate_config(config->has_ceil, error_msg, value) == -1)
-        return (-1);
-    if (process_color_config(value, config->ceil_color, error_msg) == -1)
-        return (-1);
-    config->has_ceil = 1;
-    return (1);
+	if (handle_duplicate_config(config->has_ceil, error_msg, value) == -1)
+		return (-1);
+	if (process_color_config(value, config->ceil_color, error_msg) == -1)
+		return (-1);
+	config->has_ceil = 1;
+	return (1);
 }
 
 static int	get_identifier_type(char *line)
@@ -300,13 +245,14 @@ static char	*get_config_value(char *line, int type)
 	char	*value;
 
 	if (type <= 3)
-		value = ft_strtrim(line + 3, " \t\n\r\v\f"); // valid "F 200,   200 ,   200" ?
+		value = ft_strtrim(line + 3, " \t\n\r\v\f");
 	else
 		value = ft_strtrim(line + 2, " \t\n\r\v\f");
 	return (value);
 }
 
-static int	process_config_by_type(t_config *config, int type, char *value, char **error_msg)
+static int	process_config_by_type(t_config *config, int type,
+		char *value, char **error_msg)
 {
 	if (type == 0)
 		return (handle_no_config(config, value, error_msg));
@@ -320,131 +266,24 @@ static int	process_config_by_type(t_config *config, int type, char *value, char 
 		return (handle_floor_config(config, value, error_msg));
 	else if (type == 5)
 		return (handle_ceil_config(config, value, error_msg));
-	return (-1); // enough to indicate an error ?
+	return (-1);
 }
 
-// 全部揃ったと思われるときに 0 を返す // エラーのときはmsgをセットする
 static int	parse_config_line(char *line, t_config *config, char **error_msg)
 {
 	int		type;
 	char	*value;
-	
+
 	type = get_identifier_type(line);
 	if (type == -1)
 		return (0);
 	value = get_config_value(line, type);
-	if (!value) // why not to set error_msg here?
+	if (!value)
+	{
+		*error_msg = ft_strdup("Memory allocation failed");
 		return (-1);
+	}
 	return (process_config_by_type(config, type, value, error_msg));
-	
-	// // 識別子の後の値部分を取得
-	// if (type <= 3) // NO, SO, WE, EA
-	// 	value = ft_strtrim(line + 3, " \t\n\r\v\f");
-	// else // F, C
-	// 	value = ft_strtrim(line + 2, " \t\n\r\v\f");
-	
-	// if (!value)
-	// 	return (-1);
-	
-	// // 識別子ごとの処理
-	// if (type == 0) // NO
-	// {
-	// 	if (config->has_no)
-	// 	{
-	// 		*error_msg = ft_strdup("Duplicate identifier");
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	if (!is_valid_texture_path(value, error_msg))
-	// 	{
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	config->no_path = value;
-	// 	config->has_no = 1;
-	// }
-	// else if (type == 1) // SO
-	// {
-	// 	if (config->has_so)
-	// 	{
-	// 		*error_msg = ft_strdup("Duplicate identifier");
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	if (!is_valid_texture_path(value, error_msg))
-	// 	{
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	config->so_path = value;
-	// 	config->has_so = 1;
-	// }
-	// else if (type == 2) // WE
-	// {
-	// 	if (config->has_we)
-	// 	{
-	// 		*error_msg = ft_strdup("Duplicate identifier");
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	if (!is_valid_texture_path(value, error_msg))
-	// 	{
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	config->we_path = value;
-	// 	config->has_we = 1;
-	// }
-	// else if (type == 3) // EA
-	// {
-	// 	if (config->has_ea)
-	// 	{
-	// 		*error_msg = ft_strdup("Duplicate identifier");
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	if (!is_valid_texture_path(value, error_msg))
-	// 	{
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	config->ea_path = value;
-	// 	config->has_ea = 1;
-	// }
-	// else if (type == 4) // F
-	// {
-	// 	if (config->has_floor)
-	// 	{
-	// 		*error_msg = ft_strdup("Duplicate identifier");
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	if (!is_valid_color_format(value, config->floor_color, error_msg))
-	// 	{
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	free(value);
-	// 	config->has_floor = 1;
-	// }
-	// else if (type == 5) // C
-	// {
-	// 	if (config->has_ceil)
-	// 	{
-	// 		*error_msg = ft_strdup("Duplicate identifier");
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	if (!is_valid_color_format(value, config->ceil_color, error_msg))
-	// 	{
-	// 		free(value);
-	// 		return (-1);
-	// 	}
-	// 	free(value);
-	// 	config->has_ceil = 1;
-	// }
-	
-	// return (1);
 }
 
 static int	is_valid_map_line(char *line)

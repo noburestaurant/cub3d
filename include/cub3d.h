@@ -6,7 +6,7 @@
 /*   By: hnakayam <hnakayam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:59:26 by hnakayam          #+#    #+#             */
-/*   Updated: 2025/06/11 14:59:11 by hnakayam         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:38:55 by hnakayam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_parse_data
 {
 	int		height;
 	int		max_width;
-	int		in_map_section;;
+	int		in_map_section;
 	char	**raw_map;
 	char	*error_msg;
 }	t_parse_data;
